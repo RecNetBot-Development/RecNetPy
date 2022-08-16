@@ -199,7 +199,7 @@ class RoleResponse(TypedDict):
 
 class TagResponse(TypedDict):
     """
-    Used for both rooms and invention. 
+    Used for both rooms and inventions. 
     """
     Tag: str
     Type: int # 0 = user submitted, 1 = unknown, 2 = autoadded
@@ -270,7 +270,7 @@ class RoomResponse(RoomResponseOptionals):
     CustomWarning: Optional[str]
     CreatorAccountId: int
     State: int
-    Accessibility: int
+    Accessibility: int # 0 = private, 1 = public
     SupportsLevelVoting: bool
     IsRRO: bool
     SupportsScreens: bool
