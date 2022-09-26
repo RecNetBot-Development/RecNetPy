@@ -10,4 +10,4 @@ class PromoExternalContent(VariableClass[PromoExternalContentResponse]):
 
     def __init__(self, data: PromoExternalContentResponse) -> None:
         self.type = data['Type']
-        self.type = data['Reference']
+        self.reference = data['Reference']

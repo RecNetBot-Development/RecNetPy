@@ -12,7 +12,7 @@ class VariableClass(Generic[RT]):
     def create_from_list(cls: Type[VC], data: Optional[List[RT]] = None) -> Optional[List[VC]]:
         """
         Takes a list of typed dictionaries, and returns them as 
-        appropriately typed objects objects. Returns None is data is not provided.
+        appropriately typed objects objects. Returns None if data is not provided.
 
         @param data: A typed dictionary that represenst any Api response.
         @return: Returns a list of VariableClass objects or None. 

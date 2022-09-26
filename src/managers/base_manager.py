@@ -12,7 +12,7 @@ class BaseManager(Generic[BDC, RT]):
     The base class used by all managers.
     """
 
-    dataclass: BDC
+    dataclass: Type[BDC]
     client: Client
     rec_net: APIRouteManager
 
