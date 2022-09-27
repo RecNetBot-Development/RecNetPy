@@ -1,18 +1,17 @@
-from attr import dataclass
+from typing import Generic, TypeVar
 
-@dataclass
-class Response:
+RT = TypeVar('RT')
+
+class Response(Generic[RT]):
+    """
+    A small data class to hold the status and
+    data from an http request.
+    """
     status: int
     success: bool
-    data: int or dict or str
+    data: RT
 
-    @classmethod
-    async def parse_response(cls, resp):
-        content_type = resp.content_type
-        if resp.content_type == "application/json":
-            data = await resp.json()
-        elif resp.content_type == "text/plain":
-            data = await resp.text()
-        else:
-            data = resp.content
-        return cls(status=resp.status, success=resp.ok, data=data)
+    def __init__(self, status: int, success: bool, data: RT) -> None:
+        self.status = status
+        self.success = success
+        self.data = data

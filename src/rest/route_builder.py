@@ -1,29 +1,53 @@
-from .make_request import APIRequest
+from typing import List, Dict, Optional
 
-HTTP_METHODS = [
-    "get",
-    "post",
-    "delete",
-    "patch",
-    "put"
-]
+from .http_client import HTTPClient
+from .request import Request
+from .response import Response
 
-class APIRouteBuilder(object):
-    def __init__(self, manager, host):
-        self._route = []
-        self._BaseURL = host
-        self._client = manager.http_client
+class RouteBuilder:
+    """
+    A builder class used to construct routes
+    to be sent as requests.
+    """
+    route: List[str]
+    base: str
+    client: HTTPClient
+  
+    def __init__(self, client: HTTPClient, base: str) -> None:
+        self.route = []
+        self.base = base
+        self.client = client
 
-    def build_request(self, method, param, body):
-        path = self._BaseURL + "/".join(self._route)
-        return APIRequest(self._client, path, method, param, body)
+    async def make_request(self, method: str, params: Optional[Dict] = None, body: Optional[Dict] = None) -> Response:
+        """
+        Joins the route components into a url, and constructs
+        a request object that is processed by the http client.
 
-    def __getattr__(self, name):
-        if name in HTTP_METHODS:
-            return lambda params=None, data=None: self.build_request(name, params, data)
-        self._route.append(name)
+        @param method: The method used to sent the request.
+        @param params: The url params used in the request.
+        @param body: The body of the request.
+        @return: The response from the request.
+        """
+        url = self.base + "/".join(self.route)
+        request = Request(self.client.session, method, url, params, body)
+        return await self.client.push(request)
+
+    def __getattr__(self, name: str):
+        """
+        Appends the requested attribute to the route 
+        component list, and returns a self referense.
+
+        @param name: The name of the object attrubute. 
+        """
+        self.route.append(name)
         return self
 
     def __call__(self, *args):
-        self._route += [*map(str, args)]
+        """
+        Converts the arguments passed into a call to
+        the object into strings, and adds them to
+        the route component list. Returns a self
+        reference.
+        """
+        self.route += [*map(str, args)]
         return self

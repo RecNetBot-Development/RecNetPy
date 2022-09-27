@@ -1,32 +1,48 @@
 from typing import Dict
-from aiohttp import ClientSession
+
 from asyncio import Lock
+from aiohttp import ClientSession
+
+from .async_threads import AsyncThreadPool
+from .request import Request
 from .response import Response
 
-class HTTPClient():
-    __locks: Dict[str, Lock]
-    __session: aiohttp.ClientSession
+class HTTPClient:
+    """
+    This class is responsible for managing the
+    client session, and adding requests to the
+    thread pool.
+    """
+    locks: Dict[str, Lock]
+    session: ClientSession
+    thread_pool: AsyncThreadPool
 
     def __init__(self) -> None:
-        self.__locks = {}
-        self.__session = ClientSession(connector=aiohttp.TCPConnector(ssl=False))
+        self.locks = {}
+        self.session = ClientSession()
+        self.thread_pool = AsyncThreadPool(200) #Allows ONLY 200 connections to be processed at any given time.
 
-    async def push(self, Request):
-        lock = self.__locks.get(Request.bucket)
+    async def push(self, request: Request) -> Response:
+        """
+        Creates a lock unique to the request, and 
+        adds the request to the thread pool to be
+        executed.
+
+        @param request: The request object to be executed.
+        @return: Returns a response object. 
+        """
+        lock = self.locks.get(request.bucket)
         if lock is None:
             lock = Lock()
-            self.__locks[Request.bucket] = lock
+            self.locks[Request.bucket] = lock
         async with lock:
-            return await self.execute(Request)
-
-    async def execute(self, Request):
-        kwargs = {}
-        if Request.body is not None: kwargs["data"] = Request.body
-        if Request.params is not None: kwargs["params"] = Request.params
-
-        async with self.__session.request(Request.method, Request.url, **kwargs) as res:
-            ResponseData = await Response.parse_response(res)
-            return ResponseData
-        
-    async def close(self):
-        await self.__session.close()
+            await self.thread_pool.submit(request)
+            return await request.get_result()
+      
+    async def stop(self) -> None:
+        """
+        Stops the thread pool, and closes the
+        underlying client connection.
+        """
+        await self.thread_pool.stop()
+        await self.session.close()
