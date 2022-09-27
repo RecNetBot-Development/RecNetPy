@@ -1,3 +1,4 @@
+from operator import imod
 from base import BaseDataClass
 from account import Account
 from room import Room
@@ -9,3 +10,5 @@ from score import Score
 from subroom import SubRoom
 from tag import Tag
 from promo_external_content import PromoExternalContent
+from invention import Invention
+from invention_version import InventionVersion
