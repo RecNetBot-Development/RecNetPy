@@ -111,7 +111,7 @@ class ImageResponse(TypedDict):
 
 class CurrentVersion(TypedDict):
     InventionId: int
-    ReplicationID: str
+    ReplicationId: str
     VersionNumber: int
     BlobName: str
     BlobHash: Optional[str]
