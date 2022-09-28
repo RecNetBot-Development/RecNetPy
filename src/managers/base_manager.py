@@ -1,25 +1,38 @@
-from typing import Generic, Optional, TypeVar, TypedDict, Type
+from abc import ABC, abstractmethod
+from typing import Generic, List, Optional, TypeVar, TypedDict, Type
 
 from .. import Client
-from ..rest import APIRouteManager
+from ..rest import RouteManager
 from ..dataclasses import BaseDataClass
 
 BDC = TypeVar("BDC", bound=BaseDataClass)
 RT = TypeVar("RT", bound=TypedDict)
 
-class BaseManager(Generic[BDC, RT]):
+class BaseManager(ABC, Generic[BDC, RT]):
     """
     The base class used by all managers.
     """
 
     dataclass: Type[BDC]
     client: Client
-    rec_net: APIRouteManager
+    rec_net: RouteManager
 
     def __init__(self, client: Client):
         self.client = client
         self.rec_net = client.rec_net
 
+    @abstractmethod
+    async def fetch(self, id: int) -> BDC:
+        """
+        Fetches the data for an object by its id, and returns
+        the class representing the data.
+
+        @param id: The unique number associated with each data response.
+        @retun: Returns an object representing the data from the data response.
+        """
+        pass
+
+    @abstractmethod
     def create_dataclass(self, id: int, data: Optional[RT] = None) -> BDC:
         """
         Creates an object from the managers corresponding dataclass.
@@ -28,6 +41,15 @@ class BaseManager(Generic[BDC, RT]):
         @param data: The data from an API response associated with the dataclass.
         @return: Returns an object representing the data from the data response.
         """
-        return self.dataclass(self.client, id, data)
+        pass
 
+    @abstractmethod
+    def create_from_data_list(self, data: List[RT]) -> List[BDC]:
+        """
+        Creates a list of objects from a list of data.
+
+        @param data: A list of data from an API response associated with the dataclass.
+        @return: A list of objects.
+        """
+        pass
     
