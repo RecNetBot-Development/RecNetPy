@@ -1,4 +1,3 @@
-from . import Room
 from ..misc import VariableClass, date_to_unix
 from ..misc.api_responses import SubRoomResponse
 from ..misc.constants import ACCESSIBILITY_DICT
@@ -20,7 +19,6 @@ class SubRoom(VariableClass[SubRoomResponse]):
     is_sandbox: bool
     max_players: int
     accessibility: str
-    room: Room
 
     def __init__(self, data: SubRoomResponse):
         self.supports_join_in_progress = data['SupportsJoinInProgress']
