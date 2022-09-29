@@ -199,7 +199,9 @@ class RoleResponse(TypedDict):
 
 class TagResponse(TypedDict):
     """
-    Used for both rooms and inventions. 
+    Used for both rooms and inventions.
+
+        - GET https://api.rec.net/api/inventions/v1/details?inventionId={Invention_Id}
     """
     Tag: str
     Type: int # 0 = user submitted, 1 = unknown, 2 = autoadded
@@ -305,7 +307,21 @@ class BioResponse(TypedDict):
     """
     Typed dictionary for the bio endpoint.
 
-        - https://accounts.rec.net/account/:playerId/bio
+        - GET https://accounts.rec.net/account/:playerId/bio
     """
     accountId: int
     bio: str
+
+"""
+A couple of additonal endpoints are listed below. Most of
+These endpoints have return data types that can be easily
+expressed using the built in python data types.
+
+Accounts:
+    - GET https://clubs.rec.net/subscription/subscribercount/:playerId -> int
+    - GET https://api.rec.net/api/influencerpartnerprogram/isinfluencer?accountId={Account_Id} -> bool
+    - GET https://api.rec.net/api/influencerpartnerprogram/influencer?accountId={Account_Id} -> int
+        (This one doesn't seem to work anymore, but its still called on RecNet.)
+Images:
+    - GET https://api.rec.net/api/images/v1/:imageId/cheers
+"""
