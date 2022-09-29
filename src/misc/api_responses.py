@@ -4,7 +4,6 @@ for api responses. It only helps aid with type
 hinting, and serves very little functional purpose.
 """
 
-from distutils.version import Version
 from typing import List, Optional, TypedDict
 
 class AccountResponse(TypedDict):
@@ -13,7 +12,7 @@ class AccountResponse(TypedDict):
 
     Associated endponits:
         - GET https://accounts.rec.net/account/:playerId
-        - GET https://accounts.rec.net/account?username={Player_Username}
+        - GET https://accounts.rec.net/account?username={Player_Username} 
         - GET https://accounts.rec.net/account/search?name={Search_Query}
         - POST https://accounts.rec.net/account/bulk
     """
@@ -57,12 +56,12 @@ class EventResponse(TypedDict):
     Typed dictionary for endpoints that respond with event data.
 
     Associated endpoints:
-        - GET https://api.rec.net/api/playerevents/v1
+        - GET https://api.rec.net/api/playerevents/v1 (Supported Params: take, skip, sort)
         - GET https://api.rec.net/api/playerevents/v1/:eventId
-        - GET https://api.rec.net/api/playerevents/v1/creator/:playerId
-        - GET https://api.rec.net/api/playerevents/v1/search?query={Search_Query}
-        - GET https://api.rec.net/api/playerevents/v1/room/:roomId
-        - POST https://api.rec.net/api/playerevents/v1/bulk
+        - GET https://api.rec.net/api/playerevents/v1/creator/:playerId (Supported Params: take, skip)
+        - GET https://api.rec.net/api/playerevents/v1/search?query={Search_Query} (Supported Params: take, skip, sort)
+        - GET https://api.rec.net/api/playerevents/v1/room/:roomId (Supported Params: take, skip)
+        - POST https://api.rec.net/api/playerevents/v1/bulk 
     """
     PlayerEventId: int
     CreatorPlayerId: int
@@ -88,11 +87,11 @@ class ImageResponse(TypedDict):
 
     Associated endpoints:
         - GET https://api.rec.net/api/images/v4/:photoId
-        - GET https://api.rec.net/api/images/v3/feed/player/:playerId
-        - GET https://api.rec.net/api/images/v4/player/:playerId
-        - GET https://api.rec.net/api/images/v1/playerevent/:eventId
-        - GET https://api.rec.net/api/images/v4/room/:roomId
-        - GET https://api.rec.net/api/images/v3/feed/global
+        - GET https://api.rec.net/api/images/v3/feed/player/:playerId (Supported Params: take, skip)
+        - GET https://api.rec.net/api/images/v4/player/:playerId (Supported Params: take, skip, sort)
+        - GET https://api.rec.net/api/images/v1/playerevent/:eventId (Supported Params: skip, take)
+        - GET https://api.rec.net/api/images/v4/room/:roomId (Supported Params: take, skip, sort)
+        - GET https://api.rec.net/api/images/v3/feed/global (Supported Params: take, skip)
         - POST https://api.rec.net/api/images/v3/bulk
     """
     Id: int
@@ -128,8 +127,9 @@ class InventionResponse(TypedDict):
     endpoints.
 
     Associated endpoints:
-        - GET https://api.rec.net/api/inventions/v1/featured
-        - GET https://api.rec.net/api/inventions/v2/search?value={Search_Query}
+        - GET https://api.rec.net/api/inventions/v1/featured (Supported Params: take, skip)
+        - GET https://api.rec.net/api/inventions/v2/search?value={Search_Query} 
+            (Seems to be broken currently.)
         - GET https://api.rec.net/api/inventions/v1/toptoday
         - GET https://api.rec.net/api/inventions/v1?inventionId={Invention_Id}
     """
@@ -250,9 +250,7 @@ class RoomResponse(RoomResponseOptionals):
         - GET https://rooms.rec.net/rooms/:roomId
         - GET https://rooms.rec.net/rooms?name={Room_Name}
         - GET https://rooms.rec.net/rooms/createdby/:playerId
-        - GET https://rooms.rec.net/rooms/ownedby/:playerId
-        - GET https://rooms.rec.net/rooms/search?query={Search_Query}
-        - GET https://rooms.rec.net/rooms/hot
+        - GET https://rooms.rec.net/rooms/ownedby/:playerId 
         - POST https://rooms.rec.net/rooms/bulk
     """
     RoomId: int
@@ -285,6 +283,17 @@ class RoomResponse(RoomResponseOptionals):
     MinLevel: int
     CreatedAt: str
     Stats: Stats
+
+class RoomSearchResponse(TypedDict):
+    """
+    Typed dictionary for endpoints that respond in this format.
+
+    Related Endpoints:
+        - GET https://rooms.rec.net/rooms/search?query={Search_Query} (Supported Params: take, skip)
+        - GET https://rooms.rec.net/rooms/hot (Supported Params: take, skip)
+    """
+    Results: List[RoomResponse]
+    TotalResults: int
 
 class FeaturedRoom(TypedDict):
     RoomId: int
