@@ -28,44 +28,73 @@ class EventManager(BaseManager[Event, EventResponse]):
         data: Response[List[EventResponse]] = await self.rec_net.api.playerevents.v1.bulk.make_request('post', body = {'id': ids})
         return self.create_from_data_list(data.data)
 
-    async def search(self, query: str) -> List[Event]:
+    async def search(self, query: str, take: int = 16, skip: int = 0, sort: int = 0) -> List[Event]:
         """
         Searches RecNet for events based on a query, and returns
         a list of event objects.
 
         @param query: A search query string.
+        @param take: The number of results to return.
+        @param skip: The number of results to skip.
+        @param sort: An integer that describes how the results are to be sorted.
         @return: A list of event objects.
         """
-        data: Response[List[EventResponse]] = await self.rec_net.api.playerevents.v1.search.make_request('get', params = {'query': query})
+        params = {
+            'query': query,
+            'take': take,
+            'skip': skip,
+            'sort': sort
+        }
+        data: Response[List[EventResponse]] = await self.rec_net.api.playerevents.v1.search.make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
-    async def from_account(self, id: int) -> List[Event]:
+    async def from_account(self, id: int, take: int = 16, skip: int = 0) -> List[Event]:
         """
         Gets a list of events created by a player.
 
         @param id: An account id.
+        @param take: The number of results to return.
+        @param skip: The number of results to skip.
         @return: A list of event objects.
         """
-        data: Response[List[EventResponse]] = await self.rec_net.api.playerevents.v1.creator(id).make_request('get')
+        params = {
+            'take': take,
+            'skip': skip,
+        }
+        data: Response[List[EventResponse]] = await self.rec_net.api.playerevents.v1.creator(id).make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
-    async def in_room(self, id: int) -> List[Event]:
+    async def in_room(self, id: int, take: int = 16, skip: int = 0) -> List[Event]:
         """
         Gets a list of events happening in a room.
 
         @param query: A room id.
+        @param take: The number of results to return.
+        @param skip: The number of results to skip.
         @return: A list of event objects.
         """
-        data: Response[List[EventResponse]] = await self.rec_net.api.playerevents.v1.room(id).make_request('get')
+        params = {
+            'take': take,
+            'skip': skip,
+        }
+        data: Response[List[EventResponse]] = await self.rec_net.api.playerevents.v1.room(id).make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
-    async def get_events(self) -> List[Event]:
+    async def get_events(self, take: int = 16, skip: int = 0, sort: int = 0) -> List[Event]:
         """
         Gets a list of events currently happening.
 
+        @param take: The number of results to return.
+        @param skip: The number of results to skip.
+        @param sort: An integer that describes how the results are to be sorted.
         @return: A list of event objects.
         """
-        data: Response[List[EventResponse]] = await self.rec_net.api.playerevents.v1.make_request('get')
+        params = {
+            'take': take,
+            'skip': skip,
+            'sort': sort
+        }
+        data: Response[List[EventResponse]] = await self.rec_net.api.playerevents.v1.make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
     def create_dataclass(self, id: int, data: Optional[EventResponse] = None) -> Event:

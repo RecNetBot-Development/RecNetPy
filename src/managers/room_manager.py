@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from . import BaseManager
 from ..dataclasses import Room
-from ..misc.api_responses import RoomResponse
+from ..misc.api_responses import RoomResponse, RoomSearchResponse
 from ..rest import Response
 
 class RoomManager(BaseManager[Room, RoomResponse]):
@@ -48,16 +48,23 @@ class RoomManager(BaseManager[Room, RoomResponse]):
         data: Response[List[RoomResponse]] = await self.rec_net.rooms.rooms.bulk.make_request('post', body = {'id': ids})
         return self.create_from_data_list(data.data)
 
-    async def search(self, query: str) -> List[Room]:
+    async def search(self, query: str, take: int = 16, skip: int = 0) -> List[Room]:
         """
         Searches RecNet for rooms based on a query, and returns
         a list of room objects.
 
         @param query: A search query string.
+        @param take: The number of results to return.
+        @param skip: The number of results to skip.
         @return: A list of room objects.
         """
-        data: Response[List[RoomResponse]] = await self.rec_net.rooms.rooms.search.make_request('get', params = {'query': query})
-        return self.create_from_data_list(data.data)
+        params = {
+            'query': query,
+            'take': take,
+            'skip': skip
+        }          
+        data: Response[RoomSearchResponse] = await self.rec_net.rooms.rooms.search.make_request('get', params = params)
+        return self.create_from_data_list(data.data['Results'])
 
     async def created_by(self, id: int) -> List[Room]:
         """
@@ -79,14 +86,20 @@ class RoomManager(BaseManager[Room, RoomResponse]):
         data: Response[List[RoomResponse]] = await self.rec_net.rooms.rooms.ownedby(id).make_request('get')
         return self.create_from_data_list(data.data)
 
-    async def hot(self) -> List[Room]:
+    async def hot(self, take: int = 16, skip: int = 0) -> List[Room]:
         """
         Gets a list of the most popular rooms on RecNet.
 
+        @param take: The number of results to return.
+        @param skip: The number of results to skip.
         @return: A list of room objects.
         """
-        data: Response[List[RoomResponse]] = await self.rec_net.rooms.rooms.hot.make_request('get')
-        return self.create_from_data_list(data.data)
+        params = {
+            'take': take,
+            'skip': skip
+        }  
+        data: Response[RoomSearchResponse] = await self.rec_net.rooms.rooms.hot.make_request('get')
+        return self.create_from_data_list(data.data['Results'])
 
     def create_dataclass(self, id: int, data: Optional[RoomResponse] = None) -> Room:
         """

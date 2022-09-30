@@ -16,6 +16,7 @@ class InventionManager(BaseManager[Invention, InventionResponse]):
         data: Response[InventionResponse] = await self.rec_net.api.inventions.v1.make_request('get', params = {'inventionId': id})
         return self.create_dataclass(id, data.data)
 
+    '''
     async def search(self, query: str) -> List[Invention]:
         """
         Searches RecNet for inventions based on a query, and returns
@@ -26,14 +27,21 @@ class InventionManager(BaseManager[Invention, InventionResponse]):
         """
         data: Response[List[InventionResponse]] = await self.rec_net.api.inventions.v2.search.make_request('get', params = {'value': query})
         return self.create_from_data_list(data.data)
+    '''
 
-    async def featured(self) -> List[Invention]:
+    async def featured(self, take: int = 16, skip: int = 0) -> List[Invention]:
         """
         Gets a list of the featured inventions on RecNet.
 
+        @param take: The number of results to return.
+        @param skip: The number of results to skip.
         @return: A list of invention objects.
         """
-        data: Response[List[InventionResponse]] = await self.rec_net.api.inventions.v1.featured.make_request('get')
+        params = {
+            'take': take,
+            'skip': skip
+        }  
+        data: Response[List[InventionResponse]] = await self.rec_net.api.inventions.v1.featured.make_request('get', params = params)
         return self.create_from_data_list(data.data)
 
     async def top_today(self) -> List[Invention]:
