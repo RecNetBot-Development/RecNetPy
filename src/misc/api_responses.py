@@ -67,8 +67,8 @@ class EventResponse(TypedDict):
     CreatorPlayerId: int
     ImageName: Optional[str]
     RoomId: int
-    SubRoomId: Optional[str]
-    ClubId: Optional[str]
+    SubRoomId: Optional[int]
+    ClubId: Optional[int]
     Name: str
     Description: str
     StartTime: str
