@@ -11,3 +11,5 @@ from tag import Tag
 from promo_external_content import PromoExternalContent
 from invention import Invention
 from invention_version import InventionVersion
+from progression import Progression
+from event_response import EventInteraction

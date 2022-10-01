@@ -13,6 +13,7 @@ class BaseDataClass(ABC, Generic[RT]):
     id: int
     client: Client
     rec_net: RouteManager
+    data: Optional[RT] = None
 
     def __init__(self, client: Client, id: int, data: Optional[RT] = None) -> None:
         self.client = client
