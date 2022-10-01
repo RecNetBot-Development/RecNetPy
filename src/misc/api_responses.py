@@ -332,5 +332,5 @@ Accounts:
     - GET https://api.rec.net/api/influencerpartnerprogram/influencer?accountId={Account_Id} -> int
         (This one doesn't seem to work anymore, but its still called on RecNet.)
 Images:
-    - GET https://api.rec.net/api/images/v1/:imageId/cheers
+    - GET https://api.rec.net/api/images/v1/:imageId/cheers -> List[int]
 """

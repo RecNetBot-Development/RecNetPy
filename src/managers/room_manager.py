@@ -6,24 +6,42 @@ from ..misc.api_responses import RoomResponse, RoomSearchResponse
 from ..rest import Response
 
 class RoomManager(BaseManager[Room, RoomResponse]):
-    async def get(self, name: str) -> Room:
+    async def get(self, name: str, include: int = 0) -> Room:
         """
         Gets room data by their name, and returns it as an room object.
 
+        Include param values:
+        - +2 = Subrooms
+        - +4 = Roles
+        - +8 = Tags
+        - +32 = Promotional content
+        - +64 = Scores
+        - +256 = Loading screens
+
         @param name: The name of the room.
+        @param include: An integer that add additional information to the response.
         @return: An room object representing the data. 
         """
-        data: Response[RoomResponse] = await self.rec_net.rooms.rooms.make_request('get', params = {'name': name})
+        data: Response[RoomResponse] = await self.rec_net.rooms.rooms.make_request('get', params = {'name': name, 'include': include})
         return self.create_dataclass(data.data['RoomId'], data.data)
 
-    async def fetch(self, id: int) -> Room:
+    async def fetch(self, id: int, include: int = 0) -> Room:
         """
         Gets room data by their id, and returns it as an room object.
 
+        Include param values:
+        - +2 = Subrooms
+        - +4 = Roles
+        - +8 = Tags
+        - +32 = Promotional content
+        - +64 = Scores
+        - +256 = Loading screens
+
         @param id: The id of the room.
+        @param include: An integer that add additional information to the response.
         @return: An room object representing the data. 
         """
-        data: Response[RoomResponse] = await self.rec_net.rooms.rooms(id).make_request('get')
+        data: Response[RoomResponse] = await self.rec_net.rooms.rooms(id).make_request('get', params = {'include': include})
         return self.create_dataclass(data.data['RoomId'], data.data)
 
     async def get_many(self, names: List[str]) -> List[Room]:
@@ -98,7 +116,7 @@ class RoomManager(BaseManager[Room, RoomResponse]):
             'take': take,
             'skip': skip
         }  
-        data: Response[RoomSearchResponse] = await self.rec_net.rooms.rooms.hot.make_request('get')
+        data: Response[RoomSearchResponse] = await self.rec_net.rooms.rooms.hot.make_request('get', params = params)
         return self.create_from_data_list(data.data['Results'])
 
     def create_dataclass(self, id: int, data: Optional[RoomResponse] = None) -> Room:
