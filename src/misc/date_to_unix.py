@@ -1,5 +1,5 @@
 import time
-import datetime
+from datetime import datetime
 
 def date_to_unix(date: str) -> int:
     """
@@ -16,4 +16,3 @@ def date_to_unix(date: str) -> int:
         date = date.split("Z")[0]
         
     return int(time.mktime(datetime.strptime(date, "%Y-%m-%dT%H:%M:%S").timetuple()))  # Return UNIX timestamp as an int to get rid of any decimals
-    
