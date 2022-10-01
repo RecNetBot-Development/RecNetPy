@@ -1,10 +1,12 @@
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
-from . import Room
 from ..misc import VariableClass
-from ..misc.api_responses import ScoreResponse
 
-class Score(VariableClass[ScoreResponse]):
+if TYPE_CHECKING:
+    from ..misc.api_responses import ScoreResponse
+
+
+class Score(VariableClass['ScoreResponse']):
     """
     This class represents a room's score on a particular 
     platform. Not much is understood about what the score
@@ -14,9 +16,8 @@ class Score(VariableClass[ScoreResponse]):
     visit_type: int
     score: int
     backup_score: Optional[int]
-    room: Room
 
-    def __init__(self, data: ScoreResponse) -> None:
+    def __init__(self, data: 'ScoreResponse') -> None:
         self.room_id = data['RoomId']
         self.visit_type = data['VisitType']
         self.score = data['Score']

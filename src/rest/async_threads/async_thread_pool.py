@@ -1,9 +1,11 @@
-from typing import List
+from typing import TYPE_CHECKING, List
 
 from asyncio import Queue, gather
 
 from .async_thread import AsyncThread
-from .thread_task import ThreadTask
+
+if TYPE_CHECKING:
+    from .thread_task import ThreadTask
 
 class AsyncThreadPool:
     """
@@ -12,7 +14,7 @@ class AsyncThreadPool:
     """
     max_threads: int
     active_threads: List[AsyncThread]
-    queue: Queue[ThreadTask]
+    queue: Queue
   
     def __init__(self, max_threads: int, start: bool = True):
         self.max_threads = max_threads
@@ -26,7 +28,7 @@ class AsyncThreadPool:
         """
         for _ in range(self.max_threads): self.active_threads.append(AsyncThread(self.queue))
 
-    async def submit(self, task: ThreadTask) -> None:
+    async def submit(self, task: 'ThreadTask') -> None:
         """
         Adds a task to be executed, and locks the task's lock. 
         """

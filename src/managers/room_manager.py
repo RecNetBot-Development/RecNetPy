@@ -1,12 +1,14 @@
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from . import BaseManager
 from ..dataclasses import Room
-from ..misc.api_responses import RoomResponse, RoomSearchResponse
-from ..rest import Response
 
-class RoomManager(BaseManager[Room, RoomResponse]):
-    async def get(self, name: str, include: int = 0) -> Room:
+if TYPE_CHECKING:
+    from ..misc.api_responses import RoomResponse, RoomSearchResponse
+    from ..rest import Response
+
+class RoomManager(BaseManager['Room', 'RoomResponse']):
+    async def get(self, name: str, include: int = 0) -> 'Room':
         """
         Gets room data by their name, and returns it as an room object.
 
@@ -22,10 +24,10 @@ class RoomManager(BaseManager[Room, RoomResponse]):
         @param include: An integer that add additional information to the response.
         @return: An room object representing the data. 
         """
-        data: Response[RoomResponse] = await self.rec_net.rooms.rooms.make_request('get', params = {'name': name, 'include': include})
+        data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms.make_request('get', params = {'name': name, 'include': include})
         return self.create_dataclass(data.data['RoomId'], data.data)
 
-    async def fetch(self, id: int, include: int = 0) -> Room:
+    async def fetch(self, id: int, include: int = 0) -> 'Room':
         """
         Gets room data by their id, and returns it as an room object.
 
@@ -41,10 +43,10 @@ class RoomManager(BaseManager[Room, RoomResponse]):
         @param include: An integer that add additional information to the response.
         @return: An room object representing the data. 
         """
-        data: Response[RoomResponse] = await self.rec_net.rooms.rooms(id).make_request('get', params = {'include': include})
+        data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms(id).make_request('get', params = {'include': include})
         return self.create_dataclass(data.data['RoomId'], data.data)
 
-    async def get_many(self, names: List[str]) -> List[Room]:
+    async def get_many(self, names: List[str]) -> List['Room']:
         """
         Gets a list of rooms by a list of names, and returns 
         a list of rooms object.
@@ -52,10 +54,10 @@ class RoomManager(BaseManager[Room, RoomResponse]):
         @param names: A list of room names.
         @return: A list of room objects. 
         """
-        data: Response[List[RoomResponse]] = await self.rec_net.rooms.rooms.bulk.make_request('post', body = {'name': names})
+        data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.bulk.make_request('post', body = {'name': names})
         return self.create_from_data_list(data.data)
 
-    async def fetch_many(self, ids: List[int]) -> List[Room]:
+    async def fetch_many(self, ids: List[int]) -> List['Room']:
         """
         Gets a list of rooms by a list of ids, and returns 
         a list of room objects.
@@ -63,10 +65,10 @@ class RoomManager(BaseManager[Room, RoomResponse]):
         @param ids: A list of ids.
         @return: A list of room objects. 
         """
-        data: Response[List[RoomResponse]] = await self.rec_net.rooms.rooms.bulk.make_request('post', body = {'id': ids})
+        data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.bulk.make_request('post', body = {'id': ids})
         return self.create_from_data_list(data.data)
 
-    async def search(self, query: str, take: int = 16, skip: int = 0) -> List[Room]:
+    async def search(self, query: str, take: int = 16, skip: int = 0) -> List['Room']:
         """
         Searches RecNet for rooms based on a query, and returns
         a list of room objects.
@@ -81,27 +83,27 @@ class RoomManager(BaseManager[Room, RoomResponse]):
             'take': take,
             'skip': skip
         }          
-        data: Response[RoomSearchResponse] = await self.rec_net.rooms.rooms.search.make_request('get', params = params)
+        data: 'Response[RoomSearchResponse]' = await self.rec_net.rooms.rooms.search.make_request('get', params = params)
         return self.create_from_data_list(data.data['Results'])
 
-    async def created_by(self, id: int) -> List[Room]:
+    async def created_by(self, id: int) -> List['Room']:
         """
         Gets a list of rooms created by a player.
 
         @param id: An account id.
         @return: A list of room objects.
         """
-        data: Response[List[RoomResponse]] = await self.rec_net.rooms.rooms.createdby(id).make_request('get')
+        data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.createdby(id).make_request('get')
         return self.create_from_data_list(data.data)
 
-    async def owned_by(self, id: int) -> List[Room]:
+    async def owned_by(self, id: int) -> List['Room']:
         """
         Gets a list of rooms owned by a player.
 
         @param id: An account id.
         @return: A list of room objects.
         """
-        data: Response[List[RoomResponse]] = await self.rec_net.rooms.rooms.ownedby(id).make_request('get')
+        data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.ownedby(id).make_request('get')
         return self.create_from_data_list(data.data)
 
     async def hot(self, take: int = 16, skip: int = 0) -> List[Room]:
@@ -116,10 +118,10 @@ class RoomManager(BaseManager[Room, RoomResponse]):
             'take': take,
             'skip': skip
         }  
-        data: Response[RoomSearchResponse] = await self.rec_net.rooms.rooms.hot.make_request('get', params = params)
+        data: 'Response[RoomSearchResponse]' = await self.rec_net.rooms.rooms.hot.make_request('get', params = params)
         return self.create_from_data_list(data.data['Results'])
 
-    def create_dataclass(self, id: int, data: Optional[RoomResponse] = None) -> Room:
+    def create_dataclass(self, id: int, data: Optional['RoomResponse'] = None) -> 'Room':
         """
         Creates an room object:
 
@@ -129,14 +131,14 @@ class RoomManager(BaseManager[Room, RoomResponse]):
         """
         return Room(self.client, id, data)
 
-    def create_from_data_list(self, data: List[RoomResponse]) -> List[Room]:
+    def create_from_data_list(self, data: List['RoomResponse']) -> List['Room']:
         """
         Creates a list of room objects based on a list of data.
 
         @param data: A list of an room api responses.
         @return: A list of room objects.
         """
-        room_list: List[Room] = []
+        room_list: List['Room'] = []
         for room_data in data:
             room_obj = Room(self.client, room_data['RoomId'], room_data)
             room_list.append(room_obj)

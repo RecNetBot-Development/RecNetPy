@@ -1,4 +1,3 @@
-from bitmask_decode import bitmask_decode
-from date_to_unix import date_to_unix
-from variable_class import VariableClass
-from patch_many import PatchMany
+from .bitmask_decode import bitmask_decode
+from .date_to_unix import date_to_unix
+from .variable_class import VariableClass

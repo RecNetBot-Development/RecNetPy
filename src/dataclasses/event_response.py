@@ -1,8 +1,10 @@
-from typing import Dict, Optional
+from typing import TYPE_CHECKING, Dict, Optional
 
-from . import Account, Event
 from ..misc import date_to_unix, VariableClass
-from ..misc.api_responses import EventResponseResponse
+
+if TYPE_CHECKING:
+    from . import Account
+    from ..misc.api_responses import EventResponseResponse
 
 RESPONSE_TYPE_DICT: Dict[int, str] = {
     0: 'Attending',
@@ -10,7 +12,7 @@ RESPONSE_TYPE_DICT: Dict[int, str] = {
     2: 'Not Attending'
 }
 
-class EventInteraction(VariableClass[EventResponseResponse]):
+class EventInteraction(VariableClass['EventResponseResponse']):
     """
     This class represents a user's interaction with an event.
     """
@@ -18,10 +20,9 @@ class EventInteraction(VariableClass[EventResponseResponse]):
     player_id: int
     created_at: int
     type: str
-    player_event: Event
-    player: Optional[Account]
+    player: Optional['Account']
 
-    def __init__(self, data: EventResponseResponse) -> None:
+    def __init__(self, data: 'EventResponseResponse') -> None:
         self.player_event_id = data['PlayerEventId']
         self.player_id = data['PlayerId']
         self.created_at = date_to_unix(data['CreatedAt'])

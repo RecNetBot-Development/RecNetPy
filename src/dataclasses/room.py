@@ -1,13 +1,23 @@
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
-from . import BaseDataClass, Account, SubRoom, Role, Tag, PromoExternalContent, Score, LoadScreen
+from .base import BaseDataClass
+from .subroom import SubRoom
+from .role import Role
+from .tag import Tag
+from .promo_external_content import PromoExternalContent
+from .score import Score
+from .loading_screen import LoadScreen
 from ..misc import bitmask_decode, date_to_unix
-from ..misc.api_responses import RoomResponse
 from ..misc.constants import ACCESSIBILITY_DICT
+
+if TYPE_CHECKING:
+    from . import Account
+    from ..misc.api_responses import RoomResponse
+
 
 WARNING_MASK_LIST: List[str] = ["Custom", "Spooky/scary themes", "Mature themes", "Bright/flashing lights", "Intense motion", "Gore/violence"]
 
-class Room(BaseDataClass[RoomResponse]):
+class Room(BaseDataClass['RoomResponse']):
     """
     This class represents a player created room.
     """
@@ -43,16 +53,16 @@ class Room(BaseDataClass[RoomResponse]):
     favorite_count: int
     visitor_count: int
     visit_count: int
-    creator_account: Optional[Account]
-    subrooms: Optional[List[SubRoom]]
-    roles: Optional[List[Role]]
-    tags: Optional[List[Tag]]
+    creator_account: Optional['Account']
+    subrooms: Optional[List['SubRoom']]
+    roles: Optional[List['Role']]
+    tags: Optional[List['Tag']]
     promo_images: Optional[List[str]]
-    promo_external_content: Optional[List[PromoExternalContent]]
-    scores: Optional[List[Score]]
-    load_screens: Optional[List[LoadScreen]]
+    promo_external_content: Optional[List['PromoExternalContent']]
+    scores: Optional[List['Score']]
+    load_screens: Optional[List['LoadScreen']]
 
-    def patch_data(self, data: RoomResponse) -> None:
+    def patch_data(self, data: 'RoomResponse') -> None:
         """
         Sets properties corresponding to data for an api room response.
 

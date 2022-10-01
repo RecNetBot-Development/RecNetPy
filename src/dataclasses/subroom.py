@@ -1,8 +1,12 @@
+from typing import TYPE_CHECKING
+
 from ..misc import VariableClass, date_to_unix
-from ..misc.api_responses import SubRoomResponse
 from ..misc.constants import ACCESSIBILITY_DICT
 
-class SubRoom(VariableClass[SubRoomResponse]):
+if TYPE_CHECKING:
+    from ..misc.api_responses import SubRoomResponse
+
+class SubRoom(VariableClass['SubRoomResponse']):
     """
     This class represents a room's subroom.
     """
@@ -20,7 +24,7 @@ class SubRoom(VariableClass[SubRoomResponse]):
     max_players: int
     accessibility: str
 
-    def __init__(self, data: SubRoomResponse):
+    def __init__(self, data: 'SubRoomResponse'):
         self.supports_join_in_progress = data['SupportsJoinInProgress']
         self.use_level_based_matchmaking = data['UseLevelBasedMatchmaking']
         self.use_age_based_matchmaking = data['UseAgeBasedMatchmaking']

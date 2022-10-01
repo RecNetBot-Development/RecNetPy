@@ -1,4 +1,7 @@
-from ..misc.api_responses import CurrentVersion
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ..misc.api_responses import CurrentVersion
 
 class InventionVersion:
     invention_id: int
@@ -11,7 +14,7 @@ class InventionVersion:
     chips_cost: int
     cloud_variables_cost: int
 
-    def __init__(self, data: CurrentVersion) -> None:
+    def __init__(self, data: 'CurrentVersion') -> None:
         self.invention_id = data['InventionId']
         self.replication_id = data['ReplicationId']
         self.version_number = data['VersionNumber']

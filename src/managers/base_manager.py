@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
-from typing import Generic, List, Optional, TypeVar, TypedDict, Type
+from typing import TYPE_CHECKING, Generic, List, Optional, TypeVar, TypedDict, Type
 
-from .. import Client
-from ..rest import RouteManager
-from ..dataclasses import BaseDataClass
+if TYPE_CHECKING:
+    from .. import Client
+    from ..rest import RouteManager
+    from ..dataclasses import BaseDataClass
 
-BDC = TypeVar("BDC", bound=BaseDataClass)
+
+BDC = TypeVar("BDC", bound='BaseDataClass')
 RT = TypeVar("RT", bound=TypedDict)
 
 class BaseManager(ABC, Generic[BDC, RT]):
@@ -14,10 +16,10 @@ class BaseManager(ABC, Generic[BDC, RT]):
     """
 
     dataclass: Type[BDC]
-    client: Client
-    rec_net: RouteManager
+    client: 'Client'
+    rec_net: 'RouteManager'
 
-    def __init__(self, client: Client):
+    def __init__(self, client: 'Client'):
         self.client = client
         self.rec_net = client.rec_net
 

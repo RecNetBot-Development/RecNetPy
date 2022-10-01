@@ -1,9 +1,11 @@
-from typing import Optional, List, TypedDict
+from typing import TYPE_CHECKING, Optional, List, TypedDict
 
 from ..misc import VariableClass
-from ..misc.api_responses import LoadScreenResponse
 
-class LoadScreen(VariableClass[LoadScreenResponse]):
+if TYPE_CHECKING:
+    from ..misc.api_responses import LoadScreenResponse    
+
+class LoadScreen(VariableClass['LoadScreenResponse']):
     """
     This class represents the data for a room loading screen.
     """
@@ -11,8 +13,7 @@ class LoadScreen(VariableClass[LoadScreenResponse]):
     title: Optional[str]
     subtitle: Optional[str]
 
-    def __init__(self, data: LoadScreenResponse):
+    def __init__(self, data: 'LoadScreenResponse'):
         self.image_name = data['ImageName']
         self.title = data['Title']
         self.subtitle = data['Subtitle']
-

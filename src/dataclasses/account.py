@@ -1,15 +1,20 @@
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
-from . import BaseDataClass, Event, Image, Room, Progression 
+from .base import BaseDataClass
+from .progression import Progression
 from ..misc import date_to_unix, bitmask_decode
-from ..misc.api_responses import AccountResponse, ProgressionResponse, BioResponse
-from ..rest import Response
+
+if TYPE_CHECKING:
+    from . import Event, Image, Room
+    from ..misc.api_responses import AccountResponse, ProgressionResponse, BioResponse
+    from ..rest import Response
+
 
 PLATFORM_LIST: List[str] = ['Steam', 'Meta', 'PlayStation', 'Xbox', 'RecNet', 'iOS', 'Android', 'Standalone']
 PERSONAL_PRONOUNS_LIST: List[str] = ['She / her', 'He / him', 'They / them', 'Ze / hir', 'Ze / zir', 'Xe / xem']
 IDENTITY_FLAGS_LIST: List[str] = ['LGBTQIA', 'Transgender', 'Bisexual', 'Lesbian', 'Pansexual', 'Asexual', 'Intersex', 'Genderqueer', 'Nonbinary', 'Aromantic']
 
-class Account(BaseDataClass[AccountResponse]):
+class Account(BaseDataClass['AccountResponse']):
     """
     This dataclass represents a RecNet account. 
     """
@@ -25,14 +30,14 @@ class Account(BaseDataClass[AccountResponse]):
     level: Optional[Progression] = None
     subscriber_count: Optional[int] = None
     is_influencer: Optional[bool] = None
-    events: Optional[List[Event]] = None
-    created_rooms: Optional[List[Room]] = None
-    owned_rooms: Optional[List[Room]] = None
-    images: Optional[List[Image]] = None
-    feed: Optional[List[Image]] = None
+    events: Optional[List['Event']] = None
+    created_rooms: Optional[List['Room']] = None
+    owned_rooms: Optional[List['Room']] = None
+    images: Optional[List['Image']] = None
+    feed: Optional[List['Image']] = None
 
 
-    def patch_data(self, data: AccountResponse) -> None:
+    def patch_data(self, data: 'AccountResponse') -> None:
         """
         Sets properties corresponding to data for an api account response.
 
@@ -48,7 +53,7 @@ class Account(BaseDataClass[AccountResponse]):
         self.identity_flags = bitmask_decode(data['identityFlags'], IDENTITY_FLAGS_LIST)
         self.created_at = date_to_unix(data['createdAt'])
 
-    async def get_events(self, take: int = 16, skip: int = 0, force: bool = False) -> List[Event]:
+    async def get_events(self, take: int = 16, skip: int = 0, force: bool = False) -> List['Event']:
         """
         Fetches a list of events made by this player. Returns a
         cached result, if this function has been already called.
@@ -62,7 +67,7 @@ class Account(BaseDataClass[AccountResponse]):
             self.events = await self.client.events.from_account(self.id, take, skip)
         return self.events
 
-    async def get_images(self, take: int = 16, skip: int = 0, sort: int = 0, force: bool = False) -> List[Image]:
+    async def get_images(self, take: int = 16, skip: int = 0, sort: int = 0, force: bool = False) -> List['Image']:
         """
         Fetches a list of images taken by this player. Returns a
         cached result, if this function has been already called.
@@ -77,7 +82,7 @@ class Account(BaseDataClass[AccountResponse]):
             self.images = await self.client.images.from_account(self.id, take, skip, sort)
         return self.images
 
-    async def get_feed(self, take: int = 16, skip: int = 0, force: bool = False) -> List[Image]:
+    async def get_feed(self, take: int = 16, skip: int = 0, force: bool = False) -> List['Image']:
         """
         Fetches a list of images taken of this player. Returns a
         cached result, if this function has been already called.
@@ -91,7 +96,7 @@ class Account(BaseDataClass[AccountResponse]):
             self.feed = await self.client.images.player_feed(self.id, take, skip)
         return self.feed
 
-    async def get_created_rooms(self, force: bool = False) -> List[Room]:
+    async def get_created_rooms(self, force: bool = False) -> List['Room']:
         """
         Fetches a list of rooms created by this player. Returns a
         cached result, if this function has been already called.
@@ -103,7 +108,7 @@ class Account(BaseDataClass[AccountResponse]):
             self.created_rooms = await self.client.rooms.created_by(self.id)
         return self.created_rooms
 
-    async def get_owned_rooms(self, force: bool = False) -> List[Room]:
+    async def get_owned_rooms(self, force: bool = False) -> List['Room']:
         """
         Fetches a list of rooms owned by this player. Returns a
         cached result, if this function has been already called.
@@ -124,11 +129,11 @@ class Account(BaseDataClass[AccountResponse]):
         @return: The player's bio.
         """
         if self.bio is None or force:
-            data: Response[BioResponse] = await self.rec_net.accounts.account(self.id).bio.make_request('get')
+            data: 'Response[BioResponse]' = await self.rec_net.accounts.account(self.id).bio.make_request('get')
             self.bio = data.data['bio']
         return self.bio
 
-    async def get_level(self, force: bool = False) -> Progression:
+    async def get_level(self, force: bool = False) -> 'Progression':
         """
         Fetches this player's level as a progression object. Returns a
         cached result, if this function has been already called.
@@ -137,7 +142,7 @@ class Account(BaseDataClass[AccountResponse]):
         @return: This player's level.
         """
         if self.level is None or force:
-            data: Response[List[ProgressionResponse]] = await self.rec_net.api.players.v2.progression.bulk.make_request('post', body = {'id': [self.id]})
+            data: 'Response[List[ProgressionResponse]]' = await self.rec_net.api.players.v2.progression.bulk.make_request('post', body = {'id': [self.id]})
             self.level = Progression(data.data[0])
         return self.level
 
@@ -150,7 +155,7 @@ class Account(BaseDataClass[AccountResponse]):
         @return: This player's subscriber count.
         """
         if self.subscriber_count is None or force:
-            data: Response[int] = await self.rec_net.clubs.subscription.subscribercount(self.id).make_request('get')
+            data: 'Response[int]' = await self.rec_net.clubs.subscription.subscribercount(self.id).make_request('get')
             self.subscriber_count = data.data
         return self.subscriber_count
 
@@ -163,6 +168,6 @@ class Account(BaseDataClass[AccountResponse]):
         @return: This player's subscriber count.
         """
         if self.is_influencer is None or force:
-            data: Response[bool] = await self.rec_net.api.influencerpartnerprogram.isinfluencer.make_request('get', params = {'accountId': self.id})
+            data: 'Response[bool]' = await self.rec_net.api.influencerpartnerprogram.isinfluencer.make_request('get', params = {'accountId': self.id})
             self.is_influencer = data.data
         return self.is_influencer 

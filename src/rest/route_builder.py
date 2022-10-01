@@ -1,8 +1,10 @@
-from typing import List, Dict, Optional
+from typing import TYPE_CHECKING, List, Dict, Optional
 
-from .http_client import HTTPClient
 from .request import Request
-from .response import Response
+
+if TYPE_CHECKING:
+    from .http_client import HTTPClient
+    from .response import Response
 
 class RouteBuilder:
     """
@@ -11,14 +13,14 @@ class RouteBuilder:
     """
     route: List[str]
     base: str
-    client: HTTPClient
+    client: 'HTTPClient'
   
-    def __init__(self, client: HTTPClient, base: str) -> None:
+    def __init__(self, client: 'HTTPClient', base: str) -> None:
         self.route = []
         self.base = base
         self.client = client
 
-    async def make_request(self, method: str, params: Optional[Dict] = None, body: Optional[Dict] = None) -> Response:
+    async def make_request(self, method: str, params: Optional[Dict] = None, body: Optional[Dict] = None) -> 'Response':
         """
         Joins the route components into a url, and constructs
         a request object that is processed by the http client.

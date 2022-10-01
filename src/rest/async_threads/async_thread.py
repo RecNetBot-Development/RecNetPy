@@ -1,16 +1,18 @@
 from asyncio import Queue, Task, create_task
+from typing import TYPE_CHECKING
 
-from .thread_task import ThreadTask
+if TYPE_CHECKING:
+    from .thread_task import ThreadTask
 
 class AsyncThread:
     """
     This class represents a thread to be contained in an
     AsyncThreadPool.
     """
-    queue: Queue[ThreadTask] #Might throw an error
+    queue: Queue['ThreadTask'] #Might throw an error
     task: Task
   
-    def __init__(self, queue: Queue[ThreadTask], start: bool = True) -> None:
+    def __init__(self, queue: Queue, start: bool = True) -> None:
         self.queue = queue
         if start: self.start() #Auto start the thread by default.
 

@@ -1,11 +1,14 @@
-from typing import List, Optional, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
-from . import BaseDataClass, Account, Room, Event
+from .base import BaseDataClass
 from ..misc import date_to_unix
-from ..misc.api_responses import ImageResponse
 from ..misc.constants import ACCESSIBILITY_DICT
 
-class Image(BaseDataClass[ImageResponse]):
+if TYPE_CHECKING:
+    from . import Account, Room, Event
+    from ..misc.api_responses import ImageResponse
+
+class Image(BaseDataClass['ImageResponse']):
     """
     This class represenst a RecNet image.
     """
@@ -21,12 +24,12 @@ class Image(BaseDataClass[ImageResponse]):
     created_at: int
     cheer_count: int
     comment_count: int
-    player: Optional[Account]
-    tagged_players: Optional[List[Account]]
-    room: Optional[Room]
-    player_event: Optional[Event]
+    player: Optional['Account']
+    tagged_players: Optional[List['Account']]
+    room: Optional['Room']
+    player_event: Optional['Event']
 
-    def patch_data(self, data: ImageResponse) -> None:
+    def patch_data(self, data: 'ImageResponse') -> None:
         """
         Sets properties corresponding to data for an api event response.
 
@@ -44,3 +47,5 @@ class Image(BaseDataClass[ImageResponse]):
         self.created_at = date_to_unix(data['CreatedAt'])
         self.cheer_count = data['CheerCount']
         self.comment_count = data['CommentCount']
+
+    

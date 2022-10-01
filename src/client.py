@@ -1,5 +1,5 @@
-from rest import RouteManager
-from managers import AccountManager, EventManager, ImageManager, InventionManager, RoomManager
+from .rest import RouteManager
+from .managers import AccountManager, EventManager, ImageManager, InventionManager, RoomManager
 
 class Client:
     """

@@ -1,10 +1,16 @@
-from typing import Dict, List, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional
 
-from . import BaseDataClass, Account, Room, InventionVersion, Tag
+from .base import BaseDataClass
+from .invention_version import InventionVersion
+from .tag import Tag
 from ..misc import date_to_unix
-from ..misc.api_responses import InventionResponse, TagResponse
 from ..misc.constants import ACCESSIBILITY_DICT
-from ..rest import Response
+
+if TYPE_CHECKING:
+    from . import Account, Room
+    from ..misc.api_responses import InventionResponse, TagResponse
+    from ..rest import Response
+
 
 INVENTION_PERMISSION_DICT: Dict[int, str] = {
     0: "Unassigned",
@@ -17,7 +23,7 @@ INVENTION_PERMISSION_DICT: Dict[int, str] = {
     100: "Unlimited"
 }
 
-class Invention(BaseDataClass[InventionResponse]):
+class Invention(BaseDataClass['InventionResponse']):
     """
     This class represents an invention.
     """
@@ -45,11 +51,11 @@ class Invention(BaseDataClass[InventionResponse]):
     price: int
     allow_trial: bool
     hide_from_player: bool
-    creator_player: Optional[Account] = None
-    creation_room: Optional[Room] = None
-    tags: Optional[List[Tag]] = None
+    creator_player: Optional['Account'] = None
+    creation_room: Optional['Room'] = None
+    tags: Optional[List['Tag']] = None
 
-    def patch_data(self, data: InventionResponse) -> None:
+    def patch_data(self, data: 'InventionResponse') -> None:
         """
         Sets properties corresponding to data for an api invention response.
 
@@ -81,7 +87,7 @@ class Invention(BaseDataClass[InventionResponse]):
         self.allow_trial = data['AllowTrial']
         self.hide_from_player = data['HideFromPlayer']
 
-    async def get_creator_player(self) -> Account:
+    async def get_creator_player(self) -> 'Account':
         """
         Fetches the creator of this invention. Returns a
         cached result, if this function has been already called.
@@ -92,7 +98,7 @@ class Invention(BaseDataClass[InventionResponse]):
             self.creator_player = await self.client.accounts.fetch(self.creator_player_id)
         return self.creator_player
 
-    async def get_creation_room(self, include: int = 0) -> Room:
+    async def get_creation_room(self, include: int = 0) -> 'Room':
         """
         Fetches the room this invention was created in. Returns a
         cached result, if this function has been already called.
@@ -112,7 +118,7 @@ class Invention(BaseDataClass[InventionResponse]):
             self.creation_room = await self.client.rooms.fetch(self.creation_room_id, include)
         return self.creation_room
 
-    async def get_tags(self, force: bool = False) -> List[Tag]:
+    async def get_tags(self, force: bool = False) -> List['Tag']:
         """
         Fetches the tags for this invention. Returns a
         cached result, if this function has been already called.
@@ -121,7 +127,7 @@ class Invention(BaseDataClass[InventionResponse]):
         @return: A list of tag objects.
         """
         if self.tags is None or force:
-            data: Response[List[TagResponse]] = await self.rec_net.api.inventions.v1.details.make_request('get', params = {'inventionId': self.id})
+            data: 'Response[List[TagResponse]]' = await self.rec_net.api.inventions.v1.details.make_request('get', params = {'inventionId': self.id})
             self.tags = Tag.create_from_list(data.data)
         return self.tags
 

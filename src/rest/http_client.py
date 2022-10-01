@@ -1,11 +1,13 @@
-from typing import Dict
+from typing import TYPE_CHECKING, Dict
 
 from asyncio import Lock
 from aiohttp import ClientSession
 
 from .async_threads import AsyncThreadPool
-from .request import Request
-from .response import Response
+
+if TYPE_CHECKING:
+    from .request import Request
+    from .response import Response
 
 class HTTPClient:
     """
@@ -22,7 +24,7 @@ class HTTPClient:
         self.session = ClientSession()
         self.thread_pool = AsyncThreadPool(200) #Allows ONLY 200 connections to be processed at any given time.
 
-    async def push(self, request: Request) -> Response:
+    async def push(self, request: 'Request') -> 'Response':
         """
         Creates a lock unique to the request, and 
         adds the request to the thread pool to be
@@ -34,7 +36,7 @@ class HTTPClient:
         lock = self.locks.get(request.bucket)
         if lock is None:
             lock = Lock()
-            self.locks[Request.bucket] = lock
+            self.locks[request.bucket] = lock
         async with lock:
             await self.thread_pool.submit(request)
             return await request.get_result()
