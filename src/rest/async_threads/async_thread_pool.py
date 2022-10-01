@@ -42,5 +42,5 @@ class AsyncThreadPool:
         """
         if self.queue.qsize() > 0: 
             await self.queue.join() #Blocks indefinitely if qsize is zero. 
-        for thread in self.active_threads: thread.stop()
-        await gather(*[thread.task for thread in self.active_threads], return_exceptions = True)
+        for thread in self.active_threads: await thread.stop()
+        #await gather(*[thread.task for thread in self.active_threads], return_exceptions = True)

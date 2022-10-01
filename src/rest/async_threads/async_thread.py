@@ -23,11 +23,15 @@ class AsyncThread:
         """
         self.task = create_task(self.run())
 
-    def stop(self) -> None:
+    async def stop(self) -> None:
         """
         Attempts to cancel the underlying asyncio task.
         """
         self.task.cancel()
+        try:
+            await self.task
+        except:
+            pass
   
     async def run(self) -> None:
         """

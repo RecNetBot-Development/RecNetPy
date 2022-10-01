@@ -19,3 +19,6 @@ class Client:
         self.images = ImageManager(self)
         self.inventions = InventionManager(self)
         self.rooms = RoomManager(self)
+
+    async def close(self) -> None:
+        await self.rec_net.stop()

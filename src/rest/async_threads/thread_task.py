@@ -44,7 +44,7 @@ class ThreadTask(ABC, Generic[RT]):
         return self.result
 
     @abstractmethod
-    async def run() -> RT:
+    async def run(self) -> RT:
         """
         This is the function to be executed within the
         thread. This function must be defined in the 
