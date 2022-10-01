@@ -14,7 +14,7 @@ class AsyncThreadPool:
     """
     max_threads: int
     active_threads: List[AsyncThread]
-    queue: Queue
+    queue: Queue['ThreadTask']
   
     def __init__(self, max_threads: int, start: bool = True):
         self.max_threads = max_threads
