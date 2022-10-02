@@ -1,7 +1,5 @@
 from typing import TypeVar, Dict, Optional, Union, List
-
 from aiohttp import ClientSession, ClientResponse
-
 from .async_threads import ThreadTask
 from .response import Response
 
@@ -40,11 +38,10 @@ class Request(ThreadTask[Response]):
         This function is to be executed within a thread. It makes a
         request, and parses the response into a custom response object.
 
-        @retun: A response object containing the fetched data.
+        @return: A response object containing the fetched data.
         """
         async with self.client.request(self.method, self.url, data = self.body, params = self.params) as response:
             data = await parse_response(response)
-            #Possibly implement error checking here.
             return Response(response.status, response.ok, data)
 
     @property

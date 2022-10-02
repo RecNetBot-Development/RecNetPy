@@ -4,7 +4,7 @@ from asyncio import Lock
 from aiohttp import ClientSession
 
 from .async_threads import AsyncThreadPool
-from .http_error import HTTPError
+from .exceptions import HTTPError, NotFound
 
 if TYPE_CHECKING:
     from .request import Request
@@ -41,7 +41,7 @@ class HTTPClient:
         async with lock:
             await self.thread_pool.submit(request)
             result = await request.get_result()
-            if result.success: return result
+            if result.success or result.status == 404: return result
             raise HTTPError(result.status, request.url, result.data)
       
     async def stop(self) -> None:
