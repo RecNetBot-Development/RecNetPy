@@ -75,17 +75,18 @@ class Event(BaseDataClass['EventResponse']):
         @return: A list of images.
         """
         if self.images in None or force:
-            self.images = await self.client.images.during_event(self.id)
+            self.images = await self.client.images.during_event(self.id, take = take, skip = skip)
         return self.images
 
-    async def get_creator_player(self) -> 'Account':
+    async def get_creator_player(self, force: bool = False) -> 'Account':
         """
         Fetches the creator of this event. Returns a
         cached result, if this function has been already called.
 
+        @param force: If true, fetches new data.
         @return: An account object.
         """
-        if self.creator_player is None:
+        if self.creator_player is None or force:
             self.creator_player = await self.client.accounts.fetch(self.creator_player_id)
         return self.creator_player
 
@@ -107,7 +108,7 @@ class Event(BaseDataClass['EventResponse']):
         @return: A room object.
         """
         if self.room is None or force:
-            self.room = await self.client.rooms.fetch(self.room_id)
+            self.room = await self.client.rooms.fetch(self.room_id, include = include)
         return self.room
 
     async def get_responses(self, force: bool = False) -> List['EventInteraction']:
@@ -132,12 +133,14 @@ class Event(BaseDataClass['EventResponse']):
         @param force: Forces new responses to be fetched.
         @return: A list of event interation objects. 
         """
-        responses = await self.get_responses(force)
-        players: Dict[int, Account] = []
-        for response in responses:
-            player = self.client.accounts.create_dataclass(response.player_id)
-            response.player = player
-            players[response.player_id] = player
-        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {id: players.keys})
-        for data_response in data.data: players.get(data_response['accountId']).patch_data(data_response)
+        
+        if self.responses is None or force:
+            responses = await self.get_responses(force)
+            players: Dict[int, Account] = []
+            for response in responses:
+                player = self.client.accounts.create_dataclass(response.player_id)
+                response.player = player
+                players[response.player_id] = player
+            data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {id: players.keys})
+            for data_response in data.data: players.get(data_response['accountId']).patch_data(data_response)
         return self.responses

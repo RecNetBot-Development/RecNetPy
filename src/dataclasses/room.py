@@ -124,7 +124,7 @@ class Room(BaseDataClass['RoomResponse']):
         @return: A list of images.
         """
         if self.images is None or force:
-            self.images = await self.client.images.in_room(self.id)
+            self.images = await self.client.images.in_room(self.id, take = take, skip = skip, sort = sort)
         return self.images
 
     async def get_events(self, take: int = 16, skip: int = 0, force: bool = False) -> List['Event']:
@@ -138,7 +138,7 @@ class Room(BaseDataClass['RoomResponse']):
         @return: A list of events.
         """
         if self.events is None or force:
-            self.events = await self.client.events.in_room(self.id)
+            self.events = await self.client.events.in_room(self.id, take = take, skip = skip)
         return self.events
 
     async def get_creator_account(self, force: bool = False) -> 'Account':

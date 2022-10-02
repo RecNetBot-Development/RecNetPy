@@ -126,12 +126,12 @@ class Image(BaseDataClass['ImageResponse']):
         @param force: If true, fetches new data.
         @return: An list of comment objects.
         """
-        if self.comments is None:
+        if self.comments is None or force:
             data: 'Response[List[CommentResponse]]' = await self.rec_net.api.images.v1(self.id).comments.make_request('get')
             self.comments = Comment.create_from_list(data.data)
         return self.comments
 
-    async def resolve_cheers(self, force = False) -> List['Account']:
+    async def resolve_cheers(self, force: bool = False) -> List['Account']:
         """
         Fetches a list of player objects who cheered the post. Returns a
         cached result, if this function has been already called.
@@ -144,7 +144,7 @@ class Image(BaseDataClass['ImageResponse']):
             self.cheer_players = self.client.accounts.fetch_many(player_ids)
         return self.cheer_players
 
-    async def resolve_commenters(self, force = False) -> List['Comment']:
+    async def resolve_commenters(self, force: bool = False) -> List['Comment']:
         """
         Resolves the players who commented on an image. This function
         will make an api call every time its used. It should only be used when 
@@ -153,12 +153,13 @@ class Image(BaseDataClass['ImageResponse']):
         @param force: Forces new responses to be fetched.
         @return: A list of comment objects. 
         """
-        comments = await self.get_comments(force)
-        players: Dict[int, Account] = {}
-        for comment in comments:
-            player = self.client.accounts.create_dataclass(comment.player_id)
-            comment.player = player
-            players[comment.player_id] = player
-        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {id: players.keys})
-        for data_response in data.data: players.get(data_response['accountId']).patch_data(data_response)
+        if self.comments is None or force:
+            comments = await self.get_comments(force)
+            players: Dict[int, Account] = {}
+            for comment in comments:
+                player = self.client.accounts.create_dataclass(comment.player_id)
+                comment.player = player
+                players[comment.player_id] = player
+            data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {id: players.keys})
+            for data_response in data.data: players.get(data_response['accountId']).patch_data(data_response)
         return self.comments

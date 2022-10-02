@@ -87,18 +87,19 @@ class Invention(BaseDataClass['InventionResponse']):
         self.allow_trial = data['AllowTrial']
         self.hide_from_player = data['HideFromPlayer']
 
-    async def get_creator_player(self) -> 'Account':
+    async def get_creator_player(self, force: bool = False) -> 'Account':
         """
         Fetches the creator of this invention. Returns a
         cached result, if this function has been already called.
 
+        @param force: If true, fetches new data.
         @return: An account object.
         """
-        if self.creator_player is None:
+        if self.creator_player is None or force:
             self.creator_player = await self.client.accounts.fetch(self.creator_player_id)
         return self.creator_player
 
-    async def get_creation_room(self, include: int = 0) -> 'Room':
+    async def get_creation_room(self, include: int = 0, force: bool = False) -> 'Room':
         """
         Fetches the room this invention was created in. Returns a
         cached result, if this function has been already called.
@@ -112,9 +113,10 @@ class Invention(BaseDataClass['InventionResponse']):
         - +256 = Loading screens
 
         @param include: An integer that add additional information to the response.
+        @param force: If true, fetches new data.
         @return: A room object.
         """
-        if self.creation_room is None:
+        if self.creation_room is None or force:
             self.creation_room = await self.client.rooms.fetch(self.creation_room_id, include)
         return self.creation_room
 
