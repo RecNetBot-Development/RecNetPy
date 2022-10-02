@@ -1,6 +1,9 @@
+"""
+An example showcasing how to fetch an account, acquire its RecNet images and handle a large amount of requests for cheers.
+"""
+
 import time
 import asyncio
-from asyncio import get_event_loop
 from src import Client
 
 async def main():
@@ -34,5 +37,5 @@ async def main():
     
     await RecNet.close()
 
-loop = get_event_loop()
+loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
