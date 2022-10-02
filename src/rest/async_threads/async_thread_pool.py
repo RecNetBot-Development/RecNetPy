@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, List
 
-from asyncio import Queue, gather
+from asyncio import Queue, gather, get_event_loop
 
 from .async_thread import AsyncThread
 
@@ -44,3 +44,8 @@ class AsyncThreadPool:
             await self.queue.join() #Blocks indefinitely if qsize is zero. 
         for thread in self.active_threads: await thread.stop()
         #await gather(*[thread.task for thread in self.active_threads], return_exceptions = True)
+
+    def __del__(self) -> None:
+        loop = get_event_loop()
+        loop.run_until_complete(self.stop())
+        print("Async Thread Pool stopped and deleted.")

@@ -4,6 +4,7 @@ from asyncio import Lock
 from aiohttp import ClientSession
 
 from .async_threads import AsyncThreadPool
+from .http_error import HTTPError
 
 if TYPE_CHECKING:
     from .request import Request
@@ -39,7 +40,9 @@ class HTTPClient:
             self.locks[request.bucket] = lock
         async with lock:
             await self.thread_pool.submit(request)
-            return await request.get_result()
+            result = await request.get_result()
+            if result.success: return result
+            raise HTTPError(result.status, request.url, result.data)
       
     async def stop(self) -> None:
         """
