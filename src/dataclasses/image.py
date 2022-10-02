@@ -7,11 +7,13 @@ from ..misc.constants import ACCESSIBILITY_DICT
 if TYPE_CHECKING:
     from . import Account, Room, Event
     from ..misc.api_responses import ImageResponse
+    from ..rest import Response
 
 class Image(BaseDataClass['ImageResponse']):
     """
-    This class represenst a RecNet image.
+    This class represents a RecNet image.
     """
+    id: int
     type: int
     accessibility: str
     accessibility_locked: bool
@@ -23,6 +25,8 @@ class Image(BaseDataClass['ImageResponse']):
     player_event_id: Optional[int]
     created_at: int
     cheer_count: int
+    cheer_player_ids: Optional[List[int]] = None
+    cheer_players: Optional[List['Account']] = None
     comment_count: int
     player: Optional['Account']
     tagged_players: Optional[List['Account']]
@@ -35,6 +39,7 @@ class Image(BaseDataClass['ImageResponse']):
 
         @param data: Data from the api.
         """
+        self.id = data['Id']
         self.type = data['Type']
         self.accessibility = ACCESSIBILITY_DICT.get(data['Accessibility'], "Unknown")
         self.accessibility_locked = data['AccessibilityLocked']
@@ -47,5 +52,20 @@ class Image(BaseDataClass['ImageResponse']):
         self.created_at = date_to_unix(data['CreatedAt'])
         self.cheer_count = data['CheerCount']
         self.comment_count = data['CommentCount']
+        
+    async def get_cheers(self, force: bool = False) -> List[int]:
+        """
+        Fetches a list of players' ids who cheered the post. Returns a
+        cached result, if this function has been already called.
+
+        @param force: If true, fetches new data.
+        @return: A list of account ids.
+        """
+        
+        if self.cheer_player_ids is None or force:
+            data: 'Response[List[int]]' = await self.rec_net.api.images.v1(self.id).cheers.make_request('get')
+            self.cheer_player_ids = data.data
+            
+        return self.cheer_player_ids
 
     

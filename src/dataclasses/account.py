@@ -18,6 +18,7 @@ class Account(BaseDataClass['AccountResponse']):
     """
     This dataclass represents a RecNet account. 
     """
+    id: int
     username: str
     display_name: str
     profile_image: str
@@ -44,6 +45,7 @@ class Account(BaseDataClass['AccountResponse']):
         @param data: Data from the api.
         """
         self.data = data
+        self.id = data['accountId']
         self.username = data['username']
         self.display_name = data['displayName']
         self.profile_image = data['profileImage']
