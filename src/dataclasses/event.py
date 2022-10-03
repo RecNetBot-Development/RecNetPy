@@ -60,7 +60,7 @@ class Event(BaseDataClass['EventResponse']):
         self.attendee_count = data['AttendeeCount']
         self.accessibility = ACCESSIBILITY_DICT.get(data['Accessibility'], "Unknown")
         self.is_multi_instance = data['IsMultiInstance']
-        self.support_multi_instance_room_chat = data['SupportMultiInstanceChat']
+        self.support_multi_instance_room_chat = data['SupportMultiInstanceRoomChat']
         self.default_broadcast_permissions = BROADCAST_PERMISSION_DICT.get(data['DefaultBroadcastPermissions'], "Unknown")
         self.can_request_broadcast_permissions = BROADCAST_PERMISSION_DICT.get(data['CanRequestBroadcastPermissions'], "Unkown")
 
