@@ -66,7 +66,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         @param query: A search query string.
         @return: A list of account objects.
         """
-        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.search.make_request('get', params = {'name': query})
+        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.search.make_request('get', params = {'name': str(query)})
         return self.create_from_data_list(data.data)
 
     def create_dataclass(self, id: int, data: Optional['AccountResponse'] = None) -> 'Account':
