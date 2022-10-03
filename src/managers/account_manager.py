@@ -16,8 +16,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         @param name: The username of the RecNet user.
         @return: An account object representing the data or nothing if not found. 
         """
-        if not isinstance(name, str): return None
-        data: 'Response[AccountResponse]' = await self.rec_net.accounts.account.make_request('get', params = {'username': name})
+        data: 'Response[AccountResponse]' = await self.rec_net.accounts.account.make_request('get', params = {'username': str(name)})
         if data.data: return self.create_dataclass(data.data['accountId'], data.data)
         return None
 
@@ -29,8 +28,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         @param id: The id of the RecNet user.
         @return: An account object representing the data or nothing if not found. 
         """
-        if not isinstance(id, int) or id < 1: return None
-        data: 'Response[AccountResponse]' = await self.rec_net.accounts.account(id).make_request('get')
+        data: 'Response[AccountResponse]' = await self.rec_net.accounts.account(str(id)).make_request('get')
         if data.data: return self.create_dataclass(id, data.data)
         return None
         
@@ -44,9 +42,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         @param names: A list of username.
         @return: A list of account objects. 
         """
-        if not isinstance(names, list): return []
-        purified_names = list(filter(lambda names: isinstance(names, str), names))
-        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {'name': purified_names})
+        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {'name': names})
         return self.create_from_data_list(data.data)
 
     async def fetch_many(self, ids: List[int]) -> List['Account']:
@@ -58,8 +54,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         @param ids: A list of ids.
         @return: A list of account objects. 
         """
-        purified_ids = list(filter(lambda id: isinstance(id, int) and id > 0, ids))
-        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {'id': purified_ids})
+        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {'id': ids})
         return self.create_from_data_list(data.data)
 
     async def search(self, query: str) -> List['Account']:
@@ -71,7 +66,6 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         @param query: A search query string.
         @return: A list of account objects.
         """
-        if not isinstance(query, str): return []
         data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.search.make_request('get', params = {'name': query})
         return self.create_from_data_list(data.data)
 
