@@ -4,5 +4,5 @@ class BadRequest(Exception):
     """
 
     def __init__(self):
-        message = "Make sure your input is valid!"
+        message = "Bad request, make sure your input is valid!"
         super().__init__(message)

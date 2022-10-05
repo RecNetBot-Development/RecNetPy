@@ -4,7 +4,7 @@ from asyncio import Lock
 from aiohttp import ClientSession
 
 from .async_threads import AsyncThreadPool
-from .exceptions import HTTPError, BadRequest
+from .exceptions import HTTPError, BadRequest, InternalServerError
 
 if TYPE_CHECKING:
     from .request import Request
@@ -45,6 +45,8 @@ class HTTPClient:
             match result.status:
                 case 400:
                     raise BadRequest
+                case 500:
+                    raise InternalServerError
                 case _:
                     raise HTTPError(result.status, request.url, result.data)
       
