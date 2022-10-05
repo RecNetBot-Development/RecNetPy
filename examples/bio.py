@@ -2,7 +2,7 @@
 An example that showcases how to fetch an account by username and acquire its bio.
 """
 
-from recpy import Client
+from recnetpy import Client
 from asyncio import get_event_loop
 
 async def main():
