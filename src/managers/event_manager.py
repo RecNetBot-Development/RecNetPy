@@ -91,7 +91,6 @@ class EventManager(BaseManager['Event', 'EventResponse']):
     async def get_events(self, take: int = 16, skip: int = 0, sort: int = 0) -> List['Event']:
         """
         Gets a list of events currently happening.
-        If no event is found, an empty list will be returned.
 
         @param take: The number of results to return.
         @param skip: The number of results to skip.

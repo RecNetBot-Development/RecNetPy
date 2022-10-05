@@ -107,7 +107,6 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
     async def front_page(self, take: int = 16, skip: int = 0) -> List['Image']:
         """
         Gets a list of the most popular images on RecNet.
-        If no image is found, an empty list will be returned.
 
         @param take: The number of results to return.
         @param skip: The number of results to skip.
