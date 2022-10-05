@@ -4,7 +4,7 @@ An example showcasing how to fetch an account, acquire its RecNet images and han
 
 import time
 import asyncio
-from src import Client
+from recpy import Client
 
 async def main():
     RecNet = Client()
