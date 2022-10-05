@@ -57,7 +57,7 @@ class EventManager(BaseManager['Event', 'EventResponse']):
     async def from_account(self, id: int, take: int = 16, skip: int = 0) -> List['Event']:
         """
         Gets a list of events created by a player.
-        If no event is found, an empty list will be returned.
+        If no event or the respective account is found, an empty list will be returned.
 
         @param id: An account id.
         @param take: The number of results to return.
@@ -74,7 +74,7 @@ class EventManager(BaseManager['Event', 'EventResponse']):
     async def in_room(self, id: int, take: int = 16, skip: int = 0) -> List['Event']:
         """
         Gets a list of events happening in a room.
-        If no event is found, an empty list will be returned.
+        If no event or the respective room is found, an empty list will be returned.
 
         @param query: A room id.
         @param take: The number of results to return.
