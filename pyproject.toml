@@ -1,3 +1,24 @@
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "recpy"
+version = "0.0.1"
+authors = [
+  { name="Jesse Tapani Nieminen", email="jesse.tapani.nieminen@gmail.com" },
+  { name="Colin Sullivan", email="colinsullivan03@gmail.com" },
+  { name="Long Walter"}
+]
+description = "RecPy is an API wrapper built in Python for pulling data from RecNet."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/RecNetBot-Development/RecPy/"
+"Bug Tracker" = "https://github.com/RecNetBot-Development/RecPy/issues"
