@@ -3,12 +3,12 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "recpy"
+name = "rec-py"
 version = "0.0.1"
 authors = [
-  { name="Jesse Tapani Nieminen", email="jesse.tapani.nieminen@gmail.com" },
-  { name="Colin Sullivan", email="colinsullivan03@gmail.com" },
-  { name="Kian"}
+    { name="Colin Sullivan", email="colinsullivan03@gmail.com" },
+    { name="Kian, aka Long Walter"},
+    { name="Jesse Tapani Nieminen", email="jesse.tapani.nieminen@gmail.com" },
 ]
 description = "RecPy is an API wrapper built in Python for pulling data from RecNet."
 readme = "README.md"
