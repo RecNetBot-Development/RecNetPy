@@ -21,6 +21,7 @@ class Event(BaseDataClass['EventResponse']):
     """
     This class represents a RecNet event.
     """
+    id: int
     creator_player_id: int
     image_name: Optional[str]
     room_id: int
@@ -48,6 +49,7 @@ class Event(BaseDataClass['EventResponse']):
         @param data: Data from the api.
         """
         self.data = data
+        self.id = data['PlayerEventId']
         self.creator_player_id = data['CreatorPlayerId']
         self.image_name = data['ImageName']
         self.room_id = data['RoomId']
