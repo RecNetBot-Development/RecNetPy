@@ -16,7 +16,7 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         @param id: The id of the event.
         @return: An event object representing the data or nothing if not found. 
         """
-        data: 'Response[EventResponse]' = await self.rec_net.api.playerevents.v1(str(id)).make_request('get')
+        data: 'Response[EventResponse]' = await self.rec_net.api.playerevents.v1(id).make_request('get')
         if data.data: return self.create_dataclass(id, data.data)
         return None
         
@@ -68,7 +68,7 @@ class EventManager(BaseManager['Event', 'EventResponse']):
             'take': take,
             'skip': skip,
         }
-        data: 'Response[List[EventResponse]]' = await self.rec_net.api.playerevents.v1.creator(str(id)).make_request('get', params=params)
+        data: 'Response[List[EventResponse]]' = await self.rec_net.api.playerevents.v1.creator(id).make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
     async def in_room(self, id: int, take: int = 16, skip: int = 0) -> List['Event']:
@@ -85,7 +85,7 @@ class EventManager(BaseManager['Event', 'EventResponse']):
             'take': take,
             'skip': skip,
         }
-        data: 'Response[List[EventResponse]]' = await self.rec_net.api.playerevents.v1.room(str(id)).make_request('get', params=params)
+        data: 'Response[List[EventResponse]]' = await self.rec_net.api.playerevents.v1.room(id).make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
     async def get_events(self, take: int = 16, skip: int = 0, sort: int = 0) -> List['Event']:

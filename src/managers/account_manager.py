@@ -28,7 +28,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         @param id: The id of the RecNet user.
         @return: An account object representing the data or nothing if not found. 
         """
-        data: 'Response[AccountResponse]' = await self.rec_net.accounts.account(str(id)).make_request('get')
+        data: 'Response[AccountResponse]' = await self.rec_net.accounts.account(id).make_request('get')
         if data.data: return self.create_dataclass(id, data.data)
         return None
         
