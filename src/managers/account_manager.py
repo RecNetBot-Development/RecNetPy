@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING, List, Optional
-
+from ..misc import stringify_bulk
 from . import BaseManager
 from ..dataclasses import Account
 
@@ -42,7 +42,8 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         @param names: A list of username.
         @return: A list of account objects. 
         """
-        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {'name': names})
+        bulk = stringify_bulk(names)
+        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {'name': bulk})
         return self.create_from_data_list(data.data)
 
     async def fetch_many(self, ids: List[int]) -> List['Account']:

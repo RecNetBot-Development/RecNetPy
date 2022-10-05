@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, List, Optional
 
 from . import BaseManager
 from ..dataclasses import Room
+from ..misc import stringify_bulk
 
 if TYPE_CHECKING:
     from ..misc.api_responses import RoomResponse, RoomSearchResponse
@@ -54,7 +55,8 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         @param names: A list of room names.
         @return: A list of room objects. 
         """
-        data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.bulk.make_request('post', body = {'name': names})
+        bulk = stringify_bulk(names)
+        data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.bulk.make_request('post', body = {'name': bulk})
         return self.create_from_data_list(data.data)
 
     async def fetch_many(self, ids: List[int]) -> List['Room']:
