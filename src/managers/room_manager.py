@@ -12,6 +12,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
     async def get(self, name: str, include: int = 0) -> 'Room':
         """
         Gets room data by their name, and returns it as an room object.
+        Returns nothing if the room doesn't exist or is private.
 
         Include param values:
         - +2 = Subrooms
@@ -23,10 +24,11 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
 
         @param name: The name of the room.
         @param include: An integer that add additional information to the response.
-        @return: An room object representing the data. 
+        @return: An room object representing the data or nothing if not found. 
         """
         data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms.make_request('get', params = {'name': name, 'include': include})
-        return self.create_dataclass(data.data['RoomId'], data.data)
+        if data.data: return self.create_dataclass(data.data['RoomId'], data.data)
+        return None
 
     async def fetch(self, id: int, include: int = 0) -> 'Room':
         """
@@ -51,6 +53,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         """
         Gets a list of rooms by a list of names, and returns 
         a list of rooms object.
+        Room that couldn't be found or are private will be silently ignored.
 
         @param names: A list of room names.
         @return: A list of room objects. 
@@ -63,6 +66,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         """
         Gets a list of rooms by a list of ids, and returns 
         a list of room objects.
+        Room that couldn't be found or are private will be silently ignored.
 
         @param ids: A list of ids.
         @return: A list of room objects. 
@@ -74,6 +78,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         """
         Searches RecNet for rooms based on a query, and returns
         a list of room objects.
+        If no room is found, an empty list will be returned.
 
         @param query: A search query string.
         @param take: The number of results to return.
@@ -81,7 +86,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         @return: A list of room objects.
         """
         params = {
-            'query': query,
+            'query': str(query),
             'take': take,
             'skip': skip
         }          
@@ -91,6 +96,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
     async def created_by(self, id: int) -> List['Room']:
         """
         Gets a list of rooms created by a player.
+        If no room or the respective account is found, an empty list will be returned.
 
         @param id: An account id.
         @return: A list of room objects.
@@ -101,6 +107,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
     async def owned_by(self, id: int) -> List['Room']:
         """
         Gets a list of rooms owned by a player.
+        If no room or the respective account is found, an empty list will be returned.
 
         @param id: An account id.
         @return: A list of room objects.
