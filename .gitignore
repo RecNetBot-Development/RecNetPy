@@ -135,5 +135,6 @@ dmypy.json
 discord.log
 config.json
 
-/unittests
+.unittests
+unittests/
 main.py
