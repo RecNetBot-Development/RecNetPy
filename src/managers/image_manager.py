@@ -8,12 +8,13 @@ if TYPE_CHECKING:
     from ..rest import Response
 
 class ImageManager(BaseManager['Image', 'ImageResponse']):
-    async def fetch(self, id: int) -> 'Image':
+    async def fetch(self, id: int) -> Optional['Image']:
         """
         Gets image data by their id, and returns it as an image object.
+        Returns nothing if the image doesn't exist or is private.
 
         @param id: The id of the image.
-        @return: An image object representing the data. 
+        @return: An image object representing the data or nothing if not found. 
         """
         data: 'Response[ImageResponse]' = await self.rec_net.api.images.v4(id).make_request('get')
         return self.create_dataclass(id, data.data)
@@ -22,6 +23,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         """
         Gets a list of images by a list of image ids, and returns 
         a list of image object.
+        Images that couldn't be found will be silently ignored.
 
         @param ids: A list of ids.
         @return: A list of image objects. 
@@ -32,6 +34,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
     async def from_account(self, id: int, take: int = 16, skip: int = 0, sort: int = 0) -> List['Image']:
         """
         Gets a list of images taken by a player.
+        If no image or the respective account is found, an empty list will be returned.
 
         @param id: A player id.
         @param take: The number of results to return.
@@ -50,6 +53,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
     async def player_feed(self, id: int, take: int = 16, skip: int = 0) -> List['Image']:
         """
         Gets a list of images taken of a player.
+        If no image or the respective account is found, an empty list will be returned.
 
         @param id: A player id.
         @param take: The number of results to return.
@@ -66,6 +70,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
     async def during_event(self, id: int, take: int = 16, skip: int = 0) -> List['Image']:
         """
         Gets a list of images taken during an event.
+        If no image or the respective event is found, an empty list will be returned.
 
         @param id: A event id.
         @param take: The number of results to return.
@@ -82,6 +87,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
     async def in_room(self, id: int, take: int = 16, skip: int = 0, sort: int = 0) -> List['Image']:
         """
         Gets a list of images taken in a room.
+        If no image or the respective room is found, an empty list will be returned.
 
         @param id: A room id.
         @param take: The number of results to return.
@@ -100,6 +106,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
     async def front_page(self, take: int = 16, skip: int = 0) -> List['Image']:
         """
         Gets a list of the most popular images on RecNet.
+        If no image is found, an empty list will be returned.
 
         @param take: The number of results to return.
         @param skip: The number of results to skip.
