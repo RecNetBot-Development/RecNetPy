@@ -8,7 +8,7 @@ version = "0.0.1"
 authors = [
   { name="Jesse Tapani Nieminen", email="jesse.tapani.nieminen@gmail.com" },
   { name="Colin Sullivan", email="colinsullivan03@gmail.com" },
-  { name="Long Walter"}
+  { name="Kian"}
 ]
 description = "RecPy is an API wrapper built in Python for pulling data from RecNet."
 readme = "README.md"
