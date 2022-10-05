@@ -8,28 +8,30 @@ if TYPE_CHECKING:
     from ..rest import Response
 
 class InventionManager(BaseManager['Invention', 'InventionResponse']):
-    async def fetch(self, id: int) -> 'Invention':
+    async def fetch(self, id: int) -> Optional['Invention']:
         """
         Gets invention data by their id, and returns it as an invention object.
+        Returns nothing if the invention doesn't exist or is private.
 
         @param id: The id of the invention.
-        @return: An invention object representing the data. 
+        @return: An invention object representing the data or nothing if not found. 
         """
         data: 'Response[InventionResponse]' = await self.rec_net.api.inventions.v1.make_request('get', params = {'inventionId': id})
-        return self.create_dataclass(id, data.data)
+        if data.data: return self.create_dataclass(id, data.data)
+        return None
 
-    '''
-    async def search(self, query: str) -> List[Invention]:
+
+    async def search(self, query: str) -> List['Invention']:
         """
         Searches RecNet for inventions based on a query, and returns
         a list of invention objects.
+        If no invention is found, an empty list will be returned.
 
         @param query: A search query string.
         @return: A list of invention objects.
         """
-        data: Response[List[InventionResponse]] = await self.rec_net.api.inventions.v2.search.make_request('get', params = {'value': query})
+        data: Response[List[InventionResponse]] = await self.rec_net.api.inventions.v2.search.make_request('get', params = {'value': str(query)})
         return self.create_from_data_list(data.data)
-    '''
 
     async def featured(self, take: int = 16, skip: int = 0) -> List['Invention']:
         """
