@@ -9,6 +9,7 @@ authors = [
     { name="Colin Sullivan", email="colinsullivan03@gmail.com" },
     { name="Kian, aka Long Walter"},
     { name="Jesse Tapani Nieminen", email="jesse.tapani.nieminen@gmail.com" },
+    { name="RecNetBot Development"}
 ]
 description = "RecPy is an API wrapper built in Python for pulling data from RecNet."
 readme = "README.md"
