@@ -17,7 +17,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         @return: An image object representing the data or nothing if not found. 
         """
         data: 'Response[ImageResponse]' = await self.rec_net.api.images.v4(id).make_request('get')
-        return self.create_dataclass(id, data.data)
+        if data.data: return self.create_dataclass(id, data.data)
+        return None
 
     async def fetch_many(self, ids: List[int]) -> List['Image']:
         """
