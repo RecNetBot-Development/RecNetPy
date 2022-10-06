@@ -27,6 +27,7 @@ class Account(BaseDataClass['AccountResponse']):
     personal_pronouns: List[str]
     identity_flags: List[str]
     created_at: int
+    banner_image: Optional[str] = None
     bio: Optional[str] = None
     level: Optional[Progression] = None
     subscriber_count: Optional[int] = None
@@ -49,6 +50,7 @@ class Account(BaseDataClass['AccountResponse']):
         self.username = data['username']
         self.display_name = data['displayName']
         self.profile_image = data['profileImage']
+        self.banner_image = data.get("bannerImage", None)
         self.is_junior = data['isJunior']
         self.platforms = bitmask_decode(data['platforms'], PLATFORM_LIST)
         self.personal_pronouns = bitmask_decode(data['personalPronouns'], PERSONAL_PRONOUNS_LIST)
