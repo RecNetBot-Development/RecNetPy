@@ -30,6 +30,7 @@ class Room(BaseDataClass['RoomResponse']):
     disable_mic_auto_mute: bool
     disable_room_comments: bool
     encrypted_voice_chat: bool
+    voice_moderated: bool
     load_screen_locked: bool
     version: int
     name: str
@@ -73,14 +74,15 @@ class Room(BaseDataClass['RoomResponse']):
 
         @param data: Data from the api.
         """
-        self.is_dorm = data["IsDorm"]
         self.id = data["RoomId"]
+        self.is_dorm = data["IsDorm"]
         self.max_player_calculation_mode = data["MaxPlayerCalculationMode"]
         self.max_players = data["MaxPlayers"]
         self.cloning_allowed = data["CloningAllowed"]
         self.disable_mic_auto_mute = data["DisableMicAutoMute"]
         self.disable_room_comments = data["DisableRoomComments"]
         self.encrypted_voice_chat = data["EncryptVoiceChat"]
+        self.voice_moderated = data["ToxmodEnabled"]
         self.load_screen_locked = data["LoadScreenLocked"]
         self.name = data["Name"]
         self.description = data["Description"]
