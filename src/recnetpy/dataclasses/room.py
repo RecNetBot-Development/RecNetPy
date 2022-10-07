@@ -22,6 +22,7 @@ class Room(BaseDataClass['RoomResponse']):
     """
     This class represents a player created room.
     """
+    id: int
     is_dorm: int
     max_player_calculation_mode: int
     max_players: int
@@ -73,6 +74,7 @@ class Room(BaseDataClass['RoomResponse']):
         @param data: Data from the api.
         """
         self.is_dorm = data["IsDorm"]
+        self.id = data["RoomId"]
         self.max_player_calculation_mode = data["MaxPlayerCalculationMode"]
         self.max_players = data["MaxPlayers"]
         self.cloning_allowed = data["CloningAllowed"]
@@ -80,7 +82,6 @@ class Room(BaseDataClass['RoomResponse']):
         self.disable_room_comments = data["DisableRoomComments"]
         self.encrypted_voice_chat = data["EncryptVoiceChat"]
         self.load_screen_locked = data["LoadScreenLocked"]
-        self.version = data["Version"]
         self.name = data["Name"]
         self.description = data["Description"]
         self.image_name = data["ImageName"]
