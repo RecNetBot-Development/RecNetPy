@@ -153,7 +153,7 @@ class Room(BaseDataClass['RoomResponse']):
         @return: An account object.
         """
         if self.creator_account is None or force:
-            self.creator_account = self.client.accounts.fetch(self.creator_account_id)
+            self.creator_account = await self.client.accounts.fetch(self.creator_account_id)
         return self.creator_account
 
     async def resolve_role_owners(self) -> Optional[List['Role']]:
