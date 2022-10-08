@@ -33,6 +33,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
     async def fetch(self, id: int, include: int = 0) -> 'Room':
         """
         Gets room data by their id, and returns it as an room object.
+        Returns nothing if the room doesn't exist or is private.
 
         Include param values:
         - +2 = Subrooms
@@ -47,7 +48,8 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         @return: An room object representing the data. 
         """
         data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms(id).make_request('get', params = {'include': include})
-        return self.create_dataclass(data.data['RoomId'], data.data)
+        if data.data: return self.create_dataclass(data.data['RoomId'], data.data)
+        return None
 
     async def get_many(self, names: List[str]) -> List['Room']:
         """
