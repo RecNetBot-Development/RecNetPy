@@ -41,7 +41,10 @@ class HTTPClient:
         async with lock:
             await self.thread_pool.submit(request)
             result = await request.get_result()
-            if result.success or result.status == 404: return result
+            if result.status == 404:
+                result.data = None
+                return result
+            if result.success: return result
             match result.status:
                 case 400:
                     raise BadRequest
