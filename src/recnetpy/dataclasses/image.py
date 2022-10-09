@@ -39,7 +39,7 @@ class Image(BaseDataClass['ImageResponse']):
         """
         Sets properties corresponding to data for an api event response.
 
-        @param data: Data from the api.
+        :param data: Data from the api.
         """
         self.data = data
         self.id = data['Id']
@@ -61,8 +61,8 @@ class Image(BaseDataClass['ImageResponse']):
         Fetches the creator of the image. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: An account object.
+        :param force: If true, fetches new data.
+        :return: An account object.
         """
         if self.player is None or force:
             self.player = await self.client.accounts.fetch(self.player_id)
@@ -73,8 +73,8 @@ class Image(BaseDataClass['ImageResponse']):
         Fetches account data for the player who appeared in the Image. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: A list of account objects.
+        :param force: If true, fetches new data.
+        :return: A list of account objects.
         """
         if self.tagged_players is None or force:
             self.tagged_players = await self.client.accounts.fetch_many(self.tagged_player_ids)
@@ -85,8 +85,8 @@ class Image(BaseDataClass['ImageResponse']):
         Fetches the room the image was taked in. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: A room object.
+        :param force: If true, fetches new data.
+        :return: A room object.
         """
         if self.room is None or force:
             self.room = await self.client.rooms.fetch(self.room_id)
@@ -97,8 +97,8 @@ class Image(BaseDataClass['ImageResponse']):
         Fetches the event the image was taken in. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: An event object, or None if the image wasn't taken in an event.
+        :param force: If true, fetches new data.
+        :return: An event object, or None if the image wasn't taken in an event.
         """
         if self.player_event_id is None: return None
         if self.player_event is None or force:
@@ -110,8 +110,8 @@ class Image(BaseDataClass['ImageResponse']):
         Fetches a list of players' ids who cheered the post. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: A list of account ids.
+        :param force: If true, fetches new data.
+        :return: A list of account ids.
         """        
         if self.cheer_player_ids is None or force:
             data: 'Response[List[int]]' = await self.rec_net.api.images.v1(self.id).cheers.make_request('get')
@@ -123,8 +123,8 @@ class Image(BaseDataClass['ImageResponse']):
         Fetches a list of comments made on the image. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: An list of comment objects.
+        :param force: If true, fetches new data.
+        :return: An list of comment objects.
         """
         if self.comments is None or force:
             data: 'Response[List[CommentResponse]]' = await self.rec_net.api.images.v1(self.id).comments.make_request('get')
@@ -136,8 +136,8 @@ class Image(BaseDataClass['ImageResponse']):
         Fetches a list of player objects who cheered the post. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: A list of account objects.
+        :param force: If true, fetches new data.
+        :return: A list of account objects.
         """  
         if self.cheer_players is None or force:
             player_ids = await self.get_cheers(force)
@@ -150,8 +150,8 @@ class Image(BaseDataClass['ImageResponse']):
         will make an api call every time its used. It should only be used when 
         updating the comment player attribute.
 
-        @param force: Forces new responses to be fetched.
-        @return: A list of comment objects. 
+        :param force: Forces new responses to be fetched.
+        :return: A list of comment objects. 
         """
         if self.comments is None or force:
             comments = await self.get_comments(force)

@@ -43,7 +43,7 @@ class Account(BaseDataClass['AccountResponse']):
         """
         Sets properties corresponding to data for an api account response.
 
-        @param data: Data from the api.
+        :param data: Data from the api.
         """
         self.data = data
         self.id = data['accountId']
@@ -62,10 +62,10 @@ class Account(BaseDataClass['AccountResponse']):
         Fetches a list of events made by this player. Returns a
         cached result, if this function has been already called.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param force: If true, fetches new data.
-        @return: A list of events.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param force: If true, fetches new data.
+        :return: A list of events.
         """
         if self.events is None or force:
             self.events = await self.client.events.from_account(self.id, take, skip)
@@ -76,11 +76,11 @@ class Account(BaseDataClass['AccountResponse']):
         Fetches a list of images taken by this player. Returns a
         cached result, if this function has been already called.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param sort: An integer that describes how the results are to be sorted.
-        @param force: If true, fetches new data.
-        @return: A list of images.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param sort: An integer that describes how the results are to be sorted.
+        :param force: If true, fetches new data.
+        :return: A list of images.
         """
         if self.images is None or force:
             self.images = await self.client.images.from_account(self.id, take, skip, sort)
@@ -91,10 +91,10 @@ class Account(BaseDataClass['AccountResponse']):
         Fetches a list of images taken of this player. Returns a
         cached result, if this function has been already called.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param force: If true, fetches new data.
-        @return: A list of images.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param force: If true, fetches new data.
+        :return: A list of images.
         """
         if self.feed is None or force:
             self.feed = await self.client.images.player_feed(self.id, take, skip)
@@ -105,8 +105,8 @@ class Account(BaseDataClass['AccountResponse']):
         Fetches a list of rooms created by this player. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: A list of rooms.
+        :param force: If true, fetches new data.
+        :return: A list of rooms.
         """
         if self.created_rooms is None or force:
             self.created_rooms = await self.client.rooms.created_by(self.id)
@@ -117,8 +117,8 @@ class Account(BaseDataClass['AccountResponse']):
         Fetches a list of rooms owned by this player. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: A list of rooms.
+        :param force: If true, fetches new data.
+        :return: A list of rooms.
         """
         if self.owned_rooms is None or force:
             self.owned_rooms = await self.client.rooms.owned_by(self.id)
@@ -129,8 +129,8 @@ class Account(BaseDataClass['AccountResponse']):
         Fetches this player's bio. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: The player's bio.
+        :param force: If true, fetches new data.
+        :return: The player's bio.
         """
         if self.bio is None or force:
             data: 'Response[BioResponse]' = await self.rec_net.accounts.account(self.id).bio.make_request('get')
@@ -142,8 +142,8 @@ class Account(BaseDataClass['AccountResponse']):
         Fetches this player's level as a progression object. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: This player's level.
+        :param force: If true, fetches new data.
+        :return: This player's level.
         """
         if self.level is None or force:
             data: 'Response[List[ProgressionResponse]]' = await self.rec_net.api.players.v2.progression.bulk.make_request('post', body = {'id': [self.id]})
@@ -155,8 +155,8 @@ class Account(BaseDataClass['AccountResponse']):
         Fetches this players subscriber count. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: This player's subscriber count.
+        :param force: If true, fetches new data.
+        :return: This player's subscriber count.
         """
         if self.subscriber_count is None or force:
             data: 'Response[int]' = await self.rec_net.clubs.subscription.subscribercount(self.id).make_request('get')
@@ -168,8 +168,8 @@ class Account(BaseDataClass['AccountResponse']):
         Fetches whether this player is an influencer. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: This player's subscriber count.
+        :param force: If true, fetches new data.
+        :return: This player's subscriber count.
         """
         if self.is_influencer is None or force:
             data: 'Response[bool]' = await self.rec_net.api.influencerpartnerprogram.isinfluencer.make_request('get', params = {'accountId': self.id})

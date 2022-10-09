@@ -13,8 +13,8 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         Gets event data by their id, and returns it as an event object.
         Returns nothing if the event doesn't exist or is private.
 
-        @param id: The id of the event.
-        @return: An event object representing the data or nothing if not found. 
+        :param id: The id of the event.
+        :return: An event object representing the data or nothing if not found. 
         """
         data: 'Response[EventResponse]' = await self.rec_net.api.playerevents.v1(id).make_request('get')
         if data.data: return self.create_dataclass(id, data.data)
@@ -27,8 +27,8 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         a list of event object.
         Events that couldn't be found will be silently ignored.
 
-        @param ids: A list of ids.
-        @return: A list of event objects. 
+        :param ids: A list of ids.
+        :return: A list of event objects. 
         """
         data: 'Response[List[EventResponse]]' = await self.rec_net.api.playerevents.v1.bulk.make_request('post', body = {'id': ids})
         return self.create_from_data_list(data.data)
@@ -39,11 +39,11 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         a list of event objects.
         If no event is found, an empty list will be returned.
 
-        @param query: A search query string.
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param sort: An integer that describes how the results are to be sorted.
-        @return: A list of event objects.
+        :param query: A search query string.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param sort: An integer that describes how the results are to be sorted.
+        :return: A list of event objects.
         """
         params = {
             'query': str(query),
@@ -59,10 +59,10 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         Gets a list of events created by a player.
         If no event or the respective account is found, an empty list will be returned.
 
-        @param id: An account id.
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @return: A list of event objects.
+        :param id: An account id.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :return: A list of event objects.
         """
         params = {
             'take': take,
@@ -76,10 +76,10 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         Gets a list of events happening in a room.
         If no event or the respective room is found, an empty list will be returned.
 
-        @param query: A room id.
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @return: A list of event objects.
+        :param query: A room id.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :return: A list of event objects.
         """
         params = {
             'take': take,
@@ -92,10 +92,10 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         """
         Gets a list of events currently happening.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param sort: An integer that describes how the results are to be sorted.
-        @return: A list of event objects.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param sort: An integer that describes how the results are to be sorted.
+        :return: A list of event objects.
         """
         params = {
             'take': take,
@@ -109,9 +109,9 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         """
         Creates an event object:
 
-        @param id: An event id.
-        @param data: An event api response.
-        @return: Returns an event object.
+        :param id: An event id.
+        :param data: An event api response.
+        :return: Returns an event object.
         """
         return Event(self.client, id, data)
 
@@ -119,8 +119,8 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         """
         Creates a list of event objects based on a list of data.
 
-        @param data: A list of an event api responses.
-        @return: A list of event objects.
+        :param data: A list of an event api responses.
+        :return: A list of event objects.
         """
         event_list: List['Event'] = []
         for event_data in data:

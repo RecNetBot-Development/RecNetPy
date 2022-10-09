@@ -59,7 +59,7 @@ class Invention(BaseDataClass['InventionResponse']):
         """
         Sets properties corresponding to data for an api invention response.
 
-        @param data: Data from the api.
+        :param data: Data from the api.
         """
         self.data = data
         self.replication_id = data['ReplicationId']
@@ -92,8 +92,8 @@ class Invention(BaseDataClass['InventionResponse']):
         Fetches the creator of this invention. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: An account object.
+        :param force: If true, fetches new data.
+        :return: An account object.
         """
         if self.creator_player is None or force:
             self.creator_player = await self.client.accounts.fetch(self.creator_player_id)
@@ -112,9 +112,9 @@ class Invention(BaseDataClass['InventionResponse']):
         - +64 = Scores
         - +256 = Loading screens
 
-        @param include: An integer that add additional information to the response.
-        @param force: If true, fetches new data.
-        @return: A room object.
+        :param include: An integer that add additional information to the response.
+        :param force: If true, fetches new data.
+        :return: A room object.
         """
         if self.creation_room is None or force:
             self.creation_room = await self.client.rooms.fetch(self.creation_room_id, include)
@@ -125,8 +125,8 @@ class Invention(BaseDataClass['InventionResponse']):
         Fetches the tags for this invention. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data
-        @return: A list of tag objects.
+        :param force: If true, fetches new data
+        :return: A list of tag objects.
         """
         if self.tags is None or force:
             data: 'Response[List[TagResponse]]' = await self.rec_net.api.inventions.v1.details.make_request('get', params = {'inventionId': self.id})

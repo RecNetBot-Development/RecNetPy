@@ -22,9 +22,9 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         - +64 = Scores
         - +256 = Loading screens
 
-        @param name: The name of the room.
-        @param include: An integer that add additional information to the response.
-        @return: An room object representing the data or nothing if not found. 
+        :param name: The name of the room.
+        :param include: An integer that add additional information to the response.
+        :return: An room object representing the data or nothing if not found. 
         """
         data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms.make_request('get', params = {'name': name, 'include': include})
         if data.data: return self.create_dataclass(data.data['RoomId'], data.data)
@@ -43,9 +43,9 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         - +64 = Scores
         - +256 = Loading screens
 
-        @param id: The id of the room.
-        @param include: An integer that add additional information to the response.
-        @return: An room object representing the data. 
+        :param id: The id of the room.
+        :param include: An integer that add additional information to the response.
+        :return: An room object representing the data. 
         """
         data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms(id).make_request('get', params = {'include': include})
         if data.data: return self.create_dataclass(data.data['RoomId'], data.data)
@@ -57,8 +57,8 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         a list of rooms object.
         Room that couldn't be found or are private will be silently ignored.
 
-        @param names: A list of room names.
-        @return: A list of room objects. 
+        :param names: A list of room names.
+        :return: A list of room objects. 
         """
         bulk = stringify_bulk(names)
         data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.bulk.make_request('post', body = {'name': bulk})
@@ -70,8 +70,8 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         a list of room objects.
         Room that couldn't be found or are private will be silently ignored.
 
-        @param ids: A list of ids.
-        @return: A list of room objects. 
+        :param ids: A list of ids.
+        :return: A list of room objects. 
         """
         data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.bulk.make_request('post', body = {'id': ids})
         return self.create_from_data_list(data.data)
@@ -82,10 +82,10 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         a list of room objects.
         If no room is found, an empty list will be returned.
 
-        @param query: A search query string.
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @return: A list of room objects.
+        :param query: A search query string.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :return: A list of room objects.
         """
         params = {
             'query': str(query),
@@ -100,8 +100,8 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         Gets a list of rooms created by a player.
         If no room or the respective account is found, an empty list will be returned.
 
-        @param id: An account id.
-        @return: A list of room objects.
+        :param id: An account id.
+        :return: A list of room objects.
         """
         data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.createdby(id).make_request('get')
         return self.create_from_data_list(data.data)
@@ -111,8 +111,8 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         Gets a list of rooms owned by a player.
         If no room or the respective account is found, an empty list will be returned.
 
-        @param id: An account id.
-        @return: A list of room objects.
+        :param id: An account id.
+        :return: A list of room objects.
         """
         data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.ownedby(id).make_request('get')
         return self.create_from_data_list(data.data)
@@ -121,9 +121,9 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         """
         Gets a list of the most popular rooms on RecNet.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @return: A list of room objects.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :return: A list of room objects.
         """
         params = {
             'take': take,
@@ -136,9 +136,9 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         """
         Creates an room object:
 
-        @param id: An room id.
-        @param data: An room api response.
-        @return: Returns an room object.
+        :param id: An room id.
+        :param data: An room api response.
+        :return: Returns an room object.
         """
         return Room(self.client, id, data)
 
@@ -146,8 +146,8 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         """
         Creates a list of room objects based on a list of data.
 
-        @param data: A list of an room api responses.
-        @return: A list of room objects.
+        :param data: A list of an room api responses.
+        :return: A list of room objects.
         """
         room_list: List['Room'] = []
         for room_data in data:
