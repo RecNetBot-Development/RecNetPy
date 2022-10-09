@@ -6,10 +6,10 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'RecPy'
-copyright = '2022, ColinXYZ, Jegarde, Long Walter'
+project = 'RecNetPy'
+copyright = '2022, Jesse Tapani Nieminen & Colin Sullivan & Kian, aka Long Walter'
 author = 'ColinXYZ, Jegarde, Long Walter'
-release = '0.1'
+release = '0.0.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
