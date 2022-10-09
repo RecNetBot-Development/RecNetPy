@@ -1,5 +1,5 @@
 # RecNetPy
-> **RecNetPy** is an API wrapper built in Python for pulling data from rec.net. It's the same wrapper used to power RecNetBot!.
+> **RecNetPy** is an API wrapper built in Python for pulling data from [RecNet](https://rec.net/). It's the same wrapper used to power [RecNetBot](https://github.com/RecNetBot-Development/RecNetBot)!.
 
 [![NPM Version][pip-image]][pip-url]
 [![Downloads Stats][pip-downloads]][pip-url]
@@ -12,7 +12,7 @@
 All Platforms:
 
 ```sh
-pip install recnetpy
+pip install -U recnetpy
 ```
 
 ## Usage example
@@ -34,7 +34,7 @@ loop = get_event_loop()
 loop.run_until_complete(main())
 ```
 
-_For more examples and usage, please refer to the ``examples``._
+_For more examples and usage, please refer to the [``examples``](https://github.com/RecNetBot-Development/RecNetPy/tree/main/examples)._
 
 ## Development setup
 
