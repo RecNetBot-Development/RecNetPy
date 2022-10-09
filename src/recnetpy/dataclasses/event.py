@@ -92,10 +92,11 @@ class Event(BaseDataClass['EventResponse']):
             self.creator_player = await self.client.accounts.fetch(self.creator_player_id)
         return self.creator_player
 
-    async def get_room(self, include: int, force: bool = False) -> 'Room':
+    async def get_room(self, include: int = 0, force: bool = False) -> Optional['Room']:
         """
         Fetches the room this event is happening in. Returns a
         cached result, if this function has been already called.
+        If the room is private, nothing will be returned.
 
         Include param values:
         - +2 = Subrooms
@@ -107,7 +108,7 @@ class Event(BaseDataClass['EventResponse']):
 
         @param include: An integer that add additional information to the response.
         @param force: If true, fetches new data.
-        @return: A room object.
+        @return: A room object or nothing if private.
         """
         if self.room is None or force:
             self.room = await self.client.rooms.fetch(self.room_id, include = include)
