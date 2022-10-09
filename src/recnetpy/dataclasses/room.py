@@ -22,6 +22,7 @@ class Room(BaseDataClass['RoomResponse']):
     """
     This class represents a player created room.
     """
+    id: int
     is_dorm: int
     max_player_calculation_mode: int
     max_players: int
@@ -29,6 +30,7 @@ class Room(BaseDataClass['RoomResponse']):
     disable_mic_auto_mute: bool
     disable_room_comments: bool
     encrypted_voice_chat: bool
+    voice_moderated: bool
     load_screen_locked: bool
     version: int
     name: str
@@ -72,6 +74,7 @@ class Room(BaseDataClass['RoomResponse']):
 
         :param data: Data from the api.
         """
+        self.id = data["RoomId"]
         self.is_dorm = data["IsDorm"]
         self.max_player_calculation_mode = data["MaxPlayerCalculationMode"]
         self.max_players = data["MaxPlayers"]
@@ -79,8 +82,8 @@ class Room(BaseDataClass['RoomResponse']):
         self.disable_mic_auto_mute = data["DisableMicAutoMute"]
         self.disable_room_comments = data["DisableRoomComments"]
         self.encrypted_voice_chat = data["EncryptVoiceChat"]
+        self.voice_moderated = data["ToxmodEnabled"]
         self.load_screen_locked = data["LoadScreenLocked"]
-        self.version = data["Version"]
         self.name = data["Name"]
         self.description = data["Description"]
         self.image_name = data["ImageName"]
@@ -150,7 +153,7 @@ class Room(BaseDataClass['RoomResponse']):
         :return: An account object.
         """
         if self.creator_account is None or force:
-            self.creator_account = self.client.accounts.fetch(self.creator_account_id)
+            self.creator_account = await self.client.accounts.fetch(self.creator_account_id)
         return self.creator_account
 
     async def resolve_role_owners(self) -> Optional[List['Role']]:
