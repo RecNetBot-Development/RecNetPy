@@ -13,3 +13,4 @@ from .invention import Invention
 from .invention_version import InventionVersion
 from .progression import Progression
 from .event_response import EventInteraction
+from .comment import Comment

@@ -13,8 +13,8 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         Gets invention data by their id, and returns it as an invention object.
         Returns nothing if the invention doesn't exist or is private.
 
-        @param id: The id of the invention.
-        @return: An invention object representing the data or nothing if not found. 
+        :param id: The id of the invention.
+        :return: An invention object representing the data or nothing if not found. 
         """
         data: 'Response[InventionResponse]' = await self.rec_net.api.inventions.v1.make_request('get', params = {'inventionId': id})
         if data.data: return self.create_dataclass(id, data.data)
@@ -27,8 +27,8 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         a list of invention objects.
         If no invention is found, an empty list will be returned.
 
-        @param query: A search query string.
-        @return: A list of invention objects.
+        :param query: A search query string.
+        :return: A list of invention objects.
         """
         data: Response[List[InventionResponse]] = await self.rec_net.api.inventions.v2.search.make_request('get', params = {'value': str(query)})
         return self.create_from_data_list(data.data)
@@ -37,9 +37,9 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         """
         Gets a list of the featured inventions on RecNet.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @return: A list of invention objects.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :return: A list of invention objects.
         """
         params = {
             'take': take,
@@ -52,7 +52,7 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         """
         Gets a list of the top inventions on RecNet for today.
 
-        @return: A list of invention objects.
+        :return: A list of invention objects.
         """
         data: 'Response[List[InventionResponse]]' = await self.rec_net.api.inventions.v1.toptoday.make_request('get')
         return self.create_from_data_list(data.data)
@@ -61,9 +61,9 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         """
         Creates an invention object:
 
-        @param id: An invention id.
-        @param data: An invention api response.
-        @return: Returns an invention object.
+        :param id: An invention id.
+        :param data: An invention api response.
+        :return: Returns an invention object.
         """
         return Invention(self.client, id, data)
 
@@ -71,8 +71,8 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         """
         Creates a list of invention objects based on a list of data.
 
-        @param data: A list of an invention api responses.
-        @return: A list of invention objects.
+        :param data: A list of an invention api responses.
+        :return: A list of invention objects.
         """
         invention_list: List['Invention'] = []
         for invention_data in data:

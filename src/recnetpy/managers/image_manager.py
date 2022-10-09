@@ -13,8 +13,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         Gets image data by their id, and returns it as an image object.
         Returns nothing if the image doesn't exist or is private.
 
-        @param id: The id of the image.
-        @return: An image object representing the data or nothing if not found. 
+        :param id: The id of the image.
+        :return: An image object representing the data or nothing if not found. 
         """
         data: 'Response[ImageResponse]' = await self.rec_net.api.images.v4(id).make_request('get')
         if data.data: return self.create_dataclass(id, data.data)
@@ -26,8 +26,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         a list of image object.
         Images that couldn't be found will be silently ignored.
 
-        @param ids: A list of ids.
-        @return: A list of image objects. 
+        :param ids: A list of ids.
+        :return: A list of image objects. 
         """
         data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v3.bulk.make_request('get', body = {'id': ids})
         return self.create_from_data_list(data.data)
@@ -37,11 +37,11 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         Gets a list of images taken by a player.
         If no image or the respective account is found, an empty list will be returned.
 
-        @param id: A player id.
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param sort: An integer that describes how the results are to be sorted.
-        @return: A list of image objects.
+        :param id: A player id.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param sort: An integer that describes how the results are to be sorted.
+        :return: A list of image objects.
         """
         params = {
             'take': take,
@@ -56,10 +56,10 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         Gets a list of images taken of a player.
         If no image or the respective account is found, an empty list will be returned.
 
-        @param id: A player id.
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.                 
-        @return: A list of image objects.
+        :param id: A player id.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.                 
+        :return: A list of image objects.
         """
         params = {
             'take': take,
@@ -73,10 +73,10 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         Gets a list of images taken during an event.
         If no image or the respective event is found, an empty list will be returned.
 
-        @param id: A event id.
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @return: A list of image objects.
+        :param id: A event id.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :return: A list of image objects.
         """
         params = {
             'take': take,
@@ -90,11 +90,11 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         Gets a list of images taken in a room.
         If no image or the respective room is found, an empty list will be returned.
 
-        @param id: A room id.
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param sort: An integer that describes how the results are to be sorted.
-        @return: A list of image objects.
+        :param id: A room id.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param sort: An integer that describes how the results are to be sorted.
+        :return: A list of image objects.
         """
         params = {
             'take': take,
@@ -108,9 +108,9 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         """
         Gets a list of the most popular images on RecNet.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @return: A list of image objects.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :return: A list of image objects.
         """
         params = {
             'take': take,
@@ -123,9 +123,9 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         """
         Creates an image object:
 
-        @param id: An image id.
-        @param data: An image api response.
-        @return: Returns an image object.
+        :param id: An image id.
+        :param data: An image api response.
+        :return: Returns an image object.
         """
         return Image(self.client, id, data)
 
@@ -133,8 +133,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         """
         Creates a list of image objects based on a list of data.
 
-        @param data: A list of an image api responses.
-        @return: A list of image objects.
+        :param data: A list of an image api responses.
+        :return: A list of image objects.
         """
         image_list: List['Image'] = []
         for image_data in data:

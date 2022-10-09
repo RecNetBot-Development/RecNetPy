@@ -29,8 +29,8 @@ class BaseManager(ABC, Generic[BDC, RT]):
         Fetches the data for an object by its id, and returns
         the class representing the data.
 
-        @param id: The unique number associated with each data response.
-        @retun: Returns an object representing the data from the data response.
+        :param id: The unique number associated with each data response.
+        :retun: Returns an object representing the data from the data response.
         """
         pass
 
@@ -39,9 +39,9 @@ class BaseManager(ABC, Generic[BDC, RT]):
         """
         Creates an object from the managers corresponding dataclass.
 
-        @param id: The unique number associated with each data response.
-        @param data: The data from an API response associated with the dataclass.
-        @return: Returns an object representing the data from the data response.
+        :param id: The unique number associated with each data response.
+        :param data: The data from an API response associated with the dataclass.
+        :return: Returns an object representing the data from the data response.
         """
         pass
 
@@ -50,8 +50,8 @@ class BaseManager(ABC, Generic[BDC, RT]):
         """
         Creates a list of objects from a list of data.
 
-        @param data: A list of data from an API response associated with the dataclass.
-        @return: A list of objects.
+        :param data: A list of data from an API response associated with the dataclass.
+        :return: A list of objects.
         """
         pass
     

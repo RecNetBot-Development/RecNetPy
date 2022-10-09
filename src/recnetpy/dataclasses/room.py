@@ -70,7 +70,7 @@ class Room(BaseDataClass['RoomResponse']):
         """
         Sets properties corresponding to data for an api room response.
 
-        @param data: Data from the api.
+        :param data: Data from the api.
         """
         self.is_dorm = data["IsDorm"]
         self.max_player_calculation_mode = data["MaxPlayerCalculationMode"]
@@ -117,11 +117,11 @@ class Room(BaseDataClass['RoomResponse']):
         Fetches a list of images taken in this room. Returns a
         cached result, if this function has been already called.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param sort: An integer that describes how the results are to be sorted 
-        @param force: If true, fetches new data.
-        @return: A list of images.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param sort: An integer that describes how the results are to be sorted 
+        :param force: If true, fetches new data.
+        :return: A list of images.
         """
         if self.images is None or force:
             self.images = await self.client.images.in_room(self.id, take = take, skip = skip, sort = sort)
@@ -132,10 +132,10 @@ class Room(BaseDataClass['RoomResponse']):
         Fetches a list of events happening in this room. Returns a
         cached result, if this function has been already called.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param force: If true, fetches new data.
-        @return: A list of events.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param force: If true, fetches new data.
+        :return: A list of events.
         """
         if self.events is None or force:
             self.events = await self.client.events.in_room(self.id, take = take, skip = skip)
@@ -146,8 +146,8 @@ class Room(BaseDataClass['RoomResponse']):
         Fetches the creator of the room. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: An account object.
+        :param force: If true, fetches new data.
+        :return: An account object.
         """
         if self.creator_account is None or force:
             self.creator_account = self.client.accounts.fetch(self.creator_account_id)
@@ -159,7 +159,7 @@ class Room(BaseDataClass['RoomResponse']):
         will make an api call every time its used. It should only be used when 
         updating the role account attribute.
 
-        @return: A list of role objects, or None if roles is None 
+        :return: A list of role objects, or None if roles is None 
         """
         if self.roles is None: return None
         roles = self.roles

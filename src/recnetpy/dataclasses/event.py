@@ -46,7 +46,7 @@ class Event(BaseDataClass['EventResponse']):
         """
         Sets properties corresponding to data for an api event response.
 
-        @param data: Data from the api.
+        :param data: Data from the api.
         """
         self.data = data
         self.id = data['PlayerEventId']
@@ -71,10 +71,10 @@ class Event(BaseDataClass['EventResponse']):
         Fetches a list of images during this event. Returns a
         cached result, if this function has been already called.
 
-        @param take: The number of results to return.
-        @param skip: The number of results to skip.
-        @param force: If true, fetches new data.
-        @return: A list of images.
+        :param take: The number of results to return.
+        :param skip: The number of results to skip.
+        :param force: If true, fetches new data.
+        :return: A list of images.
         """
         if self.images in None or force:
             self.images = await self.client.images.during_event(self.id, take = take, skip = skip)
@@ -85,8 +85,8 @@ class Event(BaseDataClass['EventResponse']):
         Fetches the creator of this event. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data.
-        @return: An account object.
+        :param force: If true, fetches new data.
+        :return: An account object.
         """
         if self.creator_player is None or force:
             self.creator_player = await self.client.accounts.fetch(self.creator_player_id)
@@ -105,9 +105,9 @@ class Event(BaseDataClass['EventResponse']):
         - +64 = Scores
         - +256 = Loading screens
 
-        @param include: An integer that add additional information to the response.
-        @param force: If true, fetches new data.
-        @return: A room object.
+        :param include: An integer that add additional information to the response.
+        :param force: If true, fetches new data.
+        :return: A room object.
         """
         if self.room is None or force:
             self.room = await self.client.rooms.fetch(self.room_id, include = include)
@@ -118,8 +118,8 @@ class Event(BaseDataClass['EventResponse']):
         Fetches the event responses for this event. Returns a
         cached result, if this function has been already called.
 
-        @param force: If true, fetches new data
-        @return: A list of event interaction objects.
+        :param force: If true, fetches new data
+        :return: A list of event interaction objects.
         """
         if self.responses is None or force:
             data: Response[List['EventResponseResponse']] =  self.rec_net.api.playerevents.v1(self.id).responses.make_request('get')
@@ -132,8 +132,8 @@ class Event(BaseDataClass['EventResponse']):
         will make an api call every time its used. It should only be used when 
         updating the response player attribute.
 
-        @param force: Forces new responses to be fetched.
-        @return: A list of event interation objects. 
+        :param force: Forces new responses to be fetched.
+        :return: A list of event interation objects. 
         """
         
         if self.responses is None or force:
