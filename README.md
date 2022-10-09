@@ -1,5 +1,5 @@
 # RecNetPy
-> **RecPy** is an API wrapper built in Python for pulling data from rec.net. It's the same wrapper used to power RecNetBot!.
+> **RecNetPy** is an API wrapper built in Python for pulling data from rec.net. It's the same wrapper used to power RecNetBot!.
 
 [![NPM Version][pip-image]][pip-url]
 [![Downloads Stats][pip-downloads]][pip-url]

@@ -3,10 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to RecPy's documentation!
+Welcome to RecNetPy's documentation!
 =================================
 
-**RecPy** is an API wrapper built in Python for pulling data from rec.net. It's the same wrapper used to power RecNetBot!
+**RecNetPy** is an API wrapper built in Python for pulling data from rec.net. It's the same wrapper used to power RecNetBot!
 
 .. note::
    This project is still currently under active developmet. Some tools/features may not be working as intended. For any bugs observed please report them to the RNB Discord, or submit the issue on GitHub.
