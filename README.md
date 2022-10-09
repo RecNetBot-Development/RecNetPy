@@ -65,6 +65,6 @@ _Distributed under the MIT license. See ``LICENSE`` for more information._
 <!-- Markdown link & img dfn's -->
 [pip-image]: https://img.shields.io/pypi/v/recnetpy?style=flat-square
 [pip-url]: https://pypi.org/project/recnetpy/
-[npm-downloads]: https://img.shields.io/pypi/dm/recnetpy?style=flat-square
+[pip-downloads]: https://img.shields.io/pypi/dm/recnetpy?style=flat-square
 [discord]: https://img.shields.io/discord/745219512529584195?style=flat-square
 [discord-url]: https://discord.gg/GPVdhMa2zK
