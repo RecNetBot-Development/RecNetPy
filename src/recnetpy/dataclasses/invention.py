@@ -130,7 +130,7 @@ class Invention(BaseDataClass['InventionResponse']):
         """
         if self.tags is None or force:
             data: 'Response[List[TagResponse]]' = await self.rec_net.api.inventions.v1.details.make_request('get', params = {'inventionId': self.id})
-            self.tags = Tag.create_from_list(data.data)
+            self.tags = Tag.create_from_list(data.data["Tags"])
         return self.tags
 
 

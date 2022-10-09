@@ -6,7 +6,7 @@ if TYPE_CHECKING:
 
 class Tag(VariableClass['TagResponse']):
     """
-    This class represents a room tag.
+    This class represents a room and invention tag.
     """
     tag: str
     type: int

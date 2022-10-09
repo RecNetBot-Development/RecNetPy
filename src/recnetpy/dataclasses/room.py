@@ -144,7 +144,7 @@ class Room(BaseDataClass['RoomResponse']):
             self.events = await self.client.events.in_room(self.id, take = take, skip = skip)
         return self.events
 
-    async def get_creator_account(self, force: bool = False) -> 'Account':
+    async def get_creator_player(self, force: bool = False) -> 'Account':
         """
         Fetches the creator of the room. Returns a
         cached result, if this function has been already called.

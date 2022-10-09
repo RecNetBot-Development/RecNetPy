@@ -106,15 +106,9 @@ class Event(BaseDataClass['EventResponse']):
         - +64 = Scores
         - +256 = Loading screens
 
-<<<<<<< HEAD
-        @param include: An integer that add additional information to the response.
-        @param force: If true, fetches new data.
-        @return: A room object or nothing if private.
-=======
         :param include: An integer that add additional information to the response.
         :param force: If true, fetches new data.
         :return: A room object.
->>>>>>> bfbbdd8afe461bd0d9ca11411f5817cca0f21902
         """
         if self.room is None or force:
             self.room = await self.client.rooms.fetch(self.room_id, include = include)
