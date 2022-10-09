@@ -15,6 +15,7 @@ class AsyncThreadPool:
     max_threads: int
     active_threads: List[AsyncThread]
     queue: Queue['ThreadTask']
+    is_running: bool = False
   
     def __init__(self, max_threads: int, start: bool = True):
         self.max_threads = max_threads
@@ -27,6 +28,7 @@ class AsyncThreadPool:
         Initializes the max number of specified threads.
         """
         for _ in range(self.max_threads): self.active_threads.append(AsyncThread(self.queue))
+        self.is_running = True
 
     async def submit(self, task: 'ThreadTask') -> None:
         """
@@ -43,9 +45,11 @@ class AsyncThreadPool:
         if self.queue.qsize() > 0: 
             await self.queue.join() #Blocks indefinitely if qsize is zero. 
         for thread in self.active_threads: await thread.stop()
+        self.is_running = False
         #await gather(*[thread.task for thread in self.active_threads], return_exceptions = True)
 
     def __del__(self) -> None:
-        loop = get_event_loop()
-        loop.run_until_complete(self.stop())
-        print("Async Thread Pool stopped and deleted.")
+        if self.is_running:
+            loop = get_event_loop()
+            loop.run_until_complete(self.stop())
+            print("Async Thread Pool stopped and deleted. Please call the stop methon next time.")
