@@ -3,7 +3,7 @@
 
 [![NPM Version][pip-image]][pip-url]
 [![Downloads Stats][pip-downloads]][pip-url]
-[![Join The Discord][discord]][discord-url]]
+[![Join The Discord][discord]][discord-url]
 
 ![](img/header.png)
 
