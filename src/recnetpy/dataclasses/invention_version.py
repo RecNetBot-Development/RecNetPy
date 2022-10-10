@@ -9,7 +9,7 @@ class InventionVersion:
     version_number: int
     blob_name: str
     blob_hash: str
-    instantiation_cost: int
+    instantiation_cost: float
     lights_cost: int
     chips_cost: int
     cloud_variables_cost: int
@@ -20,7 +20,7 @@ class InventionVersion:
         self.version_number = data['VersionNumber']
         self.blob_name = data['BlobName']
         self.blob_hash = data['BlobHash']
-        self.instantiation_cost = data['InstantiationCost']
+        self.instantiation_cost = round(data['InstantiationCost'] / 300, 1) if data['InstantiationCost'] else 0
         self.lights_cost = data['LightsCost']
         self.chips_cost = data['ChipsCost']
         self.cloud_variables_cost = data['CloudVariablesCost']

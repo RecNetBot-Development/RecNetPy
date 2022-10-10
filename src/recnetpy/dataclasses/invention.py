@@ -44,8 +44,8 @@ class Invention(BaseDataClass['InventionResponse']):
     num_players_have_used_in_room: int
     num_downloads: int
     cheer_count: int
-    creator_permission: int
-    general_permission: int
+    creator_permission: str
+    general_permission: str
     is_ag_invention: bool
     is_certified_invention: bool
     price: int
