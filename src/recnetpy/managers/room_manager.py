@@ -116,6 +116,19 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         """
         data: 'Response[List[RoomResponse]]' = await self.rec_net.rooms.rooms.ownedby(id).make_request('get')
         return self.create_from_data_list(data.data)
+    
+    async def showcased_by(self, id: int) -> List['Room']:
+        """
+        Gets a list of rooms showcased by a player.
+        If no room or the respective account is found, an empty list will be returned.
+
+        :param id: An account id.
+        :return: A list of room objects.
+        """
+        data: 'Response[List[int]]' = await self.rec_net.rooms.showcase(id).make_request('get')
+        if not data.data: return []
+        rooms: List['Room'] = await self.fetch_many(data.data)
+        return rooms
 
     async def hot(self, take: int = 16, skip: int = 0) -> List[Room]:
         """

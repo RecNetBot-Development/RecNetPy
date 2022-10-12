@@ -31,8 +31,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         data: 'Response[AccountResponse]' = await self.rec_net.accounts.account(id).make_request('get')
         if data.data: return self.create_dataclass(id, data.data)
         return None
-        
-
+    
     async def get_many(self, names: List[str]) -> List['Account']:
         """
         Gets a list of users by a list of usernames, and returns 

@@ -6,7 +6,7 @@ from ..misc import date_to_unix, bitmask_decode
 
 if TYPE_CHECKING:
     from . import Event, Image, Room
-    from ..misc.api_responses import AccountResponse, ProgressionResponse, BioResponse
+    from ..misc.api_responses import AccountResponse, ProgressionResponse, BioResponse, RoomResponse
     from ..rest import Response
 
 
@@ -18,25 +18,27 @@ class Account(BaseDataClass['AccountResponse']):
     """
     This dataclass represents a RecNet account. 
     """
-    id: int
+
+    id: int  
     username: str
-    display_name: str
-    profile_image: str
-    is_junior: bool
-    platforms: List[str]
-    personal_pronouns: List[str]
-    identity_flags: List[str]
-    created_at: int
-    banner_image: Optional[str] = None
-    bio: Optional[str] = None
-    level: Optional[Progression] = None
-    subscriber_count: Optional[int] = None
-    is_influencer: Optional[bool] = None
-    events: Optional[List['Event']] = None
-    created_rooms: Optional[List['Room']] = None
-    owned_rooms: Optional[List['Room']] = None
-    images: Optional[List['Image']] = None
-    feed: Optional[List['Image']] = None
+    display_name: str  
+    profile_image: str 
+    is_junior: bool  
+    platforms: List[str]  
+    personal_pronouns: List[str]  
+    identity_flags: List[str]  
+    created_at: int  
+    banner_image: Optional[str] = None  
+    bio: Optional[str] = None  
+    level: Optional[Progression] = None  
+    subscriber_count: Optional[int] = None 
+    is_influencer: Optional[bool] = None 
+    events: Optional[List['Event']] = None  
+    created_rooms: Optional[List['Room']] = None  
+    owned_rooms: Optional[List['Room']] = None  
+    images: Optional[List['Image']] = None  
+    feed: Optional[List['Image']] = None  
+    featured_rooms: Optional[List['Room']] = None  
 
 
     def patch_data(self, data: 'AccountResponse') -> None:
@@ -111,6 +113,18 @@ class Account(BaseDataClass['AccountResponse']):
         if self.created_rooms is None or force:
             self.created_rooms = await self.client.rooms.created_by(self.id)
         return self.created_rooms
+    
+    async def get_showcased_rooms(self, force: bool = False) -> List['Room']:
+        """
+        Fetches a list of rooms featured by this player. Returns a
+        cached result, if this function has been already called.
+
+        :param force: If true, fetches new data.
+        :return: A list of rooms.
+        """
+        if self.featured_rooms is None or force:
+            self.featured_rooms = await self.client.rooms.showcased_by(self.id)
+        return self.featured_rooms
 
     async def get_owned_rooms(self, force: bool = False) -> List['Room']:
         """
