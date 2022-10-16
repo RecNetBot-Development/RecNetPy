@@ -89,7 +89,7 @@ class Image(BaseDataClass['ImageResponse']):
         :param force: If true, fetches new data.
         :return: A room object.
         """
-        if self.room is None: return None
+        if self.room_id is None: return None
         if self.room is None or force:
             self.room = await self.client.rooms.fetch(self.room_id)
         return self.room
@@ -115,6 +115,7 @@ class Image(BaseDataClass['ImageResponse']):
         :param force: If true, fetches new data.
         :return: A list of account ids.
         """        
+        if self.cheer_count == 0: return []
         if self.cheer_player_ids is None or force:
             data: 'Response[List[int]]' = await self.rec_net.api.images.v1(self.id).cheers.make_request('get')
             self.cheer_player_ids = data.data           
@@ -128,6 +129,7 @@ class Image(BaseDataClass['ImageResponse']):
         :param force: If true, fetches new data.
         :return: An list of comment objects.
         """
+        if self.comment_count == 0: return []
         if self.comments is None or force:
             data: 'Response[List[CommentResponse]]' = await self.rec_net.api.images.v1(self.id).comments.make_request('get')
             self.comments = Comment.create_from_list(data.data)
@@ -140,7 +142,8 @@ class Image(BaseDataClass['ImageResponse']):
 
         :param force: If true, fetches new data.
         :return: A list of account objects.
-        """  
+        """ 
+        if not self.cheer_player_ids: return []
         if self.cheer_players is None or force:
             player_ids = await self.get_cheers(force)
             self.cheer_players = await self.client.accounts.fetch_many(player_ids)
@@ -155,6 +158,7 @@ class Image(BaseDataClass['ImageResponse']):
         :param force: Forces new responses to be fetched.
         :return: A list of comment objects. 
         """
+        if self.comment_count == 0: return []
         if self.comments is None or force:
             comments = await self.get_comments(force)
             players: Dict[int, Account] = {}
