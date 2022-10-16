@@ -1,5 +1,5 @@
 # RecNetPy
-> **RecNetPy** is an API wrapper built in Python for pulling data from [RecNet](https://rec.net/). It's the same wrapper used to power [RecNetBot](https://github.com/RecNetBot-Development/RecNetBot)!.
+> **RecNetPy** is an API wrapper built in Python for pulling data from [RecNet](https://rec.net/). **RecNetPy** aims to be easy to use yet powerful. It's the same wrapper used to power [RecNetBot](https://github.com/RecNetBot-Development/RecNetBot)!.
 
 [![NPM Version][pip-image]][pip-url]
 [![Downloads Stats][pip-downloads]][pip-url]
@@ -9,22 +9,28 @@
 
 ## Installation
 
-All Platforms:
+All platforms via [pip](https://pypi.org/project/pip/):
 
 ```sh
 pip install -U recnetpy
 ```
 
-## Usage example
+## Quickstart
 
-An example that showcases how to fetch an account by username and acquire its bio.
-
+Creating an instance of RecNetPy:
 ```py
-from recnetpy import Client
+import recnetpy
+
+RecNet = recnetpy.Client()
+```
+
+An example that showcases how to fetch an account by username and acquire its bio:
+```py
+import recnetpy
 from asyncio import get_event_loop
 
 async def main():
-    RecNet = Client()
+    RecNet = recnetpy.Client()
     user = await RecNet.accounts.get("ColinXYZ")
     bio = await user.get_bio()
     print(bio)
@@ -43,11 +49,6 @@ To install a local build run the following command.
 ```sh
 pip install .
 ```
-
-## Release History
-
-* 0.0.1
-    * _Initial Release_
 
 ## Meta
 
