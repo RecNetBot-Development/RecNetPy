@@ -76,6 +76,7 @@ class Image(BaseDataClass['ImageResponse']):
         :param force: If true, fetches new data.
         :return: A list of account objects.
         """
+        if not self.tagged_player_ids: return []
         if self.tagged_players is None or force:
             self.tagged_players = await self.client.accounts.fetch_many(self.tagged_player_ids)
         return self.tagged_players
@@ -88,6 +89,7 @@ class Image(BaseDataClass['ImageResponse']):
         :param force: If true, fetches new data.
         :return: A room object.
         """
+        if self.room is None: return None
         if self.room is None or force:
             self.room = await self.client.rooms.fetch(self.room_id)
         return self.room
@@ -141,7 +143,7 @@ class Image(BaseDataClass['ImageResponse']):
         """  
         if self.cheer_players is None or force:
             player_ids = await self.get_cheers(force)
-            self.cheer_players = self.client.accounts.fetch_many(player_ids)
+            self.cheer_players = await self.client.accounts.fetch_many(player_ids)
         return self.cheer_players
 
     async def resolve_commenters(self, force: bool = False) -> List['Comment']:
