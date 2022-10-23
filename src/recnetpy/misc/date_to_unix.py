@@ -1,5 +1,4 @@
-import time
-from datetime import datetime
+import ciso8601
 
 def date_to_unix(date: str) -> int:
     """
@@ -10,9 +9,7 @@ def date_to_unix(date: str) -> int:
     @param date: String representation of a date.
     @return: Unix date represented as an integer.
     """
-    if "." in date: 
-        date = date.split(".")[0]
-    else:  # Cuz apparently not all dates have the damn dot!!
-        date = date.split("Z")[0]
         
-    return int(time.mktime(datetime.strptime(date, "%Y-%m-%dT%H:%M:%S").timetuple()))  # Return UNIX timestamp as an int to get rid of any decimals
+    timestamp = ciso8601.parse_datetime(date).timestamp()
+        
+    return int(timestamp)  # Return UNIX timestamp
