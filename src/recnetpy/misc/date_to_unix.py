@@ -1,4 +1,4 @@
-import ciso8601
+from dateutil.parser import isoparse
 
 def date_to_unix(date: str) -> int:
     """
@@ -10,6 +10,6 @@ def date_to_unix(date: str) -> int:
     @return: Unix date represented as an integer.
     """
         
-    timestamp = ciso8601.parse_datetime(date).timestamp()
+    timestamp = isoparse(date).timestamp()
         
     return int(timestamp)  # Return UNIX timestamp
