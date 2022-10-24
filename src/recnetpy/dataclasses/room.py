@@ -22,49 +22,92 @@ class Room(BaseDataClass['RoomResponse']):
     """
     This class represents a player created room.
     """
+
+    #: This is a room's unique identifier.
     id: int
+    #: If true this room is a player's dorm.
     is_dorm: int
-    max_player_calculation_mode: int
+    #: Determines how the max number of players is calculated. 
+    max_player_calculation_mode: int #
+    #: This is the max number of players allowed to join the room.
     max_players: int
+    #: If true players can clone this room.
     cloning_allowed: bool
+    #: If true mic auto mute is disabled.
     disable_mic_auto_mute: bool
+    #: If true room comments are disabled.
     disable_room_comments: bool
+    #: If true voice chat is encrypted
     encrypted_voice_chat: bool
+    #: If true the room uses voice moderation.
     voice_moderated: bool
+    #: If true the load screen is locked.
     load_screen_locked: bool
-    version: int
+    #: This is the name of the room.
     name: str
+    #: This is the room's description.
     description: str
+    #: This is the file name of the rooms thumbnail.
     image_name: Optional[str]
+    #: This is a list of warnings for the room that can have any of these possible valuess `["Custom", "Spooky/scary themes", "Mature themes", "Bright/flashing lights", "Intense motion", "Gore/violence"]`
     warnings: List[str]
+    #: This is a custom warning for the room.
     custom_warning: Optional[str]
+    #: This is the id of the player who created the room.
     creator_account_id: int
-    state: int
+    #: This is the current state of the room.
+    state: int #
+    #: This is the visibilty of the room which has the possible value of `['Private', 'Public', 'Unlisted']`.
     accessibility: str
+    #: If true players can vote on the next level.
     supports_level_voting: bool
+    #: If true the room was published by coach.
     is_rro: bool
+    #: If true screen mode players can join the room.
     supports_screens: bool
+    #: If true walk vr players can join the room.
     supports_walk_vr: bool
+    #: If true teleport vr players can join the room.
     supports_teleport_vr: bool
+    #: If true vr low players can join the room.
     supports_vr_low: bool
+    #: If true Quest 2 players can join the room.
     supports_quest_two: bool
+    #: #: If true mobile players can join the room.
     supports_mobile: bool
+    #: If true junior players can join the room.
     supports_juniors: bool
+    #: This is the minimum level requried to join the room.
     min_level: int
+    #: This is the date the room was created represented as an Unix integer.
     created_at: int
+    #: This is the number of players that cheered the room.
     cheer_count: int
+    #: This is the number of players who have the room favorited.
     favorite_count: int
+    #: This is the number of unique visits the room has.
     visitor_count: int
+    #: This in the number of times players have joined the room.
     visit_count: int
+    #: This is an account object which represents the player who created the room.
     creator_account: Optional['Account'] = None
+    #: This a list of subroom objects which represents the room's subrooms.
     subrooms: Optional[List['SubRoom']] = None
+    #: This a list of role objects which represents the room's player roles.
     roles: Optional[List['Role']] = None
+    #: This a list of tag objects which represents the room's tags.
     tags: Optional[List['Tag']] = None
+    #: This is a list of file names for a room's promotional images. 
     promo_images: Optional[List[str]] = None
+    #: This is a list of promotional content objects that represent's a rooms promo content.
     promo_external_content: Optional[List['PromoExternalContent']] = None
+    #: This is a list of score objects that represents a room's ranking.
     scores: Optional[List['Score']] = None
+    #: This is a list of load screen objects that represents a room's loading screens.
     load_screens: Optional[List['LoadScreen']] = None
+    #: This is a list of images that were taken in the room.
     images: Optional[List['Image']] = None
+    #: This is a list of events that are happening in the room.
     events: Optional[List['Event']] = None
 
 

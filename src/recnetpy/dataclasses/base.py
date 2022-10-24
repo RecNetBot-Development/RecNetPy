@@ -9,11 +9,16 @@ RT = TypeVar("RT", bound=TypedDict)
 
 class BaseDataClass(ABC, Generic[RT]):
     """
-    The base class used for all dataclasses.
+    The base class used for all dataclasses. This class is inteded to
+    be inherited, and shouldn't be created directly.
     """
+
     id: int
+    #: This is reference to the client that created the dataclass.
     client: 'Client'
+    #: This is an interface for the HTTP manager.
     rec_net: 'RouteManager'
+    #: Data returned by an API request.
     data: Optional[RT] = None
 
     def __init__(self, client: 'Client', id: int, data: Optional[RT] = None) -> None:

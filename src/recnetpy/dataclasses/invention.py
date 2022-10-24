@@ -28,31 +28,57 @@ class Invention(BaseDataClass['InventionResponse']):
     This class represents an invention.
     """
     replication_id: str
+    #: This is the id of the player who created the invention.
     creator_player_id: int
+    #: This is the name of the invention. 
     name: str
+    #: This is the description of the invention.
     description: str
+    #: This is the file name of the invention thumbnail.
     image_name: str
+    #: This is an integer that represents the current version of the invention.
     current_version_number: int
+    #: This is an invention version object that represents the current version of the invention.
     current_version: InventionVersion
-    accessibility: str # 0 = private, 1 = public
+    #: This is the visibilty of the invention which has the possible value of `['Private', 'Public', 'Unlisted']`.
+    accessibility: str
+    #: If true the invention has been published to the store. 
     is_published: bool
+    #: If true the invention has been featured.
     is_featured: bool
+    #: This is the date the invention was last modified represented as an Unix integer.
     modified_at: int
+    #: This is the date the invention was created represented as an Unix integer.
     created_at: int
+    #: This is the date the invention was first published to the store represented as an Unix integer.
     first_published_at: int
+    #: This is the id of the room the invention was created in.
     creation_room_id: int
+    #: This is the number of players who have used the invention in one of their rooms.
     num_players_have_used_in_room: int
+    #: This is the number of players who have downloaded the invention.
     num_downloads: int
+    #: This is the number of cheers the invention has recieved.
     cheer_count: int
+    #: This the permission level of the creator which has the possible values of `['Unassigned', 'Limited One Use Only', 'Disallow Key Lock', 'Use Only', 'Edit and Save', 'Publish', 'Charge', 'Unlimited']`.
     creator_permission: str
+    #: This the general permission level of the invention which has the possible values of `['Unassigned', 'Limited One Use Only', 'Disallow Key Lock', 'Use Only', 'Edit and Save', 'Publish', 'Charge', 'Unlimited']`.
     general_permission: str
+    #: If true this is an invention that is from RecRoomInc.
     is_ag_invention: bool
+    #: If true this invention has been certified.
     is_certified_invention: bool
+    #: This is the number of tokens required to purchace the invention.
     price: int
+    #: If true this invention allows a trial use.
     allow_trial: bool
+    #: If true this invention is hidden from the player.
     hide_from_player: bool
+    #: This is an account object that represents the player who created the invention.
     creator_player: Optional['Account'] = None
+    #: This is a room object that represents the room the invention was created in.
     creation_room: Optional['Room'] = None
+    #: This is a list of tag objects that represent the tags of the invention.
     tags: Optional[List['Tag']] = None
 
     def patch_data(self, data: 'InventionResponse') -> None:

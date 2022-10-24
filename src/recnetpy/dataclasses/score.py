@@ -12,9 +12,14 @@ class Score(VariableClass['ScoreResponse']):
     platform. Not much is understood about what the score
     means.
     """
+
+    #: This is the id of the room the tag belongs to.
     room_id: int
+    #: This is possibly the type of the platform for the score.
     visit_type: int
+    #: This is the scores value.
     score: int
+    #: This is a backup score.
     backup_score: Optional[int]
 
     def __init__(self, data: 'ScoreResponse') -> None:
