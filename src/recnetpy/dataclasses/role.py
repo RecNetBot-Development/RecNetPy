@@ -18,6 +18,7 @@ class Role(VariableClass['RoleResponse']):
     """
     This class represents a room's player roles.
     """
+    id: int
     account_id: int
     role: str
     last_changed_by_account_id: Optional[int]
@@ -26,6 +27,7 @@ class Role(VariableClass['RoleResponse']):
     last_changed_by_account: Optional['Account']
 
     def __init__(self, data: 'RoleResponse') -> None:
+        self.id = data["Role"]
         self.account_id = data["AccountId"]
         self.role = ROLE_DICT.get(data["Role"], "Unknown")
         self.last_changed_by_account_id = data["LastChangedByAccountId"]
