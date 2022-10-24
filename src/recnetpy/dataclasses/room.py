@@ -49,7 +49,7 @@ class Room(BaseDataClass['RoomResponse']):
     description: str
     #: This is the file name of the rooms thumbnail.
     image_name: Optional[str]
-    #: This is a list of warnings for the room that can have any of these possible valuess `["Custom", "Spooky/scary themes", "Mature themes", "Bright/flashing lights", "Intense motion", "Gore/violence"]`
+    #: This is a list of warnings for the room that can have any of these possible valuess ``["Custom", "Spooky/scary themes", "Mature themes", "Bright/flashing lights", "Intense motion", "Gore/violence"]``
     warnings: List[str]
     #: This is a custom warning for the room.
     custom_warning: Optional[str]
@@ -57,7 +57,7 @@ class Room(BaseDataClass['RoomResponse']):
     creator_account_id: int
     #: This is the current state of the room.
     state: int #
-    #: This is the visibilty of the room which has the possible value of `['Private', 'Public', 'Unlisted']`.
+    #: This is the visibilty of the room which has the possible value of ``['Private', 'Public', 'Unlisted']``.
     accessibility: str
     #: If true players can vote on the next level.
     supports_level_voting: bool
@@ -73,7 +73,7 @@ class Room(BaseDataClass['RoomResponse']):
     supports_vr_low: bool
     #: If true Quest 2 players can join the room.
     supports_quest_two: bool
-    #: #: If true mobile players can join the room.
+    #: If true mobile players can join the room.
     supports_mobile: bool
     #: If true junior players can join the room.
     supports_juniors: bool

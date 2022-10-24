@@ -17,8 +17,11 @@ class BaseManager(ABC, Generic[BDC, RT]):
     manually.
     """
 
+    #: This is the dataclass the manager is responsible for creating.
     dataclass: Type[BDC]
+    #: This is a reference to the main client interface.
     client: 'Client'
+    #: This is an interface for the HTTP manager.
     rec_net: 'RouteManager'
 
     def __init__(self, client: 'Client'):

@@ -120,6 +120,7 @@ class Event(BaseDataClass['EventResponse']):
         If the room is private, nothing will be returned.
 
         | Include param values:
+        
         ===== ===================
         Value Resolve
         ===== ===================

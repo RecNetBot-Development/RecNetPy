@@ -18,12 +18,12 @@ class Role(VariableClass['RoleResponse']):
     """
     This class represents a room's player roles.
     """
-    #: This is the id of the role which has the possible values of ``{0: 'None', 10: 'Member', 20: 'Moderator', 30: 'Co-Owner', 255: 'Owner'}.
+    #: This is the id of the role which has the possible values of ``{0: 'None', 10: 'Member', 20: 'Moderator', 30: 'Co-Owner', 255: 'Owner'}``.
     id: int
     #: This is the id of the player who owns this role.
     account_id: int
     #: This is the name of the role the player owns which has the possible values of ``['None', 'Member', 'Moderator', 'Co-Owner', 'Owner']``
-    role: str
+    name: str
     #: This is the id of the account who updated the player's role.
     last_changed_by_account_id: Optional[int]
     #: This is the role the player was invited to take.
@@ -36,6 +36,6 @@ class Role(VariableClass['RoleResponse']):
     def __init__(self, data: 'RoleResponse') -> None:
         self.id = data["Role"]
         self.account_id = data["AccountId"]
-        self.role = ROLE_DICT.get(data["Role"], "Unknown")
+        self.name = ROLE_DICT.get(data["Role"], "Unknown")
         self.last_changed_by_account_id = data["LastChangedByAccountId"]
         self.invited_role = ROLE_DICT.get(data["InvitedRole"])

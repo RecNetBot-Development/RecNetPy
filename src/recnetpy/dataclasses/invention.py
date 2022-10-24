@@ -131,6 +131,7 @@ class Invention(BaseDataClass['InventionResponse']):
         cached result, if this function has been already called.
 
         | Include param values:
+        
         ===== ===================
         Value Resolve
         ===== ===================

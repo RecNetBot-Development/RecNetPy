@@ -19,6 +19,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         Returns nothing if the room doesn't exist or is private.
 
         | Include param values:
+        
         ===== ===================
         Value Resolve
         ===== ===================
@@ -44,6 +45,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         Returns nothing if the room doesn't exist or is private.
 
         | Include param values:
+
         ===== ===================
         Value Resolve
         ===== ===================
