@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 BROADCAST_PERMISSION_DICT: Dict[int, str] = {
-    0: "None",
+    0: None,
     256: "Room Owners",
     2147483647: "All"
 }
@@ -50,9 +50,9 @@ class Event(BaseDataClass['EventResponse']):
     is_multi_instance: bool
     #: This is true if the event has cross-instance chat enabled, false if it doesn't. 
     support_multi_instance_room_chat: bool
-    #: This defines who has broadcasting permissions which has the possible values of ``['None', 'Room Owners', 'All']``
+    #: This defines who has broadcasting permissions which has the possible values of ``[None, 'Room Owners', 'All']``
     default_broadcast_permissions: str
-    #: This defines who can request to broadcast which has the possible values of ``['None', 'Room Owners', 'All']``
+    #: This defines who can request to broadcast which has the possible values of ``[None, 'Room Owners', 'All']``
     can_request_broadcast_permissions: str
     #: This is an account object which represents who created the event.
     creator_player: Optional['Account'] = None
@@ -120,7 +120,7 @@ class Event(BaseDataClass['EventResponse']):
         If the room is private, nothing will be returned.
 
         | Include param values:
-        
+
         ===== ===================
         Value Resolve
         ===== ===================

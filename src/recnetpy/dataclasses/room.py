@@ -15,6 +15,19 @@ if TYPE_CHECKING:
     from ..misc.api_responses import RoomResponse, AccountResponse
     from ..rest import Response
 
+ROOM_MODERATION_STATE: Dict[int, str] = {
+    0: "Active",
+    11: "Junior Pending",
+    100: "Moderation Pending",
+    101: "Moderation Closed",
+    102: "Moderation Banned",
+    255: "Marked For Delete"
+}
+
+MAX_PLAYER_CALCULATION_MODE: Dict[int, str] = {
+    0: "All Subrooms",
+    1: "Only Entry Subrooms"
+}
 
 WARNING_MASK_LIST: List[str] = ["Custom", "Spooky/scary themes", "Mature themes", "Bright/flashing lights", "Intense motion", "Gore/violence"]
 
@@ -27,8 +40,8 @@ class Room(BaseDataClass['RoomResponse']):
     id: int
     #: If true this room is a player's dorm.
     is_dorm: int
-    #: Determines how the max number of players is calculated. 
-    max_player_calculation_mode: int #
+    #: Determines how the max number of players is calculated which has the possible values ``['All Subrooms', 'Only Entry Subrooms']``. 
+    max_player_calculation_mode: str
     #: This is the max number of players allowed to join the room.
     max_players: int
     #: If true players can clone this room.
@@ -55,8 +68,8 @@ class Room(BaseDataClass['RoomResponse']):
     custom_warning: Optional[str]
     #: This is the id of the player who created the room.
     creator_account_id: int
-    #: This is the current state of the room.
-    state: int #
+    #: This is the current state of the room which has the possible values of ``['Active', 'Junior Pending', 'Moderation Pending', 'Moderation Closed', 'Moderation Banned', 'Marked For Delete']``.
+    state: str 
     #: This is the visibilty of the room which has the possible value of ``['Private', 'Public', 'Unlisted']``.
     accessibility: str
     #: If true players can vote on the next level.
@@ -119,7 +132,7 @@ class Room(BaseDataClass['RoomResponse']):
         """
         self.id = data["RoomId"]
         self.is_dorm = data["IsDorm"]
-        self.max_player_calculation_mode = data["MaxPlayerCalculationMode"]
+        self.max_player_calculation_mode = MAX_PLAYER_CALCULATION_MODE.get(data["MaxPlayerCalculationMode"], "Unknown")
         self.max_players = data["MaxPlayers"]
         self.cloning_allowed = data["CloningAllowed"]
         self.disable_mic_auto_mute = data["DisableMicAutoMute"]
@@ -133,7 +146,7 @@ class Room(BaseDataClass['RoomResponse']):
         self.warnings = bitmask_decode(data["WarningMask"], WARNING_MASK_LIST)
         self.custom_warning = data["CustomWarning"]
         self.creator_account_id = data["CreatorAccountId"]
-        self.state = data["State"]
+        self.state = ROOM_MODERATION_STATE.get(data["State"], "Unknown")
         self.accessibility = ACCESSIBILITY_DICT.get(data["Accessibility"], "Unknown")
         self.supports_level_voting = data["SupportsLevelVoting"]
         self.is_rro = data["IsRRO"]

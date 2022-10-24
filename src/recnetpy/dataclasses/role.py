@@ -7,10 +7,12 @@ if TYPE_CHECKING:
     from ..misc.api_responses import RoleResponse
 
 ROLE_DICT: Dict[int, str] = {
-    0: "None",
+    0: None,
+    1: "Banned",
     10: "Member",
     20: "Moderator",
     30: "Co-Owner",
+    31: "Temporary Co-Owner",
     255: "Owner"
 }
 

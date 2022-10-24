@@ -7,9 +7,11 @@ if TYPE_CHECKING:
     from ..misc.api_responses import EventResponseResponse
 
 RESPONSE_TYPE_DICT: Dict[int, str] = {
+    -1: None,
     0: 'Attending',
     1: 'May Attend',
-    2: 'Not Attending'
+    2: 'Not Attending',
+    3: 'Pending'
 }
 
 class EventInteraction(VariableClass['EventResponseResponse']):
@@ -23,7 +25,7 @@ class EventInteraction(VariableClass['EventResponseResponse']):
     player_id: int
     #: This is the date the interation happened as an Unix integer.
     created_at: int
-    #: This is the type of interation which as the possible values of ``['Attending', 'May Attend', 'Not Attending']``
+    #: This is the type of interation which as the possible values of ``[None, 'Attending', 'May Attend', 'Not Attending', 'Pending']``
     type: str
     #: This an account object that represents the interacting player.
     player: Optional['Account']

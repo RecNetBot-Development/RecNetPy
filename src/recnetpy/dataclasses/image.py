@@ -10,6 +10,17 @@ if TYPE_CHECKING:
     from ..misc.api_responses import ImageResponse, CommentResponse, AccountResponse
     from ..rest import Response
 
+IMAGE_TYPE: Dict[int, str] = {
+    0: None,
+    1: "Share Camera",
+    2: "Outfit Thumbnail",
+    3: "Room Thumbnail",
+    4: "Profile Thumbnail",
+    5: "Invention Thumbnail",
+    6: "Player Event Thumbnail",
+    7: "Room Load Screen"
+}
+
 class Image(BaseDataClass['ImageResponse']):
     """
     This class represents a RecNet image.
@@ -17,8 +28,8 @@ class Image(BaseDataClass['ImageResponse']):
 
     #: This is an image's unique identifier.
     id: int
-    #: This is the type of image.
-    type: int
+    #: This is the type of image which has the possible value of ``[None, 'Share Camera', 'Outfit Thumbnail', 'Room Thumbnail', 'Profile Thumbnail', 'Invention Thumbnail', 'Player Event Thumbnail', 'Room Load Screen']``.
+    type: str
     #: This is the visibilty of the image which has the possible value of ``['Private', 'Public', 'Unlisted']``.
     accessibility: str
     #: This is true if the accessiblity of the image is fixed, false if its able to able to be changed.
@@ -64,7 +75,7 @@ class Image(BaseDataClass['ImageResponse']):
         """
         self.data = data
         self.id = data['Id']
-        self.type = data['Type']
+        self.type = IMAGE_TYPE.get(data['Type'], "Unknown")
         self.accessibility = ACCESSIBILITY_DICT.get(data['Accessibility'], "Unknown")
         self.accessibility_locked = data['AccessibilityLocked']
         self.image_name = data['ImageName']
@@ -108,7 +119,7 @@ class Image(BaseDataClass['ImageResponse']):
         cached result, if this function has been already called.
 
         | Include param values:
-        
+
         ===== ===================
         Value Resolve
         ===== ===================
