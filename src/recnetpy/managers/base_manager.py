@@ -12,7 +12,9 @@ RT = TypeVar("RT", bound=TypedDict)
 
 class BaseManager(ABC, Generic[BDC, RT]):
     """
-    The base class used by all managers.
+    The base class used by all managers. This class 
+    is only to be inherited, and shouldn't be created
+    manually.
     """
 
     dataclass: Type[BDC]

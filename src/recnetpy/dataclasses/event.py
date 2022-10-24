@@ -44,15 +44,15 @@ class Event(BaseDataClass['EventResponse']):
     end_time: int
     #: This is the number of people attending the event.
     attendee_count: int
-    #: This is the visibility of the event which has the possible values of `['Private', 'Public', 'Unlisted']`.
+    #: This is the visibility of the event which has the possible values of ``['Private', 'Public', 'Unlisted']``.
     accessibility: str
     #: This is true if the event supports broadcasting, false if it doesn't.
     is_multi_instance: bool
     #: This is true if the event has cross-instance chat enabled, false if it doesn't. 
     support_multi_instance_room_chat: bool
-    #: This defines who has broadcasting permissions which has the possible values of `['None', 'Room Owners', 'All']`
+    #: This defines who has broadcasting permissions which has the possible values of ``['None', 'Room Owners', 'All']``
     default_broadcast_permissions: str
-    #: This defines who can request to broadcast which has the possible values of `['None', 'Room Owners', 'All']`
+    #: This defines who can request to broadcast which has the possible values of ``['None', 'Room Owners', 'All']``
     can_request_broadcast_permissions: str
     #: This is an account object which represents who created the event.
     creator_player: Optional['Account'] = None
@@ -119,13 +119,17 @@ class Event(BaseDataClass['EventResponse']):
         cached result, if this function has been already called.
         If the room is private, nothing will be returned.
 
-        Include param values:
-        - +2 = Subrooms
-        - +4 = Roles
-        - +8 = Tags
-        - +32 = Promotional content
-        - +64 = Scores
-        - +256 = Loading screens
+        | Include param values:
+        ===== ===================
+        Value Resolve
+        ===== ===================
+        2     Subrooms
+        4     Roles
+        8     Tags
+        32    Promotional content
+        64    Scores
+        256   Loading screens
+        ===== ===================
 
         :param include: An integer that add additional information to the response.
         :param force: If true, fetches new data.

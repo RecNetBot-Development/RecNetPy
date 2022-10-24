@@ -8,6 +8,10 @@ if TYPE_CHECKING:
     from ..rest import Response
 
 class InventionManager(BaseManager['Invention', 'InventionResponse']):
+    """
+    This is a factory object for creating invention objects. Its the
+    main interface for fetching invention related data.
+    """
     async def fetch(self, id: int) -> Optional['Invention']:
         """
         Gets invention data by their id, and returns it as an invention object.

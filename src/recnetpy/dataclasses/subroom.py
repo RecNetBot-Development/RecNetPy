@@ -30,7 +30,7 @@ class SubRoom(VariableClass['SubRoomResponse']):
     is_sandbox: bool
     #: This is the max number of players allowed to join the rooom.
     max_players: int
-    #: This is the visibilty of the image which has the possible value of `['Private', 'Public', 'Unlisted']`.
+    #: This is the visibilty of the image which has the possible value of ``['Private', 'Public', 'Unlisted']``.
     accessibility: str
     data_blob: Optional[str]
     data_saved_at: Optional[int]

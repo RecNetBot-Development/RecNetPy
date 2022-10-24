@@ -8,6 +8,10 @@ if TYPE_CHECKING:
     from ..rest import Response
 
 class AccountManager(BaseManager['Account', 'AccountResponse']):
+    """
+    This is a factory object for creating account objects. Its the
+    main interface for fetching account related data.
+    """
     async def get(self, name: str) -> Optional['Account']:
         """
         Gets user data by their username, and returns it as an account object.

@@ -40,7 +40,7 @@ class Invention(BaseDataClass['InventionResponse']):
     current_version_number: int
     #: This is an invention version object that represents the current version of the invention.
     current_version: InventionVersion
-    #: This is the visibilty of the invention which has the possible value of `['Private', 'Public', 'Unlisted']`.
+    #: This is the visibilty of the invention which has the possible value of ``['Private', 'Public', 'Unlisted']``.
     accessibility: str
     #: If true the invention has been published to the store. 
     is_published: bool
@@ -60,9 +60,9 @@ class Invention(BaseDataClass['InventionResponse']):
     num_downloads: int
     #: This is the number of cheers the invention has recieved.
     cheer_count: int
-    #: This the permission level of the creator which has the possible values of `['Unassigned', 'Limited One Use Only', 'Disallow Key Lock', 'Use Only', 'Edit and Save', 'Publish', 'Charge', 'Unlimited']`.
+    #: This the permission level of the creator which has the possible values of ``['Unassigned', 'Limited One Use Only', 'Disallow Key Lock', 'Use Only', 'Edit and Save', 'Publish', 'Charge', 'Unlimited']``.
     creator_permission: str
-    #: This the general permission level of the invention which has the possible values of `['Unassigned', 'Limited One Use Only', 'Disallow Key Lock', 'Use Only', 'Edit and Save', 'Publish', 'Charge', 'Unlimited']`.
+    #: This the general permission level of the invention which has the possible values of ``['Unassigned', 'Limited One Use Only', 'Disallow Key Lock', 'Use Only', 'Edit and Save', 'Publish', 'Charge', 'Unlimited']``.
     general_permission: str
     #: If true this is an invention that is from RecRoomInc.
     is_ag_invention: bool
@@ -130,13 +130,17 @@ class Invention(BaseDataClass['InventionResponse']):
         Fetches the room this invention was created in. Returns a
         cached result, if this function has been already called.
 
-        Include param values:
-        - +2 = Subrooms
-        - +4 = Roles
-        - +8 = Tags
-        - +32 = Promotional content
-        - +64 = Scores
-        - +256 = Loading screens
+        | Include param values:
+        ===== ===================
+        Value Resolve
+        ===== ===================
+        2     Subrooms
+        4     Roles
+        8     Tags
+        32    Promotional content
+        64    Scores
+        256   Loading screens
+        ===== ===================
 
         :param include: An integer that add additional information to the response.
         :param force: If true, fetches new data.

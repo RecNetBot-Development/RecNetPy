@@ -19,7 +19,7 @@ class Image(BaseDataClass['ImageResponse']):
     id: int
     #: This is the type of image.
     type: int
-    #: This is the visibilty of the image which has the possible value of `['Private', 'Public', 'Unlisted']`.
+    #: This is the visibilty of the image which has the possible value of ``['Private', 'Public', 'Unlisted']``.
     accessibility: str
     #: This is true if the accessiblity of the image is fixed, false if its able to able to be changed.
     accessibility_locked: bool
@@ -32,7 +32,7 @@ class Image(BaseDataClass['ImageResponse']):
     #: This is a list of player id's who were tagged in the image.
     tagged_player_ids: List[int]
     #: This is the id of the room the image was taken it.
-    room_id: int
+    room_id: Optional[int]
     #: This is the event the image was taken during.
     player_event_id: Optional[int]
     #: This is the date the image was taken on represented as an Unix integer.
@@ -102,17 +102,29 @@ class Image(BaseDataClass['ImageResponse']):
             self.tagged_players = await self.client.accounts.fetch_many(self.tagged_player_ids)
         return self.tagged_players
 
-    async def get_room(self, force: bool = False) -> 'Room':
+    async def get_room(self, include: int = 0, force: bool = False) -> 'Room':
         """
         Fetches the room the image was taked in. Returns a
         cached result, if this function has been already called.
+
+        | Include param values:
+        ===== ===================
+        Value Resolve
+        ===== ===================
+        2     Subrooms
+        4     Roles
+        8     Tags
+        32    Promotional content
+        64    Scores
+        256   Loading screens
+        ===== ===================
 
         :param force: If true, fetches new data.
         :return: A room object.
         """
         if self.room_id is None: return None
         if self.room is None or force:
-            self.room = await self.client.rooms.fetch(self.room_id)
+            self.room = await self.client.rooms.fetch(self.room_id, include)
         return self.room
 
     async def get_player_event(self, force: bool = False) -> Optional['Event']:

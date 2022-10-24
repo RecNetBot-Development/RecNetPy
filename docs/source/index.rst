@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to RecNetPy's documentation!
-=================================
+====================================
 
 **RecNetPy** is an API wrapper built in Python for pulling data from rec.net. It's the same wrapper used to power RecNetBot!
 

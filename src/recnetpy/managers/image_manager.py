@@ -8,6 +8,10 @@ if TYPE_CHECKING:
     from ..rest import Response
 
 class ImageManager(BaseManager['Image', 'ImageResponse']):
+    """
+    This is a factory object for creating image objects. Its the
+    main interface for fetching image related data.
+    """
     async def fetch(self, id: int) -> Optional['Image']:
         """
         Gets image data by their id, and returns it as an image object.

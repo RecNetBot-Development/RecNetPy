@@ -29,6 +29,9 @@ class BaseDataClass(ABC, Generic[RT]):
 
     @classmethod
     def create_from_id_list(cls, client: 'Client', ids: List[int]):
+        """
+        Creates a list of dataclasses from a list of ids.
+        """
         dataclass_list: List[BaseDataClass] = []
         for id in ids:
             dataclass_obj = cls(client, id)

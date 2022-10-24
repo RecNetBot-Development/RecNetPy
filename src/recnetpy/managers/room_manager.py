@@ -9,18 +9,26 @@ if TYPE_CHECKING:
     from ..rest import Response
 
 class RoomManager(BaseManager['Room', 'RoomResponse']):
+    """
+    This is a factory object for creating room objects. Its the
+    main interface for fetching room related data.
+    """
     async def get(self, name: str, include: int = 0) -> 'Room':
         """
         Gets room data by their name, and returns it as an room object.
         Returns nothing if the room doesn't exist or is private.
 
-        Include param values:
-        - +2 = Subrooms
-        - +4 = Roles
-        - +8 = Tags
-        - +32 = Promotional content
-        - +64 = Scores
-        - +256 = Loading screens
+        | Include param values:
+        ===== ===================
+        Value Resolve
+        ===== ===================
+        2     Subrooms
+        4     Roles
+        8     Tags
+        32    Promotional content
+        64    Scores
+        256   Loading screens
+        ===== ===================                       
 
         :param name: The name of the room.
         :param include: An integer that add additional information to the response.
@@ -35,13 +43,17 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         Gets room data by their id, and returns it as an room object.
         Returns nothing if the room doesn't exist or is private.
 
-        Include param values:
-        - +2 = Subrooms
-        - +4 = Roles
-        - +8 = Tags
-        - +32 = Promotional content
-        - +64 = Scores
-        - +256 = Loading screens
+        | Include param values:
+        ===== ===================
+        Value Resolve
+        ===== ===================
+        2     Subrooms
+        4     Roles
+        8     Tags
+        32    Promotional content
+        64    Scores
+        256   Loading screens
+        ===== ===================
 
         :param id: The id of the room.
         :param include: An integer that add additional information to the response.

@@ -23,7 +23,7 @@ class EventInteraction(VariableClass['EventResponseResponse']):
     player_id: int
     #: This is the date the interation happened as an Unix integer.
     created_at: int
-    #: This is the type of interation which as the possible values of `['Attending', 'May Attend', 'Not Attending']`
+    #: This is the type of interation which as the possible values of ``['Attending', 'May Attend', 'Not Attending']``
     type: str
     #: This an account object that represents the interacting player.
     player: Optional['Account']

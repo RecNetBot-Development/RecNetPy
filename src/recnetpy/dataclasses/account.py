@@ -29,11 +29,11 @@ class Account(BaseDataClass['AccountResponse']):
     profile_image: str
     #: This is true if the account is a junior account, false if the account is a non-junior account. 
     is_junior: bool
-    #: This is a list of platforms a user plays on. It has these possible values `['Steam', 'Meta', 'PlayStation', 'Xbox', 'RecNet', 'iOS', 'Android', 'Standalone']`.   
+    #: This is a list of platforms a user plays on. It has these possible values ``['Steam', 'Meta', 'PlayStation', 'Xbox', 'RecNet', 'iOS', 'Android', 'Standalone']``.   
     platforms: List[str]
-    #: This is the list of pronouns a user goes by. It has these possible values `['She / her', 'He / him', 'They / them', 'Ze / hir', 'Ze / zir', 'Xe / xem']`.  
+    #: This is the list of pronouns a user goes by. It has these possible values ``['She / her', 'He / him', 'They / them', 'Ze / hir', 'Ze / zir', 'Xe / xem']``.  
     personal_pronouns: List[str]
-    #: This is a list of a user's gender identities. It has these possible values `['LGBTQIA', 'Transgender', 'Bisexual', 'Lesbian', 'Pansexual', 'Asexual', 'Intersex', 'Genderqueer', 'Nonbinary', 'Aromantic']`.  
+    #: This is a list of a user's gender identities. It has these possible values ``['LGBTQIA', 'Transgender', 'Bisexual', 'Lesbian', 'Pansexual', 'Asexual', 'Intersex', 'Genderqueer', 'Nonbinary', 'Aromantic']``.  
     identity_flags: List[str] 
     #: This is the date the account was created as a Unix integer. 
     created_at: int

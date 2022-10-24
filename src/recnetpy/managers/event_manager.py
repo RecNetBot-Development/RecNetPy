@@ -8,6 +8,10 @@ if TYPE_CHECKING:
     from ..rest import Response
 
 class EventManager(BaseManager['Event', 'EventResponse']):
+    """
+    This is a factory object for creating eveny objects. Its the
+    main interface for fetching event related data.
+    """
     async def fetch(self, id: int) -> Optional['Event']:
         """
         Gets event data by their id, and returns it as an event object.
