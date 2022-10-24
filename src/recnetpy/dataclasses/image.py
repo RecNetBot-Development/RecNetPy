@@ -14,25 +14,46 @@ class Image(BaseDataClass['ImageResponse']):
     """
     This class represents a RecNet image.
     """
+
+    #: This is an image's unique identifier.
     id: int
+    #: This is the type of image.
     type: int
+    #: This is the visibilty of the image which has the possible value of `['Private', 'Public', 'Unlisted']`.
     accessibility: str
+    #: This is true if the accessiblity of the image is fixed, false if its able to able to be changed.
     accessibility_locked: bool
+    #: This is the file name of the image itself.
     image_name: str
+    #: This is the description of the image.
     description: Optional[str]
+    #: This is the id of the player who took the image.
     player_id: int
+    #: This is a list of player id's who were tagged in the image.
     tagged_player_ids: List[int]
+    #: This is the id of the room the image was taken it.
     room_id: int
+    #: This is the event the image was taken during.
     player_event_id: Optional[int]
+    #: This is the date the image was taken on represented as an Unix integer.
     created_at: int
+    #: This is the number of cheers the image has recieved.
     cheer_count: int
+    #: This is the number of comments the post has recieved.
     comment_count: int
+    #: This is an account object representing the player who took the image.
     player: Optional['Account'] = None
+    #: This is a list of account objects that represent the player who can be seen in the image.
     tagged_players: Optional[List['Account']] = None
+    #: This is a room object which represents the room the image was taken in.
     room: Optional['Room'] = None
+    #: This is an event object which represents the event the image was taken during.
     player_event: Optional['Event'] = None
+    #: This is a list of player ids who cheered the image.
     cheer_player_ids: Optional[List[int]] = None
+    #: This is a list of comment objects that represent comments left on the image.
     comments: Optional[List['Comment']] = None
+    #: This is a list of account objects that represents players who cheered the image.
     cheer_players: Optional[List['Account']] = None
 
     def patch_data(self, data: 'ImageResponse') -> None:

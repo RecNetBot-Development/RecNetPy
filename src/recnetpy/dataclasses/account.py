@@ -19,25 +19,45 @@ class Account(BaseDataClass['AccountResponse']):
     This dataclass represents a RecNet account. 
     """
 
-    id: int  
+    #: This is an account's unique identifier
+    id: int
+    #: This is the unique name of the player.
     username: str
-    display_name: str  
-    profile_image: str 
-    is_junior: bool  
-    platforms: List[str]  
-    personal_pronouns: List[str]  
-    identity_flags: List[str]  
-    created_at: int  
+    #: This is what appears in bold above the username on an account's page on RecNet. The display name is not unique unlike the username.
+    display_name: str
+    #: This is the file name of an account's profile picture.  
+    profile_image: str
+    #: This is true if the account is a junior account, false if the account is a non-junior account. 
+    is_junior: bool
+    #: This is a list of platforms a user plays on. It has these possible values `['Steam', 'Meta', 'PlayStation', 'Xbox', 'RecNet', 'iOS', 'Android', 'Standalone']`.   
+    platforms: List[str]
+    #: This is the list of pronouns a user goes by. It has these possible values `['She / her', 'He / him', 'They / them', 'Ze / hir', 'Ze / zir', 'Xe / xem']`.  
+    personal_pronouns: List[str]
+    #: This is a list of a user's gender identities. It has these possible values `['LGBTQIA', 'Transgender', 'Bisexual', 'Lesbian', 'Pansexual', 'Asexual', 'Intersex', 'Genderqueer', 'Nonbinary', 'Aromantic']`.  
+    identity_flags: List[str] 
+    #: This is the date the account was created as a Unix integer. 
+    created_at: int
+    #: This is the file of an account's banner image.  
     banner_image: Optional[str] = None  
-    bio: Optional[str] = None  
-    level: Optional[Progression] = None  
+    #: This is a users bio.
+    bio: Optional[str] = None
+    #: This is a progression object that represents a users current level and xp.  
+    level: Optional[Progression] = None 
+    #: This is the total number of subscribers a user has. 
     subscriber_count: Optional[int] = None 
-    is_influencer: Optional[bool] = None 
-    events: Optional[List['Event']] = None  
-    created_rooms: Optional[List['Room']] = None  
-    owned_rooms: Optional[List['Room']] = None  
+    #: This is true if the user is an influencer, false if the account is not.
+    is_influencer: Optional[bool] = None
+    #: This is a list of event objects that represent events created by the player. 
+    events: Optional[List['Event']] = None
+    #: This is a list of room objects that represent rooms created by the player.  
+    created_rooms: Optional[List['Room']] = None
+    #: THis is a list of room objects that represent rooms the player has ownership of.  
+    owned_rooms: Optional[List['Room']] = None
+    #: This is a list of image objects that represent images created by the player.  
     images: Optional[List['Image']] = None  
+    #: This is a list of image objects that represent images the player can be seen in. 
     feed: Optional[List['Image']] = None  
+    # This is a list of room objects that represent rooms the player has featured on their profile.
     featured_rooms: Optional[List['Room']] = None  
 
 

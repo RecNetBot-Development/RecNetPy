@@ -21,25 +21,46 @@ class Event(BaseDataClass['EventResponse']):
     """
     This class represents a RecNet event.
     """
+    
+    #: This is an event's unique identifier.
     id: int
+    #: This is the id of the player who created the event.
     creator_player_id: int
+    #: This is the file name of the event thumbnail.
     image_name: Optional[str]
+    #: This is the id of the room where the event is taking place.
     room_id: int
+    #: This is the id of the subroom where the event ts taking place.
     subroom_id: Optional[int]
+    #: This is the id of the club that the event is being hosted by.
     club: Optional[int]
+    #: This is the name of the event.
     name: str
+    #: This is the description of the event.
     description: str
+    #: This is the date the event will start represented as an Unix integer.
     start_time: int
+    #: This is the date the event will end represented as an Unix integer.
     end_time: int
+    #: This is the number of people attending the event.
     attendee_count: int
+    #: This is the visibility of the event which has the possible values of `['Private', 'Public', 'Unlisted']`.
     accessibility: str
+    #: This is true if the event supports broadcasting, false if it doesn't.
     is_multi_instance: bool
+    #: This is true if the event has cross-instance chat enabled, false if it doesn't. 
     support_multi_instance_room_chat: bool
+    #: This defines who has broadcasting permissions which has the possible values of `['None', 'Room Owners', 'All']`
     default_broadcast_permissions: str
+    #: This defines who can request to broadcast which has the possible values of `['None', 'Room Owners', 'All']`
     can_request_broadcast_permissions: str
+    #: This is an account object which represents who created the event.
     creator_player: Optional['Account'] = None
+    #: This is a room object which represents the room where the event is taking place.
     room: Optional['Room'] = None
+    #: This is a list of event interaction objects which represents the event responses.
     responses: Optional[List['EventInteraction']] = None
+    #: This is a list of image objects that represent images taken during the event.
     images: Optional[List['Image']] = None
 
     def patch_data(self, data: 'EventResponse') -> None:

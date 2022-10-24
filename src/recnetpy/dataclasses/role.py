@@ -18,11 +18,18 @@ class Role(VariableClass['RoleResponse']):
     """
     This class represents a room's player roles.
     """
+
+    #: This is the id of the player who owns this role.
     account_id: int
+    #: This is the name of the role the player owns which has the possible values of `['None', 'Member', 'Moderator', 'Co-Owner', 'Owner']`
     role: str
+    #: This is the id of the account who updated the player's role.
     last_changed_by_account_id: Optional[int]
+    #: This is the role the player was invited to take.
     invited_role: str
+    #: This is an account object which represents the role owner.
     account: Optional['Account']
+    #: This is an account object which represents player that updated this role.
     last_changed_by_account: Optional['Account']
 
     def __init__(self, data: 'RoleResponse') -> None:

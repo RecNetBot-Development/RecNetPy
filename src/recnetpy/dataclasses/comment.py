@@ -11,11 +11,16 @@ class Comment(VariableClass['CommentResponse']):
     """
     This class represents a comment left under an image.
     """
+
+    #: This is a comments unique identifier.
     saved_image_comment_id: int
+    #: This is the id of the image the comment was left under.
     saved_image_id: int
+    #: This is the id of the player who created the comment.
     player_id: int
+    #: This is the comment made on the image.
     comment: str
-    saved_image: 'Image'
+    #: This is a player object the represents the player who create the comment.
     player: Optional['Account']
 
     def __init__(self, data: 'CommentResponse') -> None:
