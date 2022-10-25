@@ -4,12 +4,11 @@
 [![NPM Version][pip-image]][pip-url]
 [![Downloads Stats][pip-downloads]][pip-url]
 [![Join The Discord][discord]][discord-url]
-
-![](img/header.png)
+[![Documentation Status][readthedocs]][readthedocs-url]
 
 ## Installation
 
-All platforms via [pip](https://pypi.org/project/pip/):
+All platforms via [pip][pip-url]:
 
 ```sh
 pip install -U recnetpy
@@ -40,7 +39,7 @@ loop = get_event_loop()
 loop.run_until_complete(main())
 ```
 
-_For more examples and usage, please refer to the [``examples``](https://github.com/RecNetBot-Development/RecNetPy/tree/main/examples). More documentation can be found [Here][documentation]._
+_For more examples and usage, please refer to the [``examples``][examples-url]. More documentation can be found [Here][documentation]._
 
 ## Development setup
 
@@ -52,7 +51,7 @@ pip install .
 
 ## Meta
 
-_Distributed under the MIT license. See ``LICENSE`` for more information._
+_Distributed under the MIT license. See [``LICENSE``][license] for more information._
 
 
 ## Contributing
@@ -70,3 +69,8 @@ _Distributed under the MIT license. See ``LICENSE`` for more information._
 [discord]: https://img.shields.io/discord/745219512529584195?style=flat-square
 [discord-url]: https://discord.gg/GPVdhMa2zK
 [documentation]: https://recnetpy.readthedocs.io/en/latest/index.html
+[readthedocs]: https://readthedocs.org/projects/recnetpy/badge/?version=latest
+[readthedocs-url]: https://recnetpy.readthedocs.io/en/latest/?badge=latest
+[pip-url]: https://pypi.org/project/pip/
+[examples-url]: https://github.com/RecNetBot-Development/RecNetPy/tree/main/examples
+[license]: https://github.com/RecNetBot-Development/RecNetPy/blob/main/LICENSE
