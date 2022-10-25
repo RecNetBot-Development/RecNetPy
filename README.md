@@ -69,4 +69,4 @@ _Distributed under the MIT license. See ``LICENSE`` for more information._
 [pip-downloads]: https://img.shields.io/pypi/dm/recnetpy?style=flat-square
 [discord]: https://img.shields.io/discord/745219512529584195?style=flat-square
 [discord-url]: https://discord.gg/GPVdhMa2zK
-[documentation]: https://www.example.com
+[documentation]: https://recnetpy.readthedocs.io/en/latest/index.html
