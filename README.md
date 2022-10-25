@@ -40,7 +40,7 @@ loop = get_event_loop()
 loop.run_until_complete(main())
 ```
 
-_For more examples and usage, please refer to the [``examples``](https://github.com/RecNetBot-Development/RecNetPy/tree/main/examples). More documentation can be found [Here][docunmentation]_
+_For more examples and usage, please refer to the [``examples``](https://github.com/RecNetBot-Development/RecNetPy/tree/main/examples). More documentation can be found [Here][documentation]_
 
 ## Development setup
 
