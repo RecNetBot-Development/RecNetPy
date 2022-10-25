@@ -6,7 +6,8 @@
 Welcome to RecNetPy's documentation!
 ====================================
 
-**RecNetPy** is an API wrapper built in Python for pulling data from `RecNet <https://rec.net/>`_. **RecNetPy** aims to be easy to use yet powerful. It's the same wrapper used to power `RecNetBot <https://github.com/RecNetBot-Development/RecNetBot>`_!.
+**RecNetPy** is an API wrapper built in Python for pulling data from `RecNet <https://rec.net/>`_. **RecNetPy** aims to be easy to use yet powerful. It's the same wrapper used to power `RecNetBot <https://github.com/RecNetBot-Development/RecNetBot>`_!
+This project is completely open source, so please feel free to contribute to the `GitHub <https://github.com/RecNetBot-Development/RecNetPy>`_.
 
 | To get started visit the :doc:`getting_started` section.
 
