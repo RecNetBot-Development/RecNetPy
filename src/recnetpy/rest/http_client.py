@@ -22,7 +22,7 @@ class HTTPClient:
 
     def __init__(self) -> None:
         self.locks = {}
-        connector = TCPConnector()
+        connector = TCPConnector(limit=200)
         self.session = ClientSession(connector=connector)
         self.thread_pool = AsyncThreadPool(200) #Allows ONLY 200 connections to be processed at any given time.
 
