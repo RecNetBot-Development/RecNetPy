@@ -25,18 +25,24 @@ RecNet = recnetpy.Client()
 
 An example that showcases how to fetch an account by username and acquire its bio:
 ```py
-import recnetpy
-from asyncio import get_event_loop
+import recnetpy  # Import the module
+import asyncio
 
 async def main():
+    # Create a new RecNetPy client instance
     RecNet = recnetpy.Client()
+    
+    # Fetch the user from the AccountManager with the "get" method
     user = await RecNet.accounts.get("ColinXYZ")
+    
+    # Fetch the bio from the Account dataclass
     bio = await user.get_bio()
+    
+    # Print and close the client
     print(bio)
     await RecNet.close()
 
-loop = get_event_loop()
-loop.run_until_complete(main())
+asyncio.run(main())
 ```
 
 _For more examples and usage, please refer to the [``examples``][examples-url]. More documentation can be found [Here][documentation]._
