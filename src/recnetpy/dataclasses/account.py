@@ -73,7 +73,7 @@ class Account(BaseDataClass['AccountResponse']):
         self.display_name = data['displayName']
         self.profile_image = data['profileImage']
         self.banner_image = data.get("bannerImage", None)
-        self.is_junior = data['isJunior']
+        self.is_junior = bool(data['isJunior'])
         self.platforms = bitmask_decode(data['platforms'], PLATFORM_LIST)
         self.personal_pronouns = bitmask_decode(data['personalPronouns'], PERSONAL_PRONOUNS_LIST)
         self.identity_flags = bitmask_decode(data['identityFlags'], IDENTITY_FLAGS_LIST)
