@@ -130,6 +130,7 @@ class Room(BaseDataClass['RoomResponse']):
 
         :param data: Data from the api.
         """
+        self.data = data
         self.id = data["RoomId"]
         self.is_dorm = data["IsDorm"]
         self.max_player_calculation_mode = MAX_PLAYER_CALCULATION_MODE.get(data["MaxPlayerCalculationMode"], "Unknown")
