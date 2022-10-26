@@ -20,11 +20,11 @@ class Role(VariableClass['RoleResponse']):
     """
     This class represents a room's player roles.
     """
-    #: This is the id of the role which has the possible values of ``{0: 'None', 10: 'Member', 20: 'Moderator', 30: 'Co-Owner', 255: 'Owner'}``.
+    #: This is the id of the role which has the possible values of ``{0: 'None', 10: 'Member', 20: 'Moderator', 30: 'Co-Owner', 31: 'Temporary Co-Owner', 255: 'Owner'}``.
     id: int
     #: This is the id of the player who owns this role.
     account_id: int
-    #: This is the name of the role the player owns which has the possible values of ``['None', 'Member', 'Moderator', 'Co-Owner', 'Owner']``
+    #: This is the name of the role the player owns which has the possible values of ``['None', 'Member', 'Moderator', 'Co-Owner', 'Temporary Co-Owner', Owner']``
     name: str
     #: This is the id of the account who updated the player's role.
     last_changed_by_account_id: Optional[int]
