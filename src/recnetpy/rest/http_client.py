@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Dict
 
 from asyncio import Lock
-from aiohttp import ClientSession
+from aiohttp import ClientSession, TCPConnector
 
 from .async_threads import AsyncThreadPool
 from .exceptions import HTTPError, BadRequest, InternalServerError
@@ -22,7 +22,8 @@ class HTTPClient:
 
     def __init__(self) -> None:
         self.locks = {}
-        self.session = ClientSession()
+        connector = TCPConnector()
+        self.session = ClientSession(connector=connector)
         self.thread_pool = AsyncThreadPool(200) #Allows ONLY 200 connections to be processed at any given time.
 
     async def push(self, request: 'Request') -> 'Response':
