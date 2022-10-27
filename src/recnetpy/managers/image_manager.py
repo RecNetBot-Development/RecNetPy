@@ -27,7 +27,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         return None
     
     
-    async def get_many(self, names: List[str]) -> Optional['Image']:
+    async def get_many(self, names: List[str]) -> List['Image']:
         """
         Gets a list of images by a list of image names, and returns 
         a list of image object.
