@@ -12,6 +12,36 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
     This is a factory object for creating image objects. Its the
     main interface for fetching image related data.
     """
+    async def get(self, name: str) -> Optional['Image']:
+        """
+        Gets image data by their name, and returns it as an image object.
+        Example of an image name: https://img.rec.net/>43ixtpl65wc9fc6ff4vsyrzoo.jpg<
+        Only accepts image names of public RecNet posts.
+        Returns nothing if the image doesn't exist or is private.
+        
+        :param name: The name of the image.
+        :return: An image object representing the data or nothing if not found. 
+        """
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v4.bulk.make_request('post', body = {'Names': name})
+        if data.data: return self.create_dataclass(id, data.data[0])
+        return None
+    
+    
+    async def get_many(self, names: List[str]) -> Optional['Image']:
+        """
+        Gets a list of images by a list of image names, and returns 
+        a list of image object.
+        Example of an image name: https://img.rec.net/>43ixtpl65wc9fc6ff4vsyrzoo.jpg<
+        Only accepts image names of public RecNet posts.
+        Images that couldn't be found will be silently ignored.
+    
+        :param name: The name of the image.
+        :return: A list of image objects. 
+        """
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v4.bulk.make_request('post', body = {'Names': names})
+        return self.create_from_data_list(data.data)
+    
+    
     async def fetch(self, id: int) -> Optional['Image']:
         """
         Gets image data by their id, and returns it as an image object.
@@ -23,7 +53,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         data: 'Response[ImageResponse]' = await self.rec_net.api.images.v4(id).make_request('get')
         if data.data: return self.create_dataclass(id, data.data)
         return None
-
+    
+    
     async def fetch_many(self, ids: List[int]) -> List['Image']:
         """
         Gets a list of images by a list of image ids, and returns 
