@@ -45,7 +45,7 @@ class Image(BaseDataClass['ImageResponse']):
     #: This is the id of the room the image was taken it.
     room_id: Optional[int]
     #: This is the event the image was taken during.
-    player_event_id: Optional[int]
+    event_id: Optional[int]
     #: This is the date the image was taken on represented as an Unix integer.
     created_at: int
     #: This is the number of cheers the image has recieved.
@@ -59,7 +59,7 @@ class Image(BaseDataClass['ImageResponse']):
     #: This is a room object which represents the room the image was taken in.
     room: Optional['Room'] = None
     #: This is an event object which represents the event the image was taken during.
-    player_event: Optional['Event'] = None
+    event: Optional['Event'] = None
     #: This is a list of player ids who cheered the image.
     cheer_player_ids: Optional[List[int]] = None
     #: This is a list of comment objects that represent comments left on the image.
@@ -83,7 +83,7 @@ class Image(BaseDataClass['ImageResponse']):
         self.player_id = data['PlayerId']
         self.tagged_player_ids = data['TaggedPlayerIds']
         self.room_id = data['RoomId']
-        self.player_event_id = data['PlayerEventId']
+        self.event_id = data['PlayerEventId']
         self.created_at = date_to_unix(data['CreatedAt'])
         self.cheer_count = data['CheerCount']
         self.comment_count = data['CommentCount']
@@ -139,7 +139,7 @@ class Image(BaseDataClass['ImageResponse']):
             self.room = await self.client.rooms.fetch(self.room_id, include)
         return self.room
 
-    async def get_player_event(self, force: bool = False) -> Optional['Event']:
+    async def get_event(self, force: bool = False) -> Optional['Event']:
         """
         Fetches the event the image was taken in. Returns a
         cached result, if this function has been already called.
@@ -147,10 +147,10 @@ class Image(BaseDataClass['ImageResponse']):
         :param force: If true, fetches new data.
         :return: An event object, or None if the image wasn't taken in an event.
         """
-        if self.player_event_id is None: return None
-        if self.player_event is None or force:
-            self.player_event = await self.client.events.fetch(self.player_event_id)
-        return self.player_event
+        if self.event_id is None: return None
+        if self.event is None or force:
+            self.event = await self.client.events.fetch(self.event_id)
+        return self.event
         
     async def get_cheers(self, force: bool = False) -> List[int]:
         """
