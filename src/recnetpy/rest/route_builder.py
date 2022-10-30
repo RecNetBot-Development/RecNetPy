@@ -20,7 +20,7 @@ class RouteBuilder:
         self.base = base
         self.client = client
 
-    async def make_request(self, method: str, params: Optional[Dict] = None, body: Optional[Dict] = None) -> 'Response':
+    async def make_request(self, method: str, params: Optional[Dict] = None, body: Optional[Dict] = None, headers: Optional[Dict] = None) -> 'Response':
         """
         Joins the route components into a url, and constructs
         a request object that is processed by the http client.
@@ -31,7 +31,7 @@ class RouteBuilder:
         @return: The response from the request.
         """
         url = self.base + "/".join(self.route)
-        request = Request(self.client.session, method, url, params, body)
+        request = Request(self.client.session, method, url, params, body, headers)
         return await self.client.push(request)
 
     def __getattr__(self, name: str):

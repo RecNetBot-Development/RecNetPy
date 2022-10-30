@@ -24,14 +24,16 @@ class Request(ThreadTask[Response]):
     method: str
     params: Optional[Dict]
     body: Optional[Dict]
+    headers: Optional[Dict]
 
-    def __init__(self, client: ClientSession, method: str, url: str, params: Optional[Dict] = None, body: Optional[Dict] = None) -> None:
+    def __init__(self, client: ClientSession, method: str, url: str, params: Optional[Dict] = None, body: Optional[Dict] = None, headers: Optional[Dict] = None) -> None:
         super().__init__()
         self.client = client
         self.method = method
         self.url = url
         self.params = params
         self.body = body
+        self.headers = headers
 
     async def run(self) -> Response:
         """
@@ -40,7 +42,7 @@ class Request(ThreadTask[Response]):
 
         @return: A response object containing the fetched data.
         """
-        async with self.client.request(self.method, self.url, data = self.body, params = self.params) as response:
+        async with self.client.request(self.method, self.url, data = self.body, params = self.params, headers = self.headers) as response:
             data = await parse_response(response)
             return Response(response.status, response.ok, data)
 
