@@ -149,7 +149,7 @@ class Event(BaseDataClass['EventResponse']):
         :return: A list of event interaction objects.
         """
         if self.responses is None or force:
-            data: Response[List['EventResponseResponse']] =  self.rec_net.api.playerevents.v1(self.id).responses.make_request('get')
+            data: Response[List['EventResponseResponse']] = await self.rec_net.api.playerevents.v1(self.id).responses.make_request('get')
             self.responses = EventInteraction.create_from_list(data.data)
         return self.responses
 
@@ -165,11 +165,11 @@ class Event(BaseDataClass['EventResponse']):
         
         if self.responses is None or force:
             responses = await self.get_responses(force)
-            players: Dict[int, Account] = []
+            players: Dict[int, Account] = {}
             for response in responses:
                 player = self.client.accounts.create_dataclass(response.player_id)
                 response.player = player
                 players[response.player_id] = player
-            data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {id: players.keys})
+            data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {"id": players.keys()})
             for data_response in data.data: players.get(data_response['accountId']).patch_data(data_response)
         return self.responses
