@@ -64,7 +64,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         :param ids: A list of ids.
         :return: A list of image objects. 
         """
-        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v3.bulk.make_request('get', body = {'id': ids})
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v3.bulk.make_request('post', body = {'Ids': ids})
         return self.create_from_data_list(data.data)
 
     async def from_account(self, id: int, take: int = 16, skip: int = 0, sort: int = 0) -> List['Image']:
