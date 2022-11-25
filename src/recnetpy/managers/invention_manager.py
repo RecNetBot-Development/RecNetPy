@@ -25,7 +25,7 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         return None
 
 
-    async def search(self, query: str) -> List['Invention']:
+    async def search(self, query: str, take: int = 16) -> List['Invention']:
         """
         Searches RecNet for inventions based on a query, and returns
         a list of invention objects.
@@ -34,7 +34,11 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         :param query: A search query string.
         :return: A list of invention objects.
         """
-        data: Response[List[InventionResponse]] = await self.rec_net.api.inventions.v2.search.make_request('get', params = {'value': str(query)})
+        params = {
+            'value': str(query),
+            'take': take
+        }
+        data: Response[List[InventionResponse]] = await self.rec_net.api.inventions.v2.search.make_request('get', params = params)
         return self.create_from_data_list(data.data)
 
     async def featured(self, take: int = 16, skip: int = 0) -> List['Invention']:
