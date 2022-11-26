@@ -29,7 +29,7 @@ MAX_PLAYER_CALCULATION_MODE: Dict[int, str] = {
     1: "Only Entry Subrooms"
 }
 
-WARNING_MASK_LIST: List[str] = ["Custom", "Spooky/scary themes", "Mature themes", "Bright/flashing lights", "Intense motion", "Gore/violence"]
+WARNING_MASK_LIST: List[str] = ["Spooky/scary themes", "Mature themes", "Bright/flashing lights", "Intense motion", "Gore/violence", "Custom"]
 
 class Room(BaseDataClass['RoomResponse']):
     """
