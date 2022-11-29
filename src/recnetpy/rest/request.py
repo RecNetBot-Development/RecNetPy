@@ -22,6 +22,7 @@ class Request(ThreadTask[Response]):
     client: ClientSession
     url: str
     method: str
+    attempts: int
     params: Optional[Dict]
     body: Optional[Dict]
     headers: Optional[Dict]
@@ -42,9 +43,26 @@ class Request(ThreadTask[Response]):
 
         @return: A response object containing the fetched data.
         """
-        async with self.client.request(self.method, self.url, data = self.body, params = self.params, headers = self.headers) as response:
-            data = await parse_response(response)
-            return Response(response.status, response.ok, data)
+        self.attempts = 0
+        return await self.make_request()
+
+    async def make_request(self) -> Response:
+        """
+        This functions attempts to make a request. If an error is 
+        encountered the request will be attempted again up to three
+        times. Successful attempts will return the requested data as
+        a response object.
+
+        @return: A response object containing the fetched data.
+        """
+        try:
+            async with self.client.request(self.method, self.url, data = self.body, params = self.params, headers = self.headers) as response:
+                data = await parse_response(response)
+                return Response(response.status, response.ok, data)
+        except Exception as e:
+            self.attempts += 1
+            if self.attempts <= 3: return await self.make_request()
+            raise e
 
     @property
     def bucket(self) -> str:
