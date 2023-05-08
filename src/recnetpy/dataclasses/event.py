@@ -97,7 +97,7 @@ class Event(BaseDataClass['EventResponse']):
         :param force: If true, fetches new data.
         :return: A list of images.
         """
-        if self.images in None or force:
+        if self.images is None or force:
             self.images = await self.client.images.during_event(self.id, take = take, skip = skip)
         return self.images
 
