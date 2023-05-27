@@ -41,6 +41,16 @@ class RouteManager:
         @return: A accounts route builder.
         """
         return RouteBuilder(self.client, "https://accounts.rec.net/")
+    
+    @property
+    def websiteapi(self) -> RouteBuilder:
+        """
+        Creates a route builer with a base url
+        for website API endpoint requests.
+
+        @return: A website API route builder.
+        """
+        return RouteBuilder(self.client, "https://websiteapi.rec.net/")
 
     @property
     def clubs(self) -> RouteBuilder:
