@@ -53,6 +53,16 @@ class RouteManager:
         return RouteBuilder(self.client, "https://websiteapi.rec.net/")
 
     @property
+    def apim(self) -> RouteBuilder:
+        """
+        Creates a route builer with a base url
+        for apim API endpoint requests.
+
+        @return: An apim API route builder.
+        """
+        return RouteBuilder(self.client, "https://apim.rec.net/")
+
+    @property
     def clubs(self) -> RouteBuilder:
         """
         Creates a route builer with a base url
