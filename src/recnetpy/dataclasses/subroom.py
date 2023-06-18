@@ -32,10 +32,21 @@ class SubRoom(VariableClass['SubRoomResponse']):
     max_players: int
     #: This is the visibilty of the image which has the possible value of ``['Private', 'Public', 'Unlisted']``.
     accessibility: str
+    #: The blob that contains the data
     data_blob: Optional[str]
+    #: The user who saved the last
     data_saved_at: Optional[int]
+    #: The latest save description for the subroom
+    description: Optional[str]
 
     def __init__(self, data: 'SubRoomResponse'):
+        if data.get("CurrentSave"):
+            description = data["CurrentSave"].get("Description")
+            saved_at = date_to_unix(data["CurrentSave"]["CreatedAt"])
+            saved_by = data["CurrentSave"].get("SavedByAccountId", 1)
+        else:
+            saved_at, saved_by, description = None, 1, None
+
         self.supports_join_in_progress = data['SupportsJoinInProgress']
         self.use_level_based_matchmaking = data['UseLevelBasedMatchmaking']
         self.use_age_based_matchmaking = data['UseAgeBasedMatchmaking']
@@ -45,7 +56,9 @@ class SubRoom(VariableClass['SubRoomResponse']):
         self.unity_scene_id = data['UnitySceneId']
         self.name = data['Name']
         self.data_blob = data.get("DataBlob", None)
-        self.data_saved_at = date_to_unix(data['DataSavedAt']) if 'DataSavedAt' in data else None
+        self.data_saved_at = saved_at
+        self.data_saved_by = saved_by
+        self.description = description
         self.is_sandbox = data['IsSandbox']
         self.max_players = data['MaxPlayers']
         self.accessibility = ACCESSIBILITY_DICT.get(data['Accessibility'])
