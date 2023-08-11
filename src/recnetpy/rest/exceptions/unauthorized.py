@@ -11,5 +11,5 @@ class Unauthorized(Exception):
     """
 
     def __init__(self, resp: 'Response') -> None:
-        message = "You aren't authorized to access this rousource. Please verify you entered the correct api key."
+        message = "You aren't authorized to access this resource. Please verify you entered the correct API key."
         super().__init__(resp, message)

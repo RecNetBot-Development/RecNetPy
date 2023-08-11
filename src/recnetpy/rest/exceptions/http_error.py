@@ -9,5 +9,8 @@ class HTTPError(Exception):
     """
 
     def __init__(self, resp: 'Response', msg: str = "No Info.") -> None:
-        error_message = f"Info: {msg} \nURL: {resp.url} \nStatus: {resp.status}\n Data: \n{resp.data}"
+        error_message = f"Info: {msg}\n" \
+                        f"URL: {resp.url}\n" \
+                        f"Status: {resp.status}\n" \
+                        f"Data: \n{resp.data}"
         super().__init__(error_message)
