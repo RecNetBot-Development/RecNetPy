@@ -34,7 +34,7 @@ class RouteBuilder:
         """
         if self.use_auth:
             if headers is None: headers = {}
-            headers['Ocp-Apim-Subscription-Key'] = HTTPClient.api_key
+            headers['Ocp-Apim-Subscription-Key'] = self.client.api_key
         url = self.base + "/".join(self.route)
         request = Request(self.client.session, method, url, params, body, headers)
         return await self.client.push(request)
