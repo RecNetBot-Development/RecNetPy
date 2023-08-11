@@ -167,7 +167,7 @@ class Account(BaseDataClass['AccountResponse']):
         :return: The player's bio.
         """
         if self.bio is None or force:
-            data: 'Response[BioResponse]' = await self.rec_net.accounts.account(self.id).bio.make_request('get')
+            data: 'Response[BioResponse]' = await self.rec_net.accounts(self.id).bio.make_request('get')
             self.bio = data.data['bio']
         return self.bio
 

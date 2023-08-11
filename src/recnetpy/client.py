@@ -19,8 +19,8 @@ class Client:
     #: Use this property to request room data. It serves as a factory for all room objects.
     rooms: RoomManager
 
-    def __init__(self) -> None:
-        self.rec_net = RouteManager()
+    def __init__(self, api_key: str = None) -> None:
+        self.rec_net = RouteManager(api_key)
         self.accounts = AccountManager(self)
         self.events = EventManager(self)
         self.images = ImageManager(self)

@@ -20,7 +20,7 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         :param id: The id of the invention.
         :return: An invention object representing the data or nothing if not found. 
         """
-        data: 'Response[InventionResponse]' = await self.rec_net.api.inventions.v1.make_request('get', params = {'inventionId': id})
+        data: 'Response[InventionResponse]' = await self.rec_net.apim.inventions.v1.make_request('get', params = {'inventionId': id})
         if data.data: return self.create_dataclass(id, data.data)
         return None
 
@@ -38,7 +38,7 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
             'value': str(query),
             'take': take
         }
-        data: Response[List[InventionResponse]] = await self.rec_net.api.inventions.v2.search.make_request('get', params = params)
+        data: Response[List[InventionResponse]] = await self.rec_net.apim.inventions.v2.search.make_request('get', params = params)
         return self.create_from_data_list(data.data)
 
     async def featured(self, take: int = 16, skip: int = 0) -> List['Invention']:
@@ -53,7 +53,7 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
             'take': take,
             'skip': skip
         }  
-        data: 'Response[List[InventionResponse]]' = await self.rec_net.api.inventions.v1.featured.make_request('get', params = params)
+        data: 'Response[List[InventionResponse]]' = await self.rec_net.apim.inventions.v1.featured.make_request('get', params = params)
         return self.create_from_data_list(data.data)
 
     async def top_today(self) -> List['Invention']:
@@ -62,7 +62,7 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
 
         :return: A list of invention objects.
         """
-        data: 'Response[List[InventionResponse]]' = await self.rec_net.api.inventions.v1.toptoday.make_request('get')
+        data: 'Response[List[InventionResponse]]' = await self.rec_net.apim.inventions.v1.toptoday.make_request('get')
         return self.create_from_data_list(data.data)
 
     def create_dataclass(self, id: int, data: Optional['InventionResponse'] = None) -> 'Invention':

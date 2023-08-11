@@ -22,7 +22,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         :param name: The name of the image.
         :return: An image object representing the data or nothing if not found. 
         """
-        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v4.bulk.make_request('post', body = {'Names': name})
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v4.bulk.make_request('post', body = {'Names': name})
         if data.data: return self.create_dataclass(id, data.data[0])
         return None
     
@@ -38,7 +38,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         :param name: The name of the image.
         :return: A list of image objects. 
         """
-        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v4.bulk.make_request('post', body = {'Names': names})
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v4.bulk.make_request('post', body = {'Names': names})
         return self.create_from_data_list(data.data)
     
     
@@ -50,7 +50,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         :param id: The id of the image.
         :return: An image object representing the data or nothing if not found. 
         """
-        data: 'Response[ImageResponse]' = await self.rec_net.api.images.v4(id).make_request('get')
+        data: 'Response[ImageResponse]' = await self.rec_net.apim.images.v4(id).make_request('get')
         if data.data: return self.create_dataclass(id, data.data)
         return None
     
@@ -64,7 +64,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         :param ids: A list of ids.
         :return: A list of image objects. 
         """
-        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v3.bulk.make_request('post', body = {'Ids': ids})
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v3.bulk.make_request('post', body = {'Ids': ids})
         return self.create_from_data_list(data.data)
 
     async def from_account(self, id: int, take: int = 16, skip: int = 0, sort: int = 0) -> List['Image']:
@@ -83,7 +83,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
             'skip': skip,
             'sort': sort
         }
-        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v4.player(id).make_request('get', params=params)
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v4.player(id).make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
     async def player_feed(self, id: int, take: int = 16, skip: int = 0) -> List['Image']:
@@ -100,7 +100,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
             'take': take,
             'skip': skip
         }        
-        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v3.feed.player(id).make_request('get', params=params)
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v3.feed.player(id).make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
     async def during_event(self, id: int, take: int = 16, skip: int = 0) -> List['Image']:
@@ -117,7 +117,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
             'take': take,
             'skip': skip
         }  
-        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v1.playerevent(id).make_request('get', params=params)
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v1.playerevent(id).make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
     async def in_room(self, id: int, take: int = 16, skip: int = 0, sort: int = 0) -> List['Image']:
@@ -136,7 +136,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
             'skip': skip,
             'sort': sort
         }        
-        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v4.room(id).make_request('get', params=params)
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v4.room(id).make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
     async def front_page(self, take: int = 16, skip: int = 0) -> List['Image']:
@@ -151,7 +151,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
             'take': take,
             'skip': skip
         }  
-        data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v3.feed('global').make_request('get', params=params)
+        data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v3.feed('global').make_request('get', params=params)
         return self.create_from_data_list(data.data)
 
     def create_dataclass(self, id: int, data: Optional['ImageResponse'] = None) -> 'Image':

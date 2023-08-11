@@ -13,6 +13,16 @@ class RouteManager:
         self.client = HTTPClient(api_key)
 
     @property
+    def apim(self) -> RouteBuilder:
+        """
+        Creates a route builer with a base url
+        for apim endpoint requests.
+
+        @return: A apim route builder.
+        """
+        return RouteBuilder(self.client, "https://apim.rec.net/public/apis/api/", use_auth=True)
+    
+    @property
     def api(self) -> RouteBuilder:
         """
         Creates a route builer with a base url
@@ -20,7 +30,7 @@ class RouteManager:
 
         @return: A api route builder.
         """
-        return RouteBuilder(self.client, "https://api.rec.net/api/")
+        return RouteBuilder(self.client, "https://api.rec.net/api/", use_auth=True)
 
     @property
     def rooms(self) -> RouteBuilder:
@@ -40,7 +50,7 @@ class RouteManager:
 
         @return: A accounts route builder.
         """
-        return RouteBuilder(self.client, "https://accounts.rec.net/")
+        return RouteBuilder(self.client, "https://apim.rec.net/public/accounts/account/", use_auth=True)
     
     @property
     def websiteapi(self) -> RouteBuilder:
@@ -51,16 +61,6 @@ class RouteManager:
         @return: A website API route builder.
         """
         return RouteBuilder(self.client, "https://websiteapi.rec.net/")
-
-    @property
-    def apim(self) -> RouteBuilder:
-        """
-        Creates a route builer with a base url
-        for apim API endpoint requests.
-
-        @return: An apim API route builder.
-        """
-        return RouteBuilder(self.client, "https://apim.rec.net/")
 
     @property
     def clubs(self) -> RouteBuilder:
