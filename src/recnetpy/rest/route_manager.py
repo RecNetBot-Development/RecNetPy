@@ -9,8 +9,8 @@ class RouteManager:
     """
     client: HTTPClient
 
-    def __init__(self):
-        self.client = HTTPClient()
+    def __init__(self, api_key: str):
+        self.client = HTTPClient(api_key)
 
     @property
     def api(self) -> RouteBuilder:

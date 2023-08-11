@@ -1,14 +1,34 @@
 from typing import TYPE_CHECKING, Dict
+from math import floor
 
-from asyncio import Lock
+from asyncio import Lock, get_running_loop, AbstractEventLoop, sleep
 from aiohttp import ClientSession, TCPConnector
 
-from .async_threads import AsyncThreadPool
-from .exceptions import HTTPError, BadRequest, InternalServerError
+from .exceptions import *
 
 if TYPE_CHECKING:
     from .request import Request
     from .response import Response
+
+RATE_LIMIT = 30
+
+def verify_status(resp: Response):
+    match resp.status:
+        case 400:
+            raise BadRequest(resp)
+        case 401:
+            raise Unauthorized(resp)
+        case 403:
+            if resp.headers.get("retry-after"):
+                raise RateLimited(resp)
+            raise Forbidden(resp)
+        case 404:
+            raise NotFound(resp)
+        case 500:
+            raise InternalServerError(resp)
+        case _:
+            raise HTTPError(resp)
+
 
 class HTTPClient:
     """
@@ -16,16 +36,30 @@ class HTTPClient:
     client session, and adding requests to the
     thread pool.
     """
-    locks: Dict[str, Lock]
     session: ClientSession
-    thread_pool: AsyncThreadPool
+    api_key: str
+    rate_limit: int
+    remaining_limit: int
+    next_tick: float
+    tick_offset: float
+    __loop: AbstractEventLoop
+    __sleep: Lock
+    
 
-    def __init__(self) -> None:
-        self.locks = {}
-        connector = TCPConnector(limit=200)
+    def __init__(self, api_key: str) -> None:
+        connector = TCPConnector(limit=100)
         self.session = ClientSession(connector=connector)
-        self.thread_pool = AsyncThreadPool(200) #Allows ONLY 200 connections to be processed at any given time.
+        self.__sleep = Lock()
+        self.__loop = get_running_loop()
+        self.api_key = api_key
+        self.rate_limit = RATE_LIMIT
+        self.tick_offset = self.__loop.time() % 1
+        self.reset_limit()
 
+    def reset_limit(self):
+        self.next_tick = floor(self.__loop.time() + 1) + self.tick_offset
+        self.remaining_limit = self.rate_limit
+        
     async def push(self, request: 'Request') -> 'Response':
         """
         Creates a lock unique to the request, and 
@@ -35,29 +69,23 @@ class HTTPClient:
         @param request: The request object to be executed.
         @return: Returns a response object. 
         """
-        lock = self.locks.get(request.bucket)
-        if lock is None:
-            lock = Lock()
-            self.locks[request.bucket] = lock
-        async with lock:
-            await self.thread_pool.submit(request)
-            result = await request.get_result()
-            if result.status == 404:
-                result.data = None
-                return result
-            if result.success: return result
-            match result.status:
-                case 400:
-                    raise BadRequest
-                case 500:
-                    raise InternalServerError
-                case _:
-                    raise HTTPError(result.status, request.url, result.data)
+        async with self.__sleep:
+            t = self.__loop.time()
+            if t >= self.next_tick: self.reset_limit()
+            if self.remaining_limit <= 0:
+                await sleep(self.next_tick - t)
+                self.reset_limit()
+            request.send()
+            self.remaining_limit -= 1
+        resp = await request.get_result()
+        verify_status(resp)
+        return resp
+
+
       
     async def stop(self) -> None:
         """
         Stops the thread pool, and closes the
         underlying client connection.
         """
-        await self.thread_pool.stop()
         await self.session.close()

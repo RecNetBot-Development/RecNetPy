@@ -14,11 +14,13 @@ class RouteBuilder:
     route: List[str]
     base: str
     client: 'HTTPClient'
+    use_auth: bool
   
-    def __init__(self, client: 'HTTPClient', base: str) -> None:
+    def __init__(self, client: 'HTTPClient', base: str, use_auth: bool = False) -> None:
         self.route = []
         self.base = base
         self.client = client
+        self.use_auth = use_auth
 
     async def make_request(self, method: str, params: Optional[Dict] = None, body: Optional[Dict] = None, headers: Optional[Dict] = None) -> 'Response':
         """
@@ -30,6 +32,9 @@ class RouteBuilder:
         @param body: The body of the request.
         @return: The response from the request.
         """
+        if self.use_auth:
+            if headers is None: headers = {}
+            headers['Ocp-Apim-Subscription-Key'] = HTTPClient.api_key
         url = self.base + "/".join(self.route)
         request = Request(self.client.session, method, url, params, body, headers)
         return await self.client.push(request)

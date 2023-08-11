@@ -1,6 +1,7 @@
-from typing import TypeVar, Dict, Optional, Union, List
+from typing import Dict, Optional, Union, List, Generic, TypeVar
 from aiohttp import ClientSession, ClientResponse
-from .async_threads import ThreadTask
+from asyncio import Future
+
 from .response import Response
 
 async def parse_response(resp: ClientResponse) -> Union[str, Dict, List]:
@@ -14,7 +15,9 @@ async def parse_response(resp: ClientResponse) -> Union[str, Dict, List]:
         return await resp.json()
     return await resp.text()
 
-class Request(ThreadTask[Response]):
+RT = TypeVar('RT')
+
+class Request(Generic[RT]):
     """
     This class encapsulates a request to be executed inside of a
     thread pool.
@@ -26,6 +29,8 @@ class Request(ThreadTask[Response]):
     params: Optional[Dict]
     body: Optional[Dict]
     headers: Optional[Dict]
+    result: Optional[Response]
+    __future: Optional[Future]
 
     def __init__(self, client: ClientSession, method: str, url: str, params: Optional[Dict] = None, body: Optional[Dict] = None, headers: Optional[Dict] = None) -> None:
         super().__init__()
@@ -35,8 +40,10 @@ class Request(ThreadTask[Response]):
         self.params = params
         self.body = body
         self.headers = headers
+        self.response = None
+        self.__future = None
 
-    async def run(self) -> Response:
+    def send(self) -> Response:
         """
         This function is to be executed within a thread. It makes a
         request, and parses the response into a custom response object.
@@ -44,7 +51,7 @@ class Request(ThreadTask[Response]):
         @return: A response object containing the fetched data.
         """
         self.attempts = 0
-        return await self.make_request()
+        self.__future = self.make_request()
 
     async def make_request(self) -> Response:
         """
@@ -58,17 +65,22 @@ class Request(ThreadTask[Response]):
         try:
             async with self.client.request(self.method, self.url, data = self.body, params = self.params, headers = self.headers) as response:
                 data = await parse_response(response)
-                return Response(response.status, response.ok, data)
+                return Response(self.url, response.status, response.ok, response.headers, data)
         except Exception as e:
             self.attempts += 1
             if self.attempts <= 3: return await self.make_request()
             raise e
-
-    @property
-    def bucket(self) -> str:
+        
+    async def get_result(self):
         """
-        Represents the request and its componets as astring.
+        It returns the result of the execution. Blocks if 
+        the tasks underlying lock isn't freed, or returns
+        immediately. May cause unexpected behaviour if not
+        submitted to a pool.
 
-        @return: The request as a string. 
+        @return: Returns the value returned from the run method.
         """
-        return f"{self.url}:{self.params}:{self.body}"
+        if self.__future:
+            self.result = await self.__future
+            self.__future = None
+        return self.result

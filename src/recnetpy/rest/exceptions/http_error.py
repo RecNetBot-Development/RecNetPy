@@ -1,15 +1,13 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .. import Response
+
 class HTTPError(Exception):
     """
     This class represents an error or problem with a request.
     """
-    status: int
-    url: str
-    data: any
 
-
-    def __init__(self, status: int, url: str, data: any) -> None:
-        self.status = status
-        self.url = url
-        self.data = data
-        error_message = f"The request to {url} has failed with code {status}. The following data has been returned: \n {data}"
+    def __init__(self, resp: 'Response', msg: str = "No Info.") -> None:
+        error_message = f"Info: {msg} \nURL: {resp.url} \nStatus: {resp.status}\n Data: \n{resp.data}"
         super().__init__(error_message)
