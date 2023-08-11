@@ -17,6 +17,8 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         Gets user data by their username, and returns it as an account object.
         Returns nothing if the account doesn't exist.
 
+        Authorization required.
+
         :param name: The username of the RecNet user.
         :return: An account object representing the data or nothing if not found. 
         """
@@ -28,6 +30,8 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         """
         Gets user data by their id, and returns it as an account object.
         Returns nothing if an account with the specified id doesn't exist.
+
+        Authorization required.
 
         :param id: The id of the RecNet user.
         :return: An account object representing the data or nothing if not found. 
@@ -41,6 +45,8 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         Gets a list of users by a list of usernames, and returns 
         a list of account object.
         Accounts that couldn't be found will be silently ignored.
+
+        Authorization required.
 
         :param names: A list of username.
         :return: A list of account objects. 
@@ -56,6 +62,8 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         a list of account object.
         Accounts that couldn't be found will be silently ignored.
 
+        Authorization required.
+
         :param ids: A list of ids.
         :return: A list of account objects. 
         """
@@ -68,6 +76,8 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         Searches RecNet for users based on a query, and returns
         a list of account objects.
         If no account is found, an empty list will be returned.
+
+        Authorization required.
 
         :param query: A search query string.
         :return: A list of account objects.

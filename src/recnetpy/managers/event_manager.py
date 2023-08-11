@@ -17,6 +17,8 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         Gets event data by their id, and returns it as an event object.
         Returns nothing if the event doesn't exist or is private.
 
+        Authorization required.
+
         :param id: The id of the event.
         :return: An event object representing the data or nothing if not found. 
         """
@@ -31,6 +33,8 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         a list of event object.
         Events that couldn't be found will be silently ignored.
 
+        Authorization required.
+
         :param ids: A list of ids.
         :return: A list of event objects. 
         """
@@ -42,6 +46,8 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         Searches RecNet for events based on a query, and returns
         a list of event objects.
         If no event is found, an empty list will be returned.
+
+        Authorization required.
 
         :param query: A search query string.
         :param take: The number of results to return.
@@ -63,6 +69,8 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         Gets a list of events created by a player.
         If no event or the respective account is found, an empty list will be returned.
 
+        Authorization required.
+
         :param id: An account id.
         :param take: The number of results to return.
         :param skip: The number of results to skip.
@@ -80,6 +88,8 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         Gets a list of events happening in a room.
         If no event or the respective room is found, an empty list will be returned.
 
+        Authorization required.
+
         :param query: A room id.
         :param take: The number of results to return.
         :param skip: The number of results to skip.
@@ -95,6 +105,8 @@ class EventManager(BaseManager['Event', 'EventResponse']):
     async def get_events(self, take: int = 16, skip: int = 0, sort: int = 0) -> List['Event']:
         """
         Gets a list of events currently happening.
+
+        Authorization required.
 
         :param take: The number of results to return.
         :param skip: The number of results to skip.

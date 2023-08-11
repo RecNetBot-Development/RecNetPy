@@ -19,6 +19,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         Only accepts image names of public RecNet posts.
         Returns nothing if the image doesn't exist or is private.
         
+        Authorization required.
+
         :param name: The name of the image.
         :return: An image object representing the data or nothing if not found. 
         """
@@ -35,6 +37,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         Only accepts image names of public RecNet posts.
         Images that couldn't be found will be silently ignored.
     
+        Authorization required.
+
         :param name: The name of the image.
         :return: A list of image objects. 
         """
@@ -46,6 +50,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         """
         Gets image data by their id, and returns it as an image object.
         Returns nothing if the image doesn't exist or is private.
+
+        Authorization required.
 
         :param id: The id of the image.
         :return: An image object representing the data or nothing if not found. 
@@ -61,6 +67,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         a list of image object.
         Images that couldn't be found will be silently ignored.
 
+        Authorization required.
+
         :param ids: A list of ids.
         :return: A list of image objects. 
         """
@@ -71,6 +79,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         """
         Gets a list of images taken by a player.
         If no image or the respective account is found, an empty list will be returned.
+
+        Authorization required.
 
         :param id: A player id.
         :param take: The number of results to return.
@@ -91,6 +101,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         Gets a list of images taken of a player.
         If no image or the respective account is found, an empty list will be returned.
 
+        Authorization required.
+
         :param id: A player id.
         :param take: The number of results to return.
         :param skip: The number of results to skip.                 
@@ -107,6 +119,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         """
         Gets a list of images taken during an event.
         If no image or the respective event is found, an empty list will be returned.
+
+        Authorization required.
 
         :param id: A event id.
         :param take: The number of results to return.
@@ -125,6 +139,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         Gets a list of images taken in a room.
         If no image or the respective room is found, an empty list will be returned.
 
+        Authorization required.
+
         :param id: A room id.
         :param take: The number of results to return.
         :param skip: The number of results to skip.
@@ -142,6 +158,8 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
     async def front_page(self, take: int = 16, skip: int = 0) -> List['Image']:
         """
         Gets a list of the most popular images on RecNet.
+
+        Authorization required.
 
         :param take: The number of results to return.
         :param skip: The number of results to skip.

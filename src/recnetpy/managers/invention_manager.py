@@ -17,6 +17,8 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         Gets invention data by their id, and returns it as an invention object.
         Returns nothing if the invention doesn't exist or is private.
 
+        Authorization required.
+
         :param id: The id of the invention.
         :return: An invention object representing the data or nothing if not found. 
         """
@@ -30,6 +32,8 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         Searches RecNet for inventions based on a query, and returns
         a list of invention objects.
         If no invention is found, an empty list will be returned.
+
+        Authorization required.
 
         :param query: A search query string.
         :return: A list of invention objects.
@@ -45,6 +49,8 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         """
         Gets a list of the featured inventions on RecNet.
 
+        Authorization required.
+
         :param take: The number of results to return.
         :param skip: The number of results to skip.
         :return: A list of invention objects.
@@ -59,6 +65,8 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
     async def top_today(self) -> List['Invention']:
         """
         Gets a list of the top inventions on RecNet for today.
+
+        Authorization required.
 
         :return: A list of invention objects.
         """
