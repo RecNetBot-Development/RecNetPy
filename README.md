@@ -1,5 +1,5 @@
 # RecNetPy
-> **RecNetPy** is an API wrapper built in Python for pulling data from [RecNet](https://rec.net/). **RecNetPy** aims to be easy to use yet powerful. It's the same wrapper used to power [RecNetBot](https://github.com/RecNetBot-Development/RecNetBot)!.
+> **RecNetPy** is an API wrapper built in Python for pulling data from [RecNet](https://rec.net/). **RecNetPy** aims to be easy to use yet powerful. It's the same wrapper used to power [RecNetBot](https://github.com/RecNetBot-Development/RecNetBot)!
 
 [![NPM Version][pip-image]][pip-url]
 [![Downloads Stats][pip-downloads]][pip-url]
@@ -20,7 +20,7 @@ Creating an instance of RecNetPy:
 ```py
 import recnetpy
 
-RecNet = recnetpy.Client()
+RecNet = recnetpy.Client(api_key="...")
 ```
 
 An example that showcases how to fetch an account by username and acquire its bio:
@@ -30,7 +30,7 @@ import asyncio
 
 async def main():
     # Create a new RecNetPy client instance
-    RecNet = recnetpy.Client()
+    RecNet = recnetpy.Client(api_key="...")
     
     # Fetch the user from the AccountManager with the "get" method
     user = await RecNet.accounts.get("ColinXYZ")
@@ -46,6 +46,11 @@ asyncio.run(main())
 ```
 
 _For more examples and usage, please refer to the [``examples``][examples-url]. More documentation can be found [Here][documentation]._
+
+## Authorization
+In order to use most of the endpoints, you need an API key. You may acquire one from https://devportal.rec.net/. Endpoints that require an API key are marked in function docstrings.
+
+For more information and guidance, refer to https://recroom.zendesk.com/hc/en-us/articles/16543324225303-Third-Party-API-Access-and-Usage.
 
 ## Development setup
 
