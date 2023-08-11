@@ -3,17 +3,16 @@ from math import floor
 
 from asyncio import Lock, get_running_loop, AbstractEventLoop, sleep
 from aiohttp import ClientSession, TCPConnector
-from .response import Response
 
 from .exceptions import *
 
 if TYPE_CHECKING:
     from .request import Request
+    from .response import Response
     
-
 RATE_LIMIT = 30
 
-def verify_status(resp: Response):
+def verify_status(resp: 'Response'):
     match resp.status:
         case 200:
             ...
