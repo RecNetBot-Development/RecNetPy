@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 class RateLimited(HTTPError):
     """
-    This exception is raised when the a rate limit is encountered. Raised for a 401 with a retry-after header.
+    This exception is raised when the a rate limit is encountered. Raised for a 403 with a retry-after header.
     """
 
     def __init__(self, resp: 'Response') -> None:
