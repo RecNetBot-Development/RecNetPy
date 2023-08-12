@@ -11,10 +11,10 @@ class AccountResponse(TypedDict):
     Typed dictionary used for endpoints that respond with account data.
 
     Associated endponits:
-        - GET https://accounts.rec.net/account/:playerId
-        - GET https://accounts.rec.net/account?username={Player_Username} 
-        - GET https://accounts.rec.net/account/search?name={Search_Query}
-        - POST https://accounts.rec.net/account/bulk
+        - GET https://apim.rec.net/public/accounts/account/:playerId
+        - GET https://apim.rec.net/public/accounts/account?username={Player_Username} 
+        - GET https://apim.rec.net/public/accounts/account/search?name={Search_Query}
+        - POST https://apim.rec.net/public/accounts/account/bulk
     """
     accountId: int
     username: str
@@ -31,7 +31,7 @@ class CommentResponse(TypedDict):
     Typed dictionary for endpoints that respond with comment data.
 
     Associated endpoints:
-        - GET https://api.rec.net/api/images/v1/:photoId/comments
+        - GET https://apim.rec.net/public/apis/api/images/v1/:photoId/comments
     """
     SavedImageCommentId: int
     SavedImageId: int
@@ -43,7 +43,7 @@ class EventResponseResponse(TypedDict):
     Typed dictionary for endpoints that respond with event response data.
 
     Associated endpoints:
-        - GET https://api.rec.net/api/playerevents/v1/:eventId/responses
+        - GET https://apim.rec.net/public/apis/api/playerevents/v1/:eventId/responses
     """
     PlayerEventResponseId: int
     PlayerEventId: int
@@ -56,12 +56,12 @@ class EventResponse(TypedDict):
     Typed dictionary for endpoints that respond with event data.
 
     Associated endpoints:
-        - GET https://api.rec.net/api/playerevents/v1 (Supported Params: take, skip, sort)
-        - GET https://api.rec.net/api/playerevents/v1/:eventId
-        - GET https://api.rec.net/api/playerevents/v1/creator/:playerId (Supported Params: take, skip)
-        - GET https://api.rec.net/api/playerevents/v1/search?query={Search_Query} (Supported Params: take, skip, sort)
-        - GET https://api.rec.net/api/playerevents/v1/room/:roomId (Supported Params: take, skip)
-        - POST https://api.rec.net/api/playerevents/v1/bulk 
+        - GET https://apim.rec.net/public/apis/api/playerevents/v1 (Supported Params: take, skip, sort)
+        - GET https://apim.rec.net/public/apis/api/playerevents/v1/:eventId
+        - GET https://apim.rec.net/public/apis/api/playerevents/v1/creator/:playerId (Supported Params: take, skip)
+        - GET https://apim.rec.net/public/apis/api/playerevents/v1/search?query={Search_Query} (Supported Params: take, skip, sort)
+        - GET https://apim.rec.net/public/apis/api/playerevents/v1/room/:roomId (Supported Params: take, skip)
+        - POST https://apim.rec.net/public/apis/api/playerevents/v1/bulk 
     """
     PlayerEventId: int
     CreatorPlayerId: int
@@ -86,13 +86,13 @@ class ImageResponse(TypedDict):
     Typed dictionary for endpoints that respond with image data.
 
     Associated endpoints:
-        - GET https://api.rec.net/api/images/v4/:photoId
-        - GET https://api.rec.net/api/images/v3/feed/player/:playerId (Supported Params: take, skip)
-        - GET https://api.rec.net/api/images/v4/player/:playerId (Supported Params: take, skip, sort)
-        - GET https://api.rec.net/api/images/v1/playerevent/:eventId (Supported Params: skip, take)
-        - GET https://api.rec.net/api/images/v4/room/:roomId (Supported Params: take, skip, sort)
-        - GET https://api.rec.net/api/images/v3/feed/global (Supported Params: take, skip)
-        - POST https://api.rec.net/api/images/v3/bulk
+        - GET https://apim.rec.net/public/apis/api/images/v4/:photoId
+        - GET https://apim.rec.net/public/apis/api/images/v3/feed/player/:playerId (Supported Params: take, skip)
+        - GET https://apim.rec.net/public/apis/api/images/v4/player/:playerId (Supported Params: take, skip, sort)
+        - GET https://apim.rec.net/public/apis/api/images/v1/playerevent/:eventId (Supported Params: skip, take)
+        - GET https://apim.rec.net/public/apis/api/images/v4/room/:roomId (Supported Params: take, skip, sort)
+        - GET https://apim.rec.net/public/apis/api/images/v3/feed/global (Supported Params: take, skip)
+        - POST https://apim.rec.net/public/apis/api/images/v3/bulk
     """
     Id: int
     Type: int
@@ -127,11 +127,10 @@ class InventionResponse(TypedDict):
     endpoints.
 
     Associated endpoints:
-        - GET https://api.rec.net/api/inventions/v1/featured (Supported Params: take, skip)
-        - GET https://api.rec.net/api/inventions/v2/search?value={Search_Query} 
-            (Seems to be broken currently.)
-        - GET https://api.rec.net/api/inventions/v1/toptoday
-        - GET https://api.rec.net/api/inventions/v1?inventionId={Invention_Id}
+        - GET https://apim.rec.net/public/apis/api/inventions/v1/featured (Supported Params: take, skip)
+        - GET https://apim.rec.net/public/apis/api/inventions/v2/search?value={Search_Query} 
+        - GET https://apim.rec.net/public/apis/api/inventions/v1/toptoday
+        - GET https://apim.rec.net/public/apis/api/inventions/v1?inventionId={Invention_Id}
     """
     InventionId: int
     ReplicationId: str
@@ -201,7 +200,7 @@ class TagResponse(TypedDict):
     """
     Used for both rooms and inventions.
 
-        - GET https://api.rec.net/api/inventions/v1/details?inventionId={Invention_Id}
+        - GET https://apim.rec.net/public/apis/api/inventions/v1/details?inventionId={Invention_Id}
     """
     Tag: str
     Type: int # 0 = user submitted, 1 = unknown, 2 = autoadded
@@ -316,7 +315,7 @@ class BioResponse(TypedDict):
     """
     Typed dictionary for the bio endpoint.
 
-        - GET https://accounts.rec.net/account/:playerId/bio
+        - GET https://apim.rec.net/public/accounts/account/:playerId/bio
     """
     accountId: int
     bio: str
@@ -332,5 +331,5 @@ Accounts:
     - GET https://api.rec.net/api/influencerpartnerprogram/influencer?accountId={Account_Id} -> int
         (This one doesn't seem to work anymore, but its still called on RecNet.)
 Images:
-    - GET https://api.rec.net/api/images/v1/:imageId/cheers -> List[int]
+    - GET https://apim.rec.net/public/apis/api/images/v1/:imageId/cheers -> List[int]
 """
