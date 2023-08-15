@@ -23,7 +23,7 @@ class InventionManager(BaseManager['Invention', 'InventionResponse']):
         :return: An invention object representing the data or nothing if not found. 
         """
         data: 'Response[InventionResponse]' = await self.rec_net.apim.inventions.v1.make_request('get', params = {'inventionId': id})
-        if data.data: return self.create_dataclass(id, data.data)
+        if data.success: return self.create_dataclass(id, data.data)
         return None
 
 

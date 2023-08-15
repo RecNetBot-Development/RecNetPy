@@ -26,7 +26,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         """
         #data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v4.bulk.make_request('post', body = {'Names': name})
         data: 'Response[List[ImageResponse]]' = await self.rec_net.api.images.v4.bulk.make_request('post', body = {'Names': name})
-        if data.data: return self.create_dataclass(id, data.data[0])
+        if data.success: return self.create_dataclass(id, data.data[0])
         return None
     
     
@@ -60,7 +60,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         """
         #data: 'Response[ImageResponse]' = await self.rec_net.apim.images.v4(id).make_request('get')
         data: 'Response[ImageResponse]' = await self.rec_net.api.images.v4(id).make_request('get')
-        if data.data: return self.create_dataclass(id, data.data)
+        if data.success: return self.create_dataclass(id, data.data)
         return None
     
     

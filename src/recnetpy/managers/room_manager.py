@@ -36,7 +36,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         :return: An room object representing the data or nothing if not found. 
         """
         data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms.make_request('get', params = {'name': name, 'include': include})
-        if data.data: return self.create_dataclass(data.data['RoomId'], data.data)
+        if data.success: return self.create_dataclass(data.data['RoomId'], data.data)
         return None
 
     async def fetch(self, id: int, include: int = 0) -> 'Room':
@@ -62,7 +62,7 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         :return: An room object representing the data. 
         """
         data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms(id).make_request('get', params = {'include': include})
-        if data.data: return self.create_dataclass(data.data['RoomId'], data.data)
+        if data.success: return self.create_dataclass(data.data['RoomId'], data.data)
         return None
 
     async def get_many(self, names: List[str]) -> List['Room']:

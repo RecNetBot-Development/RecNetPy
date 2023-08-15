@@ -23,7 +23,7 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         :return: An event object representing the data or nothing if not found. 
         """
         data: 'Response[EventResponse]' = await self.rec_net.apim.playerevents.v1(id).make_request('get')
-        if data.data: return self.create_dataclass(id, data.data)
+        if data.success: return self.create_dataclass(id, data.data)
         return None
         
 

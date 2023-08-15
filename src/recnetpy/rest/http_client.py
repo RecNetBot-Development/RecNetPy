@@ -25,7 +25,8 @@ def verify_status(resp: 'Response'):
                 raise RateLimited(resp)
             raise Forbidden(resp)
         case 404:
-            raise NotFound(resp)
+            #raise NotFound(resp)
+            ...
         case 500:
             raise InternalServerError(resp)
         case _:
