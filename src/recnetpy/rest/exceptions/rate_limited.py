@@ -13,6 +13,6 @@ class RateLimited(HTTPError):
 
     def __init__(self, resp: 'Response') -> None:
         time_out = resp.headers.get("retry_after")
-        t = timedelta(time_out)
+        t = timedelta(seconds=time_out)
         message = f"You're currently being rate limited. Time out expires in {t} seconds."
         super().__init__(resp, message)
