@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, List, Optional
 from .base import BaseDataClass
 from .progression import Progression
 from ..misc import date_to_unix, bitmask_decode
+from ..rest.exceptions import RateLimited
 
 if TYPE_CHECKING:
     from . import Event, Image, Room
@@ -167,8 +168,11 @@ class Account(BaseDataClass['AccountResponse']):
         :return: The player's bio.
         """
         if self.bio is None or force:
-            data: 'Response[BioResponse]' = await self.rec_net.accounts(self.id).bio.make_request('get')
-            self.bio = data.data['bio']
+            try:
+                data: 'Response[BioResponse]' = await self.rec_net.accounts(self.id).bio.make_request('get')
+                self.bio = data.data['bio']
+            except RateLimited:
+                self.bio = "Unable to fetch bio!"
         return self.bio
 
     async def get_level(self, force: bool = False) -> 'Progression':
