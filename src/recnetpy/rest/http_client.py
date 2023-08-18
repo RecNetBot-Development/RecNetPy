@@ -10,7 +10,9 @@ if TYPE_CHECKING:
     from .request import Request
     from .response import Response
     
-RATE_LIMIT = 30
+#10,000/hr = 166/min
+RATE_LIMIT = 166
+TICK_INTERVAL = 60
 
 def verify_status(resp: 'Response'):
     match resp.status:
@@ -60,7 +62,7 @@ class HTTPClient:
         self.reset_limit()
 
     def reset_limit(self):
-        self.next_tick = floor(self.__loop.time() + 1) + self.tick_offset
+        self.next_tick = floor(self.__loop.time() + TICK_INTERVAL) + self.tick_offset
         self.remaining_limit = self.rate_limit
         
     async def push(self, request: 'Request') -> 'Response':
