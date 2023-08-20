@@ -228,7 +228,7 @@ class Room(BaseDataClass['RoomResponse']):
             account = self.client.accounts.create_dataclass(role.account_id)
             role.account = account
             accounts[role.account_id] = account
-        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {"id": accounts.keys()})
+        data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.bulk.make_request('post', body = {"id": accounts.keys()})
         for data_response in data.data: accounts.get(data_response['accountId']).patch_data(data_response)
 
         # Search for deleted accounts
