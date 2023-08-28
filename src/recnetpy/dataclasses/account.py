@@ -78,7 +78,7 @@ class Account(BaseDataClass['AccountResponse']):
         self.platforms = bitmask_decode(data['platforms'], PLATFORM_LIST)
         self.personal_pronouns = bitmask_decode(data['personalPronouns'], PERSONAL_PRONOUNS_LIST)
         self.identity_flags = bitmask_decode(data['identityFlags'], IDENTITY_FLAGS_LIST)
-        self.created_at = date_to_unix(data['createdAt'])
+        self.created_at = date_to_unix(data['createdAt'], new=True)
 
     async def get_events(self, take: int = 16, skip: int = 0, force: bool = False) -> List['Event']:
         """
