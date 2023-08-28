@@ -29,7 +29,7 @@ class Account(BaseDataClass['AccountResponse']):
     #: This is the file name of an account's profile picture.  
     profile_image: str
     #: This is true if the account is a junior account, false if the account is a non-junior account. 
-    is_junior: bool
+    # is_junior: bool DEPRECATED
     #: This is a list of platforms a user plays on. It has these possible values ``['Steam', 'Meta', 'PlayStation', 'Xbox', 'RecNet', 'iOS', 'Android', 'Standalone']``.   
     platforms: List[str]
     #: This is the list of pronouns a user goes by. It has these possible values ``['She / her', 'He / him', 'They / them', 'Ze / hir', 'Ze / zir', 'Xe / xem']``.  
@@ -74,7 +74,7 @@ class Account(BaseDataClass['AccountResponse']):
         self.display_name = data['displayName']
         self.profile_image = data['profileImage']
         self.banner_image = data.get("bannerImage", None)
-        self.is_junior = bool(data['isJunior'])
+        #self.is_junior = bool(data['isJunior'])
         self.platforms = bitmask_decode(data['platforms'], PLATFORM_LIST)
         self.personal_pronouns = bitmask_decode(data['personalPronouns'], PERSONAL_PRONOUNS_LIST)
         self.identity_flags = bitmask_decode(data['identityFlags'], IDENTITY_FLAGS_LIST)

@@ -1,4 +1,4 @@
-from dateutil.parser import isoparse
+from datetime import datetime
 
 def date_to_unix(date: str) -> int:
     """
@@ -10,6 +10,6 @@ def date_to_unix(date: str) -> int:
     @return: Unix date represented as an integer.
     """
         
-    timestamp = isoparse(date).timestamp()
+    timestamp = datetime.strptime(date, '%m/%d/%Y %H:%M:%S %p').timestamp()
         
     return int(timestamp)  # Return UNIX timestamp
