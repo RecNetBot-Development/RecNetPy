@@ -29,11 +29,11 @@ class Image(BaseDataClass['ImageResponse']):
     #: This is an image's unique identifier.
     id: int
     #: This is the type of image which has the possible value of ``[None, 'Share Camera', 'Outfit Thumbnail', 'Room Thumbnail', 'Profile Thumbnail', 'Invention Thumbnail', 'Player Event Thumbnail', 'Room Load Screen']``.
-    type: str
+    #type: str
     #: This is the visibilty of the image which has the possible value of ``['Private', 'Public', 'Unlisted']``.
-    accessibility: str
+    #accessibility: str
     #: This is true if the accessiblity of the image is fixed, false if its able to able to be changed.
-    accessibility_locked: bool
+    #accessibility_locked: bool
     #: This is the file name of the image itself.
     image_name: str
     #: This is the description of the image.
@@ -75,9 +75,9 @@ class Image(BaseDataClass['ImageResponse']):
         """
         self.data = data
         self.id = data['Id']
-        self.type = IMAGE_TYPE.get(data['Type'], "Unknown")
-        self.accessibility = ACCESSIBILITY_DICT.get(data['Accessibility'], "Unknown")
-        self.accessibility_locked = data['AccessibilityLocked']
+        #self.type = IMAGE_TYPE.get(data['Type'], "Unknown")
+        #self.accessibility = ACCESSIBILITY_DICT.get(data['Accessibility'], "Unknown")
+        #self.accessibility_locked = data['AccessibilityLocked']
         self.image_name = data['ImageName']
         self.description = data['Description']
         self.player_id = data['PlayerId']

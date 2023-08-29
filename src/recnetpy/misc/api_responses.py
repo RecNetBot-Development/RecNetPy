@@ -95,9 +95,9 @@ class ImageResponse(TypedDict):
         - POST https://apim.rec.net/public/apis/api/images/v3/bulk
     """
     Id: int
-    Type: int
-    Accessibility: int # 0 = private, 1 = public
-    AccessibilityLocked: bool
+    #Type: int
+    #Accessibility: int # 0 = private, 1 = public
+    #AccessibilityLocked: bool
     ImageName: str
     Description: Optional[str]
     PlayerId: int
