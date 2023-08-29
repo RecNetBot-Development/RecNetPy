@@ -81,7 +81,8 @@ class Image(BaseDataClass['ImageResponse']):
         self.image_name = data['ImageName']
         self.description = data['Description']
         self.player_id = data['PlayerId']
-        self.tagged_player_ids = data['TaggedPlayerIds']
+        #self.tagged_player_ids = data['TaggedPlayerIds']
+        self.tagged_player_ids = []
         self.room_id = data['RoomId']
         self.event_id = data['PlayerEventId']
         self.created_at = date_to_unix(data['CreatedAt'], new=True)
