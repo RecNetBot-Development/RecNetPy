@@ -16,15 +16,15 @@ class AccountResponse(TypedDict):
         - GET https://apim.rec.net/public/accounts/account/search?name={Search_Query}
         - POST https://apim.rec.net/public/accounts/account/bulk
     """
-    accountId: int
-    username: str
-    displayName: str
-    profileImage: str # Located at https://img.rec.net/:imageName
-    isJunior: bool
-    platforms: int # Bitmask 2^N = ['Steam', 'Meta', 'PlayStation', 'Xbox', 'RecNet', 'iOS', 'Android', 'Standalone']
-    personalPronouns: int # Bitmask 2^N = ['She / her', 'He / him', 'They / them', 'Ze / hir', 'Ze / zir', 'Xe / xem']
-    identityFlags: int # Bitmask 2^N = ['LGBTQIA', 'Transgender', 'Bisexual', 'Lesbian', 'Pansexual', 'Asexual', 'Intersex', 'Genderqueer', 'Nonbinary', 'Aromantic']
-    createdAt: str
+    AccountId: int
+    Username: str
+    DisplayName: str
+    ProfileImage: str # Located at https://img.rec.net/:imageName
+    #IsJunior: bool
+    Platforms: int # Bitmask 2^N = ['Steam', 'Meta', 'PlayStation', 'Xbox', 'RecNet', 'iOS', 'Android', 'Standalone']
+    PersonalPronouns: int # Bitmask 2^N = ['She / her', 'He / him', 'They / them', 'Ze / hir', 'Ze / zir', 'Xe / xem']
+    IdentityFlags: int # Bitmask 2^N = ['LGBTQIA', 'Transgender', 'Bisexual', 'Lesbian', 'Pansexual', 'Asexual', 'Intersex', 'Genderqueer', 'Nonbinary', 'Aromantic']
+    CreatedAt: str
 
 class CommentResponse(TypedDict):
     """
