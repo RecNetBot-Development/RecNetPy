@@ -105,7 +105,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         """
         account_list: List['Account'] = []
         for account_data in data:
-            account_obj = Account(self.client, account_data['accountId'], account_data)
+            account_obj = Account(self.client, account_data['AccountId'], account_data)
             account_list.append(account_obj)
         return account_list
 
