@@ -210,6 +210,6 @@ class Account(BaseDataClass['AccountResponse']):
         :return: This player's subscriber count.
         """
         if self.is_influencer is None or force:
-            data: 'Response[bool]' = await self.rec_net.api.influencerpartnerprogram.isinfluencer.make_request('get', params = {'accountId': self.id})
+            data: 'Response[bool]' = await self.rec_net.api.influencerpartnerprogram.isinfluencer.make_request('get', params = {'AccountId': self.id})
             self.is_influencer = data.data
         return self.is_influencer 
