@@ -69,16 +69,16 @@ class Account(BaseDataClass['AccountResponse']):
         :param data: Data from the api.
         """
         self.data = data
-        self.id = data['AccountId']
-        self.username = data['Username']
-        self.display_name = data['DisplayName']
-        self.profile_image = data['ProfileImage']
-        self.banner_image = data.get("BannerImage", None)
+        self.id = data['accountId']
+        self.username = data['username']
+        self.display_name = data['displayName']
+        self.profile_image = data['profileImage']
+        self.banner_image = data.get("bannerImage", None)
         #self.is_junior = bool(data['isJunior'])
-        self.platforms = bitmask_decode(data['Platforms'], PLATFORM_LIST)
-        self.personal_pronouns = bitmask_decode(data['PersonalPronouns'], PERSONAL_PRONOUNS_LIST)
-        self.identity_flags = bitmask_decode(data['IdentityFlags'], IDENTITY_FLAGS_LIST)
-        self.created_at = date_to_unix(data['CreatedAt'], new=True)
+        self.platforms = bitmask_decode(data['platforms'], PLATFORM_LIST)
+        self.personal_pronouns = bitmask_decode(data['personalPronouns'], PERSONAL_PRONOUNS_LIST)
+        self.identity_flags = bitmask_decode(data['identityFlags'], IDENTITY_FLAGS_LIST)
+        self.created_at = date_to_unix(data['createdAt'], new=False)
 
     async def get_events(self, take: int = 16, skip: int = 0, force: bool = False) -> List['Event']:
         """
@@ -210,6 +210,6 @@ class Account(BaseDataClass['AccountResponse']):
         :return: This player's subscriber count.
         """
         if self.is_influencer is None or force:
-            data: 'Response[bool]' = await self.rec_net.api.influencerpartnerprogram.isinfluencer.make_request('get', params = {'AccountId': self.id})
+            data: 'Response[bool]' = await self.rec_net.api.influencerpartnerprogram.isinfluencer.make_request('get', params = {'accountId': self.id})
             self.is_influencer = data.data
         return self.is_influencer 

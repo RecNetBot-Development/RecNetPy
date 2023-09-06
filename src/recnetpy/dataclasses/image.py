@@ -213,5 +213,5 @@ class Image(BaseDataClass['ImageResponse']):
                 comment.player = player
                 players[comment.player_id] = player
             data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {id: players.keys})
-            for data_response in data.data: players.get(data_response['AccountId']).patch_data(data_response)
+            for data_response in data.data: players.get(data_response['accountId']).patch_data(data_response)
         return self.comments

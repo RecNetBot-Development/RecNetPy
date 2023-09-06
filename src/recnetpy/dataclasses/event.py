@@ -74,18 +74,18 @@ class Event(BaseDataClass['EventResponse']):
         self.creator_player_id = data['CreatorPlayerId']
         self.image_name = data['ImageName']
         self.room_id = data['RoomId']
-        self.subroom_id = data['SubRoomId']
+        #self.subroom_id = data['SubRoomId']
         self.club = data['ClubId']
         self.name = data['Name']
         self.description = data['Description']
-        self.start_time = date_to_unix(data['StartTime'])
-        self.end_time = date_to_unix(data['EndTime'])
+        self.start_time = date_to_unix(data['StartTime'], new=True)
+        self.end_time = date_to_unix(data['EndTime'], new=True)
         self.attendee_count = data['AttendeeCount']
-        self.accessibility = ACCESSIBILITY_DICT.get(data['Accessibility'], "Unknown")
-        self.is_multi_instance = data['IsMultiInstance']
-        self.support_multi_instance_room_chat = data['SupportMultiInstanceRoomChat']
-        self.default_broadcast_permissions = BROADCAST_PERMISSION_DICT.get(data['DefaultBroadcastPermissions'], "Unknown")
-        self.can_request_broadcast_permissions = BROADCAST_PERMISSION_DICT.get(data['CanRequestBroadcastPermissions'], "Unkown")
+        #self.accessibility = ACCESSIBILITY_DICT.get(data['Accessibility'], "Unknown")
+        #self.is_multi_instance = data['IsMultiInstance']
+        #self.support_multi_instance_room_chat = data['SupportMultiInstanceRoomChat']
+        #self.default_broadcast_permissions = BROADCAST_PERMISSION_DICT.get(data['DefaultBroadcastPermissions'], "Unknown")
+        #self.can_request_broadcast_permissions = BROADCAST_PERMISSION_DICT.get(data['CanRequestBroadcastPermissions'], "Unkown")
 
     async def get_images(self, take: int = 16, skip: int = 0, force: bool = False) -> List['Image']:
         """
@@ -171,5 +171,5 @@ class Event(BaseDataClass['EventResponse']):
                 response.player = player
                 players[response.player_id] = player
             data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {"id": players.keys()})
-            for data_response in data.data: players.get(data_response['AccountId']).patch_data(data_response)
+            for data_response in data.data: players.get(data_response['accountId']).patch_data(data_response)
         return self.responses

@@ -67,19 +67,19 @@ class EventResponse(TypedDict):
     CreatorPlayerId: int
     ImageName: Optional[str]
     RoomId: int
-    SubRoomId: Optional[int]
+    #SubRoomId: Optional[int]
     ClubId: Optional[int]
     Name: str
     Description: str
     StartTime: str
     EndTime: str
     AttendeeCount: int
-    State: int
-    Accessibility: int # 0 = private, 1 = public, 2 = unlisted 
-    IsMultiInstance: bool
-    SupportMultiInstanceChat: bool
-    DefaultBroadcastPermissions: int 
-    CanRequestBroadcastPermissions: int
+    #State: int
+    #Accessibility: int # 0 = private, 1 = public, 2 = unlisted 
+    #IsMultiInstance: bool
+    #SupportMultiInstanceChat: bool
+    #DefaultBroadcastPermissions: int 
+    #CanRequestBroadcastPermissions: int
 
 class ImageResponse(TypedDict):
     """

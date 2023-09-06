@@ -23,7 +23,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         :return: An account object representing the data or nothing if not found. 
         """
         data: 'Response[AccountResponse]' = await self.rec_net.accounts.make_request('get', params = {'username': str(name)})
-        if data.success and data.data: return self.create_dataclass(data.data['AccountId'], data.data)
+        if data.success and data.data: return self.create_dataclass(data.data['accountId'], data.data)
         return None
 
     async def fetch(self, id: int) -> Optional['Account']:
@@ -105,7 +105,7 @@ class AccountManager(BaseManager['Account', 'AccountResponse']):
         """
         account_list: List['Account'] = []
         for account_data in data:
-            account_obj = Account(self.client, account_data['AccountId'], account_data)
+            account_obj = Account(self.client, account_data['accountId'], account_data)
             account_list.append(account_obj)
         return account_list
 
