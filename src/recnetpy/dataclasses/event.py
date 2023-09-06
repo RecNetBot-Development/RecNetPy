@@ -78,8 +78,8 @@ class Event(BaseDataClass['EventResponse']):
         self.club = data['ClubId']
         self.name = data['Name']
         self.description = data['Description']
-        self.start_time = date_to_unix(data['StartTime'], new=True)
-        self.end_time = date_to_unix(data['EndTime'], new=True)
+        self.start_time = date_to_unix(data['StartTime'], new=False)
+        self.end_time = date_to_unix(data['EndTime'], new=False)
         self.attendee_count = data['AttendeeCount']
         #self.accessibility = ACCESSIBILITY_DICT.get(data['Accessibility'], "Unknown")
         #self.is_multi_instance = data['IsMultiInstance']
