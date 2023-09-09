@@ -25,7 +25,7 @@ class ImageManager(BaseManager['Image', 'ImageResponse']):
         :return: An image object representing the data or nothing if not found. 
         """
         data: 'Response[List[ImageResponse]]' = await self.rec_net.apim.images.v4.bulk.make_request('post', body = {'Names': name})
-        if data.success: return self.create_dataclass(id, data.data[0])
+        if data.data: return self.create_dataclass(id, data.data[0])
         return None
     
     
