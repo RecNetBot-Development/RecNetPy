@@ -26,6 +26,8 @@ class Account(BaseDataClass['AccountResponse']):
     username: str
     #: This is what appears in bold above the username on an account's page on RecNet. The display name is not unique unlike the username.
     display_name: str
+    #: This is the RR+ exclusive display emoji.
+    display_emoji: Optional[str] = None
     #: This is the file name of an account's profile picture.  
     profile_image: str
     #: This is true if the account is a junior account, false if the account is a non-junior account. 
@@ -74,6 +76,7 @@ class Account(BaseDataClass['AccountResponse']):
         self.display_name = data['displayName']
         self.profile_image = data['profileImage']
         self.banner_image = data.get("bannerImage", None)
+        self.display_emoji = data.get("displayEmoji", None)
         #self.is_junior = bool(data['isJunior'])
         self.platforms = bitmask_decode(data['platforms'], PLATFORM_LIST)
         self.personal_pronouns = bitmask_decode(data['personalPronouns'], PERSONAL_PRONOUNS_LIST)
