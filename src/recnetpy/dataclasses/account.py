@@ -187,7 +187,7 @@ class Account(BaseDataClass['AccountResponse']):
         :return: This player's level.
         """
         if self.level is None or force:
-            data: 'Response[List[ProgressionResponse]]' = await self.rec_net.api.players.v2.progression.bulk.make_request('post', body = {'id': [self.id]})
+            data: 'Response[List[ProgressionResponse]]' = await self.rec_net.apim.players.progression.bulk.make_request('post', body = {'id': [self.id]})
             self.level = Progression(data.data[0])
         return self.level
 
@@ -200,8 +200,12 @@ class Account(BaseDataClass['AccountResponse']):
         :return: This player's subscriber count.
         """
         if self.subscriber_count is None or force:
-            data: 'Response[int]' = await self.rec_net.clubs.subscription.subscribercount(self.id).make_request('get')
-            self.subscriber_count = data.data
+            try:
+                data: 'Response[int]' = await self.rec_net.clubs.subscription.subscribercount(self.id).make_request('get')
+                self.subscriber_count = data.data
+            except :
+                self.subscriber_count = -1
+
         return self.subscriber_count
 
     async def get_is_influencer(self, force: bool = False) -> bool:
@@ -213,6 +217,6 @@ class Account(BaseDataClass['AccountResponse']):
         :return: This player's subscriber count.
         """
         if self.is_influencer is None or force:
-            data: 'Response[bool]' = await self.rec_net.api.influencerpartnerprogram.isinfluencer.make_request('get', params = {'accountId': self.id})
+            data: 'Response[bool]' = await self.rec_net.apim.influencerpartnerprogram.isinfluencer.make_request('get', params = {'accountId': self.id})
             self.is_influencer = data.data
         return self.is_influencer 

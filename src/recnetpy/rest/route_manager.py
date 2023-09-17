@@ -33,6 +33,26 @@ class RouteManager:
         return RouteBuilder(self.client, "https://api.rec.net/api/", use_auth=True)
 
     @property
+    def events(self) -> RouteBuilder:
+        """
+        Creates a route builer with a base url
+        for event endpoint requests.
+
+        @return: An events route builder.
+        """
+        return RouteBuilder(self.client, "https://apim.rec.net/public/playerevents/ ", use_auth=True)
+
+    @property
+    def images(self) -> RouteBuilder:
+        """
+        Creates a route builer with a base url
+        for images endpoint requests.
+
+        @return: An images route builder.
+        """
+        return RouteBuilder(self.client, "https://apim.rec.net/public/images/", use_auth=True)
+
+    @property
     def rooms(self) -> RouteBuilder:
         """
         Creates a route builer with a base url
@@ -40,7 +60,7 @@ class RouteManager:
 
         @return: A rooms route builder.
         """
-        return RouteBuilder(self.client, "https://rooms.rec.net/")
+        return RouteBuilder(self.client, "https://apim.rec.net/public/rooms/")
 
     @property
     def accounts(self) -> RouteBuilder:
@@ -50,7 +70,7 @@ class RouteManager:
 
         @return: A accounts route builder.
         """
-        return RouteBuilder(self.client, "https://apim.rec.net/public/accounts/account/", use_auth=True)
+        return RouteBuilder(self.client, "https://apim.rec.net/public/accounts/", use_auth=True)
 
     @property
     def clubs(self) -> RouteBuilder:

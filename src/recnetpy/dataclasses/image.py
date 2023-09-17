@@ -163,7 +163,7 @@ class Image(BaseDataClass['ImageResponse']):
         """        
         if self.cheer_count == 0: return []
         if self.cheer_player_ids is None or force:
-            data: 'Response[List[int]]' = await self.rec_net.api.images.v1(self.id).cheers.make_request('get')
+            data: 'Response[List[int]]' = await self.rec_net.images(self.id).cheers.make_request('get')
             self.cheer_player_ids = data.data           
         return self.cheer_player_ids
 
@@ -177,7 +177,7 @@ class Image(BaseDataClass['ImageResponse']):
         """
         if self.comment_count == 0: return []
         if self.comments is None or force:
-            data: 'Response[List[CommentResponse]]' = await self.rec_net.api.images.v1(self.id).comments.make_request('get')
+            data: 'Response[List[CommentResponse]]' = await self.rec_net.images(self.id).comments.make_request('get')
             self.comments = Comment.create_from_list(data.data)
         return self.comments
 
@@ -212,6 +212,6 @@ class Image(BaseDataClass['ImageResponse']):
                 player = self.client.accounts.create_dataclass(comment.player_id)
                 comment.player = player
                 players[comment.player_id] = player
-            data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.account.bulk.make_request('post', body = {id: players.keys})
+            data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.bulk.make_request('post', body = {id: players.keys})
             for data_response in data.data: players.get(data_response['accountId']).patch_data(data_response)
         return self.comments

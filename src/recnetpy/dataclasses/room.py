@@ -133,44 +133,44 @@ class Room(BaseDataClass['RoomResponse']):
         self.data = data
         self.id = data["RoomId"]
         self.is_dorm = data["IsDorm"]
-        self.max_player_calculation_mode = MAX_PLAYER_CALCULATION_MODE.get(data["MaxPlayerCalculationMode"], "Unknown")
-        self.max_players = data["MaxPlayers"]
-        self.cloning_allowed = data["CloningAllowed"]
-        self.disable_mic_auto_mute = data["DisableMicAutoMute"]
-        self.disable_room_comments = data["DisableRoomComments"]
-        self.encrypted_voice_chat = data["EncryptVoiceChat"]
-        self.voice_moderated = data["ToxmodEnabled"]
-        self.load_screen_locked = data["LoadScreenLocked"]
+        #self.max_player_calculation_mode = MAX_PLAYER_CALCULATION_MODE.get(data["MaxPlayerCalculationMode"], "Unknown")
+        #self.max_players = data["MaxPlayers"]
+        #self.cloning_allowed = data["CloningAllowed"]
+        #self.disable_mic_auto_mute = data["DisableMicAutoMute"]
+        #self.disable_room_comments = data["DisableRoomComments"]
+        #self.encrypted_voice_chat = data["EncryptVoiceChat"]
+        #self.voice_moderated = data["ToxmodEnabled"]
+        #self.load_screen_locked = data["LoadScreenLocked"]
         self.name = data["Name"]
         self.description = data["Description"]
         self.image_name = data["ImageName"]
         self.warnings = bitmask_decode(data["WarningMask"], WARNING_MASK_LIST)
         self.custom_warning = data["CustomWarning"]
         self.creator_account_id = data["CreatorAccountId"]
-        self.state = ROOM_MODERATION_STATE.get(data["State"], "Unknown")
-        self.accessibility = ACCESSIBILITY_DICT.get(data["Accessibility"], "Unknown")
-        self.supports_level_voting = data["SupportsLevelVoting"]
+        #self.state = ROOM_MODERATION_STATE.get(data["State"], "Unknown")
+        #self.accessibility = ACCESSIBILITY_DICT.get(data["Accessibility"], "Unknown")
+        #self.supports_level_voting = data["SupportsLevelVoting"]
         self.is_rro = data["IsRRO"]
-        self.supports_screens = data["SupportsScreens"]
-        self.supports_walk_vr = data["SupportsWalkVR"]
-        self.supports_teleport_vr = data["SupportsTeleportVR"]
-        self.supports_vr_low = data["SupportsVRLow"]
-        self.supports_quest_two = data["SupportsQuest2"]
-        self.supports_mobile = data["SupportsMobile"]
-        self.supports_juniors = data["SupportsJuniors"]
-        self.min_level = data["MinLevel"]
-        self.created_at = date_to_unix(data["CreatedAt"])
+        #self.supports_screens = data["SupportsScreens"]
+        #self.supports_walk_vr = data["SupportsWalkVR"]
+        #self.supports_teleport_vr = data["SupportsTeleportVR"]
+        #self.supports_vr_low = data["SupportsVRLow"]
+        #self.supports_quest_two = data["SupportsQuest2"]
+        #self.supports_mobile = data["SupportsMobile"]
+        #self.supports_juniors = data["SupportsJuniors"]
+        #self.min_level = data["MinLevel"]
+        #self.created_at = date_to_unix(data["CreatedAt"])
         self.cheer_count = data["Stats"]["CheerCount"]
         self.favorite_count = data["Stats"]["FavoriteCount"]
         self.visitor_count = data["Stats"]["VisitorCount"]
         self.visit_count = data["Stats"]["VisitCount"]
-        self.subrooms = SubRoom.create_from_list(data.get("SubRooms"))
-        self.roles = Role.create_from_list(data.get("Roles"))
-        self.tags = Tag.create_from_list(data.get("Tags"))
-        self.promo_images = data.get("PromoImages")
-        self.promo_external_content = PromoExternalContent.create_from_list(data.get("PromoExternalContent"))
-        self.scores = Score.create_from_list(data.get("Scores"))
-        self.load_screens = LoadScreen.create_from_list(data.get("LoadScreens")) 
+        #self.subrooms = SubRoom.create_from_list(data.get("SubRooms"))
+        #self.roles = Role.create_from_list(data.get("Roles"))
+        #self.tags = Tag.create_from_list(data.get("Tags"))
+        #self.promo_images = data.get("PromoImages")
+        #self.promo_external_content = PromoExternalContent.create_from_list(data.get("PromoExternalContent"))
+        #self.scores = Score.create_from_list(data.get("Scores"))
+        #self.load_screens = LoadScreen.create_from_list(data.get("LoadScreens")) 
 
     async def get_images(self, take: int = 16, skip: int = 0, sort: int = 0, force: bool = False) -> List['Image']:
         """
@@ -221,6 +221,10 @@ class Room(BaseDataClass['RoomResponse']):
 
         :return: A list of role objects, or None if roles is None 
         """
+
+        # Until roles are back
+        return []
+
         if self.roles is None: return None
         roles = self.roles
         accounts: Dict[int, Account] = {}
