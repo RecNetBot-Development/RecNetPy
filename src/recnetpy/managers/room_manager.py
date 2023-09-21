@@ -35,8 +35,9 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         :param include: An integer that add additional information to the response.
         :return: An room object representing the data or nothing if not found. 
         """
-        data: 'Response[RoomResponse]' = await self.rec_net.rooms.make_request('get', params = {'name': name, 'include': include})
-        if data.success: return self.create_dataclass(data.data['RoomId'], data.data)
+        data: 'Response[RoomResponse]' = await self.rec_net.rooms.bulk.make_request('get', params = {'name': name})
+        room_data = data.data[0]
+        if data.success and data.data: return self.create_dataclass(room_data['RoomId'], room_data)
         return None
 
     async def fetch(self, id: int, include: int = 0) -> 'Room':
