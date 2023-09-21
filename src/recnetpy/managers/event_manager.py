@@ -38,7 +38,7 @@ class EventManager(BaseManager['Event', 'EventResponse']):
         :param ids: A list of ids.
         :return: A list of event objects. 
         """
-        data: 'Response[List[EventResponse]]' = await self.rec_net.events.make_request('post', body = {'Ids': ids})
+        data: 'Response[List[EventResponse]]' = await self.rec_net.events.bulk.make_request('post', body = {'Ids': ids})
         return self.create_from_data_list(data.data)
 
     async def search(self, query: str, take: int = 16, skip: int = 0, sort: int = 0) -> List['Event']:

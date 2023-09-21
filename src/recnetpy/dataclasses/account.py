@@ -200,11 +200,11 @@ class Account(BaseDataClass['AccountResponse']):
         :return: This player's subscriber count.
         """
         if self.subscriber_count is None or force:
-            try:
-                data: 'Response[int]' = await self.rec_net.clubs.subscription.subscribercount(self.id).make_request('get')
-                self.subscriber_count = data.data
-            except :
-                self.subscriber_count = -1
+            #try:
+            data: 'Response[int]' = await self.rec_net.clubs.subscription.subscribercount(self.id).make_request('get')
+            self.subscriber_count = data.data
+            #except:
+            #    self.subscriber_count = -1
 
         return self.subscriber_count
 

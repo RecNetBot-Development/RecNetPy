@@ -22,7 +22,7 @@ class RouteBuilder:
         self.client = client
         self.use_auth = use_auth
 
-    async def make_request(self, method: str, params: Optional[Dict] = None, body: Optional[Dict] = None, headers: Optional[Dict] = None) -> 'Response':
+    async def make_request(self, method: str, params: Optional[Dict] = None, body: Optional[Dict] = None, headers: Optional[Dict] = {}, api_version: str = "v1") -> 'Response':
         """
         Joins the route components into a url, and constructs
         a request object that is processed by the http client.
@@ -35,6 +35,8 @@ class RouteBuilder:
         if self.use_auth:
             if headers is None: headers = {}
             headers['Ocp-Apim-Subscription-Key'] = self.client.api_key
+        headers["Api-Version"] = api_version
+        #headers["Content-Type"] = "application/x-www-form-urlencoded"
         url = self.base + "/".join(self.route)
         request = Request(self.client.session, method, url, params, body, headers)
         return await self.client.push(request)
