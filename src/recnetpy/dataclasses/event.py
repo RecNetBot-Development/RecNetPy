@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Dict, Optional, List
 
 from .base import BaseDataClass
 from .event_response import EventInteraction
-from ..misc import date_to_unix
+from ..misc import date_to_unix, list_chunks
 from ..misc.constants import ACCESSIBILITY_DICT
 
 if TYPE_CHECKING:
@@ -170,6 +170,21 @@ class Event(BaseDataClass['EventResponse']):
                 player = self.client.accounts.create_dataclass(response.player_id)
                 response.player = player
                 players[response.player_id] = player
-            data: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.bulk.make_request('post', body = {"id": players.keys()})
-            for data_response in data.data: players.get(data_response['accountId']).patch_data(data_response)
+
+            player_ids = list(players.keys())
+            data: List[AccountResponse] = []
+
+            # 750 == roughly 9750 bytes of payload
+            # limit of 10240 bytes in API
+            if len(player_ids) > 750:
+                player_chunks = list_chunks(player_ids, 750)
+                for i in player_chunks:
+                    response: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.bulk.make_request('post', body = {"id": i})
+                    data += response.data
+            else:
+                # Fits in a single payload
+                response: 'Response[List[AccountResponse]]' = await self.rec_net.accounts.bulk.make_request('post', body = {"id": player_ids})
+                data = response.data
+
+            for data_response in data: players.get(data_response['accountId']).patch_data(data_response)
         return self.responses
