@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING, List, Optional
 
+from enum import Enum
 from . import BaseManager
 from ..dataclasses import Room
 from ..misc import stringify_bulk
@@ -8,12 +9,35 @@ if TYPE_CHECKING:
     from ..misc.api_responses import RoomResponse, RoomSearchResponse
     from ..rest import Response
 
+class RoomInclude(Enum):
+    """
+    Enum which corresponds to the room include parameter values
+    """
+    SUBROOMS = 2
+    ROLES = 4
+    TAGS = 8
+    PROMO_CONTENT = 32
+    SCORES = 64
+    LOADING_SCREENS = 256 
+
+def sum_enum_list(enums: List[Enum]) -> int:
+    """
+    Sums a list of integer enums
+
+    :param enums: A list of enums that have integer values
+    :return: Sum of the enums' values
+    """
+    sum = 0
+    for i in enums:
+        sum += i.value
+    return sum
+
 class RoomManager(BaseManager['Room', 'RoomResponse']):
     """
     This is a factory object for creating room objects. Its the
     main interface for fetching room related data.
     """
-    async def get(self, name: str, include: int = 0) -> 'Room':
+    async def get(self, name: str, include: int | List[RoomInclude] = 0) -> 'Room':
         """
         Gets room data by their name, and returns it as an room object.
         Returns nothing if the room doesn't exist or is private.
@@ -35,11 +59,14 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         :param include: An integer that add additional information to the response.
         :return: An room object representing the data or nothing if not found. 
         """
+  
+        if isinstance(include, list):
+            include = sum_enum_list(include)                
         data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms.make_request('get', params = {'name': name, 'include': include})
         if data.data: return self.create_dataclass(data.data['RoomId'], data.data)
         return None
 
-    async def fetch(self, id: int, include: int = 0) -> 'Room':
+    async def fetch(self, id: int, include: int | List[RoomInclude] = 0) -> 'Room':
         """
         Gets room data by their id, and returns it as an room object.
         Returns nothing if the room doesn't exist or is private.
@@ -61,6 +88,8 @@ class RoomManager(BaseManager['Room', 'RoomResponse']):
         :param include: An integer that add additional information to the response.
         :return: An room object representing the data. 
         """
+        if isinstance(include, list):
+            include = sum_enum_list(include)     
         data: 'Response[RoomResponse]' = await self.rec_net.rooms.rooms(id).make_request('get', params = {'include': include})
         if data.data: return self.create_dataclass(data.data['RoomId'], data.data)
         return None
