@@ -16,7 +16,7 @@ IDENTITY_FLAGS_LIST: List[str] = ['LGBTQIA', 'Transgender', 'Bisexual', 'Lesbian
 
 class Account(BaseDataClass['AccountResponse']):
     """
-    This dataclass represents a RecNet account. 
+    This dataclass represents a Rec Room account. 
     """
 
     #: This is an account's unique identifier
