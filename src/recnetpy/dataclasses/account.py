@@ -6,7 +6,7 @@ from ..misc import date_to_unix, bitmask_decode
 
 if TYPE_CHECKING:
     from . import Event, Image, Room
-    from ..misc.api_responses import AccountResponse, ProgressionResponse, BioResponse, RoomResponse
+    from ..misc.api_responses import AccountResponse, ProgressionResponse, BioResponse
     from ..rest import Response
 
 
