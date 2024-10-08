@@ -11,6 +11,7 @@ ROLE_DICT: Dict[int, str] = {
     1: "Banned",
     10: "Member",
     20: "Moderator",
+    25: "Contributor",
     30: "Co-Owner",
     31: "Temporary Co-Owner",
     255: "Owner"
