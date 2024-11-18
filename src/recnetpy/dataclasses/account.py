@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from ..rest import Response
 
 
-PLATFORM_LIST: List[str] = ['Steam', 'Meta', 'PlayStation', 'Xbox', 'RecNet', 'iOS', 'Android', 'Standalone', 'Pico']
+PLATFORM_LIST: List[str] = ['Steam', 'Meta', 'PlayStation', 'Xbox', 'RecNet', 'iOS', 'Android', 'Standalone', 'Pico', 'Nintendo']
 PERSONAL_PRONOUNS_LIST: List[str] = ['She / her', 'He / him', 'They / them', 'Ze / hir', 'Ze / zir', 'Xe / xem']
 IDENTITY_FLAGS_LIST: List[str] = ['LGBTQIA', 'Transgender', 'Bisexual', 'Lesbian', 'Pansexual', 'Asexual', 'Intersex', 'Genderqueer', 'Nonbinary', 'Aromantic']
 
