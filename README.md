@@ -1,5 +1,5 @@
 # RecNetPy
-> **RecNetPy** is an API wrapper built in Python for pulling data from [RecNet](https://rec.net/). **RecNetPy** aims to be easy to use yet powerful. It's the same wrapper used to power [RecNetBot](https://github.com/RecNetBot-Development/RecNetBot)!
+> **RecNetPy** is a [Rec Room](https://devportal.rec.net/) API wrapper built in Python. **RecNetPy** aims to be easy to use yet powerful. It's the same wrapper used to power [RecNetBot](https://github.com/RecNetBot-Development/RecNetBot)!
 
 [![NPM Version][pip-image]][pip-url]
 [![Downloads Stats][pip-downloads]][pip-url]
