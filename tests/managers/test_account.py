@@ -37,9 +37,251 @@ def validate_account_except_id(account: Account) -> None:
     assert account.created_at == 1717977600
 
 
-def return_empty_404_response() -> Response:
+def return_empty_response(status_code: int = 404, success: bool = False) -> Response:
     return Response(
-        url="empty404", status=404, success=False, headers={}, data={})
+        url="empty", status=status_code, success=False, headers={}, data={})
+
+
+
+async def test_accounts_get_200_empty_returns_none(monkeypatch):
+    client = return_sample_client()
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return return_empty_response(200, success=True)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    account = await client.accounts.get("someone")
+    assert account is None
+
+    await client.close()
+
+
+async def test_accounts_fetch_200_empty_returns_none(monkeypatch):
+    client = return_sample_client()
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return return_empty_response(200, success=True)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    account = await client.accounts.fetch(1)
+    assert account is None
+
+    await client.close()
+
+
+async def test_accounts_get_500_returns_none(monkeypatch):
+    client = return_sample_client()
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return return_empty_response(500, success=False)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    account = await client.accounts.get("user")
+    assert account is None
+
+    await client.close()
+
+
+async def test_accounts_fetch_500_returns_none(monkeypatch):
+    client = return_sample_client()
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return return_empty_response(500, success=False)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    account = await client.accounts.fetch(2)
+    assert account is None
+
+    await client.close()
+
+
+async def test_accounts_get_many_500_returns_empty(monkeypatch):
+    client = return_sample_client()
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return return_empty_response(500, success=False)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    accounts = await client.accounts.get_many(["a", "b"]) 
+    assert accounts == []
+
+    await client.close()
+
+
+async def test_accounts_fetch_many_500_returns_empty(monkeypatch):
+    client = return_sample_client()
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return return_empty_response(500, success=False)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    accounts = await client.accounts.fetch_many([1, 2, 3])
+    assert accounts == []
+
+    await client.close()
+
+
+async def test_accounts_search_500_returns_empty(monkeypatch):
+    client = return_sample_client()
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return return_empty_response(500, success=False)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    accounts = await client.accounts.search("query")
+    assert accounts == []
+
+    await client.close()
+
+
+async def test_accounts_get_sends_username_param(monkeypatch):
+    client = return_sample_client()
+    captured = {"method": None, "params": None}
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        captured["method"] = method
+        captured["params"] = params
+        return Response(url="ok", status=200, success=True, headers={}, data=return_sample_account())
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    await client.accounts.get("SomeUser")
+    assert captured["method"] == "get"
+    assert captured["params"] == {"username": "SomeUser"}
+
+    await client.close()
+
+
+async def test_accounts_search_sends_name_param(monkeypatch):
+    client = return_sample_client()
+    captured = {"method": None, "params": None}
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        captured["method"] = method
+        captured["params"] = params
+        return Response(url="ok", status=200, success=True, headers={}, data=[return_sample_account()])
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    await client.accounts.search("RecRoom")
+    assert captured["method"] == "get"
+    assert captured["params"] == {"name": "RecRoom"}
+
+    await client.close()
+
+
+async def test_accounts_get_many_sends_name_body(monkeypatch):
+    client = return_sample_client()
+    captured = {"method": None, "body": None}
+    NAMES = ["1", "2", "3"]
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        captured["method"] = method
+        captured["body"] = body
+        data = [return_sample_account() for _ in NAMES]
+        return Response(url="ok", status=200, success=True, headers={}, data=data)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    await client.accounts.get_many(NAMES)
+    assert captured["method"] == "post"
+    assert captured["body"] == {"name": [str(n) for n in NAMES]}
+
+    await client.close()
+
+
+async def test_accounts_fetch_many_sends_id_body(monkeypatch):
+    client = return_sample_client()
+    captured = {"method": None, "body": None}
+    IDS = [1, 2, 3]
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        captured["method"] = method
+        captured["body"] = body
+        data = [return_sample_account(account_id=i) for i in IDS]
+        return Response(url="ok", status=200, success=True, headers={}, data=data)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    await client.accounts.fetch_many(IDS)
+    assert captured["method"] == "post"
+    assert captured["body"] == {"id": IDS}
+
+    await client.close()
+
+
+async def test_accounts_get_many_partial_success(monkeypatch):
+    client = return_sample_client()
+    requested = ["one", "two", "three"]
+    sample_account_data = [return_sample_account(), return_sample_account()]
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return Response(url="ok", status=200, success=True, headers={}, data=sample_account_data)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    accounts = await client.accounts.get_many(sample_account_data)
+    assert len(accounts) == 2
+
+    await client.close()
+
+
+async def test_accounts_fetch_many_partial_success(monkeypatch):
+    client = return_sample_client()
+    requested = [10, 20, 30]
+    returned = [return_sample_account(account_id=20)]
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return Response(url="ok", status=200, success=True, headers={}, data=returned)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    accounts = await client.accounts.fetch_many(requested)
+    assert len(accounts) == 1
+    assert accounts[0].id == 20
+
+    await client.close()
+
+
+async def test_banner_image_optional_is_none(monkeypatch):
+    client = return_sample_client()
+    sample_account_data = return_sample_account()
+    sample_account_data.pop("bannerImage", None)
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return Response(url="ok", status=200, success=True, headers={}, data=sample_account_data)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    account = await client.accounts.get("user")
+    assert account is not None
+    assert account.banner_image is None
+
+    await client.close()
+
+
+async def test_is_junior_true(monkeypatch):
+    client = return_sample_client()
+    sample_account_data = return_sample_account()
+    sample_account_data["isJunior"] = True
+
+    async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
+        return Response(url="ok", status=200, success=True, headers={}, data=sample_account_data)
+
+    monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
+
+    account = await client.accounts.get("user")
+    assert account is not None
+    assert account.is_junior is True
+
+    await client.close()
 
 
 async def test_accounts_get_valid(monkeypatch):
@@ -62,7 +304,7 @@ async def test_accounts_get_invalid(monkeypatch):
     client = return_sample_client()
     
     async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
-        return return_empty_404_response()
+        return return_empty_response(404, success=False)
     
     monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
 
@@ -95,7 +337,7 @@ async def test_accounts_fetch_invalid(monkeypatch):
     client = return_sample_client()
     
     async def fake_make_request(_self, method, params=None, body=None, headers=None) -> Response:
-        return return_empty_404_response()
+        return return_empty_response(404, success=False)
     
     monkeypatch.setattr(type(client.rec_net.accounts), "make_request", fake_make_request, raising=False)
 
